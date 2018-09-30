@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Website CSS style -->
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+
+    <!-- Website Font style -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+</head>
+<body>
+<script>
+    $(document).ready(function(){
+        $("form").submit(function(event){
+            event.preventDefault();
+            $.post("/api/login",
+                {
+                    email: $("input")[0].value,
+                    password: $("input")[1].value
+                },
+                function(data,status){
+                    if (data === "登录成功") {
+                        $("#feedback").html("<span style='color: greenyellow'>" + data + "</span>");
+                        window.location.pathname = "/";
+                    } else {
+                        $("#feedback").html("<span style='color: red'>" + data + "</span>");
+                    }
+                });
+        });
+    });
+</script>
+<div class="container">
+
+    <div class="row" id="pwd-container">
+        <div class="col-md-4"></div>
+
+        <div class="col-md-4">
+            <section class="login-form">
+                <form action="" role="login">
+                    <img src="http://i.imgur.com/RcmcLv4.png" class="img-responsive" alt="" />
+                    <input type="email" name="email" placeholder="Email" required class="form-control input-lg" value="doperzq@gmail.com"/>
+                    <input type="password" class="form-control input-lg" id="password" placeholder="Password" value="0.0" required="" />
+                    <a href="/forgot_password">忘记密码?</a>
+
+
+                    <div class="pwstrength_viewport_progress"></div>
+                    <div id="feedback"></div>
+
+
+                    <button type="submit" name="go" class="btn btn-lg btn-primary btn-block">登录</button>
+                    <div>
+                        <a href="/register">创建新账户</a>
+                    </div>
+
+                </form>
+
+                <div class="form-links">
+                    <a href="/">www.doperj.com</a>
+                </div>
+            </section>
+        </div>
+
+        <div class="col-md-4"></div>
+
+    </div>
+</div>
+</body>
+</html>
