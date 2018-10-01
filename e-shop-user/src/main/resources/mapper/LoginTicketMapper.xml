@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.doperj.user.dao.LoginTicketMapper" >
-  <resultMap id="BaseResultMap" type="com.doperj.user.domain.LoginTicket" >
+<mapper namespace="top.doperj.user.dao.LoginTicketMapper" >
+  <resultMap id="BaseResultMap" type="top.doperj.user.domain.LoginTicket" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="expired" property="expired" jdbcType="TIMESTAMP" />
@@ -20,13 +20,13 @@
     delete from t_login_ticket
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.doperj.user.domain.LoginTicket" >
+  <insert id="insert" parameterType="top.doperj.user.domain.LoginTicket" >
     insert into t_login_ticket (id, user_id, expired,
       ticket)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{expired,jdbcType=TIMESTAMP},
       #{ticket,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.doperj.user.domain.LoginTicket" >
+  <insert id="insertSelective" parameterType="top.doperj.user.domain.LoginTicket" >
     insert into t_login_ticket
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -57,7 +57,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.doperj.user.domain.LoginTicket" >
+  <update id="updateByPrimaryKeySelective" parameterType="top.doperj.user.domain.LoginTicket" >
     update t_login_ticket
     <set >
       <if test="userId != null" >
@@ -72,7 +72,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.doperj.user.domain.LoginTicket" >
+  <update id="updateByPrimaryKey" parameterType="top.doperj.user.domain.LoginTicket" >
     update t_login_ticket
     set user_id = #{userId,jdbcType=INTEGER},
       expired = #{expired,jdbcType=TIMESTAMP},

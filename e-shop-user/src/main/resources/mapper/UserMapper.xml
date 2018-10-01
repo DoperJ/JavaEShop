@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.doperj.user.dao.UserMapper">
-  <resultMap id="BaseResultMap" type="com.doperj.user.domain.User"> <!-- change according to table -->
+<mapper namespace="top.doperj.user.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="top.doperj.user.domain.User"> <!-- change according to table -->
     <id column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="e_mail" jdbcType="VARCHAR" property="eMail" />
@@ -24,7 +24,7 @@
     delete from t_user
     where user_id = #{userId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.doperj.user.domain.User">
+  <insert id="insert" parameterType="top.doperj.user.domain.User">
     insert into t_user (user_id, user_name, e_mail, 
       password, phone, salt, 
       head_url, role)
@@ -32,7 +32,7 @@
       #{password,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, 
       #{headUrl,jdbcType=VARCHAR}, #{role,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.doperj.user.domain.User">
+  <insert id="insertSelective" parameterType="top.doperj.user.domain.User">
     insert into t_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -87,7 +87,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.doperj.user.domain.User">
+  <update id="updateByPrimaryKeySelective" parameterType="top.doperj.user.domain.User">
     update t_user
     <set>
       <if test="userName != null">
@@ -114,7 +114,7 @@
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.doperj.user.domain.User">
+  <update id="updateByPrimaryKey" parameterType="top.doperj.user.domain.User">
     update t_user
     set user_name = #{userName,jdbcType=VARCHAR},
       e_mail = #{eMail,jdbcType=VARCHAR},

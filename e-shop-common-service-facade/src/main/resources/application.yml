@@ -4,11 +4,12 @@ eureka:
       #defaultZone: http://eureka.springcloud.cn/eureka/
       defaultZone: http://www.doperj.top:8761/eureka
 server:
-  port: 8081
+  port: 2001
+
 
 spring:
   application:
-    name: user-services
+    name: common-services
   datasource:
     name: test
     url: jdbc:mysql://119.23.225.135:3306/e_shop?useUnicode=true&characterEncoding=utf-8
