@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @EnableDiscoveryClient(autoRegister = true)
+@MapperScan("top.doperj.user.dao")
 @SpringBootApplication()
-@MapperScan("com.doperj.user.dao")
 public class EShopUserApplication {
 
     /*

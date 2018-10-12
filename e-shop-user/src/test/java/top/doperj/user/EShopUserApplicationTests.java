@@ -13,7 +13,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@MapperScan("com.doperj.user.dao")
+@MapperScan("top.doperj.user.dao")
 public class EShopUserApplicationTests {
 
     @Autowired

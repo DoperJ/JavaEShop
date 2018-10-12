@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.doperj</groupId>
+	<groupId>top.doperj</groupId>
 	<artifactId>eureka-server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
@@ -12,8 +12,8 @@
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
-		<groupId>com.doperj</groupId>
-		<artifactId>e-shop</artifactId>
+		<groupId>top.doperj</groupId>
+		<artifactId>net-disk</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>

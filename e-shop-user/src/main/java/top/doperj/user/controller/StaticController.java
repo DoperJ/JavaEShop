@@ -4,6 +4,7 @@ import top.doperj.user.domain.User;
 import top.doperj.user.service.UserService;
 import top.doperj.user.util.EShopUtil;
 import org.json.JSONObject;
+import org.json.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -106,5 +108,13 @@ public class StaticController {
         session.setAttribute("username", user.getUserName());
         session.setAttribute("password", password);
         return "用户注册成功";
+    }
+
+    @GetMapping(value = "/api/users", produces = "application/json")
+    @ResponseBody
+    public List<User> getUser() {
+        System.out.println("mapping users");
+        System.out.println(userService.findAllUser());
+        return userService.findAllUser();
     }
 }

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="top.doperj.product.dao.ProductMapper" >
+    <resultMap id="BaseResultMap" type="top.doperj.product.domain.Product" >
+        <id column="product_id" property="productId" jdbcType="INTEGER" />
+        <result column="product_name" property="productName" jdbcType="VARCHAR" />
+        <result column="abbreviation" property="abbreviation" jdbcType="VARCHAR" />
+        <result column="details" property="details" jdbcType="VARCHAR" />
+        <result column="clicked_times" property="clickedTimes" jdbcType="INTEGER" />
+        <result column="sale_quantity" property="saleQuantity" jdbcType="INTEGER" />
+        <result column="photo_url" property="photoUrl" jdbcType="VARCHAR" />
+        <result column="is_hot" property="isHot" jdbcType="BIT" />
+        <result column="is_new" property="isNew" jdbcType="BIT" />
+        <result column="on_sale_date" property="onSaleDate" jdbcType="TIMESTAMP" />
+        <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+        <result column="brand_id" property="brandId" jdbcType="INTEGER" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        product_id, product_name, abbreviation, details, clicked_times, sale_quantity, photo_url,
+        is_hot, is_new, on_sale_date, category_id, brand_id
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from t_product
+        where product_id = #{productId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from t_product
+        where product_id = #{productId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="top.doperj.product.domain.Product" >
+        insert into t_product (product_id, product_name, abbreviation,
+                               details, clicked_times, sale_quantity,
+                               photo_url, is_hot, is_new, on_sale_date,
+                               category_id, brand_id)
+        values (#{productId,jdbcType=INTEGER}, #{productName,jdbcType=VARCHAR}, #{abbreviation,jdbcType=VARCHAR},
+                                               #{details,jdbcType=VARCHAR}, #{clickedTimes,jdbcType=INTEGER}, #{saleQuantity,jdbcType=INTEGER},
+                                               #{photoUrl,jdbcType=VARCHAR}, #{isHot,jdbcType=BIT}, #{isNew,jdbcType=BIT}, #{onSaleDate,jdbcType=TIMESTAMP},
+                                               #{categoryId,jdbcType=INTEGER}, #{brandId,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" parameterType="top.doperj.product.domain.Product" >
+        insert into t_product
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="productId != null" >
+                product_id,
+            </if>
+            <if test="productName != null" >
+                product_name,
+            </if>
+            <if test="abbreviation != null" >
+                abbreviation,
+            </if>
+            <if test="details != null" >
+                details,
+            </if>
+            <if test="clickedTimes != null" >
+                clicked_times,
+            </if>
+            <if test="saleQuantity != null" >
+                sale_quantity,
+            </if>
+            <if test="photoUrl != null" >
+                photo_url,
+            </if>
+            <if test="isHot != null" >
+                is_hot,
+            </if>
+            <if test="isNew != null" >
+                is_new,
+            </if>
+            <if test="onSaleDate != null" >
+                on_sale_date,
+            </if>
+            <if test="categoryId != null" >
+                category_id,
+            </if>
+            <if test="brandId != null" >
+                brand_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="productId != null" >
+                #{productId,jdbcType=INTEGER},
+            </if>
+            <if test="productName != null" >
+                #{productName,jdbcType=VARCHAR},
+            </if>
+            <if test="abbreviation != null" >
+                #{abbreviation,jdbcType=VARCHAR},
+            </if>
+            <if test="details != null" >
+                #{details,jdbcType=VARCHAR},
+            </if>
+            <if test="clickedTimes != null" >
+                #{clickedTimes,jdbcType=INTEGER},
+            </if>
+            <if test="saleQuantity != null" >
+                #{saleQuantity,jdbcType=INTEGER},
+            </if>
+            <if test="photoUrl != null" >
+                #{photoUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="isHot != null" >
+                #{isHot,jdbcType=BIT},
+            </if>
+            <if test="isNew != null" >
+                #{isNew,jdbcType=BIT},
+            </if>
+            <if test="onSaleDate != null" >
+                #{onSaleDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="categoryId != null" >
+                #{categoryId,jdbcType=INTEGER},
+            </if>
+            <if test="brandId != null" >
+                #{brandId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <!-- 批量插入 -->
+    <insert id="insertProductBatch" parameterType="java.util.List">
+        INSERT INTO t_product (product_name)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item})
+        </foreach>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="top.doperj.product.domain.Product" >
+        update t_product
+        <set >
+            <if test="productName != null" >
+                product_name = #{productName,jdbcType=VARCHAR},
+            </if>
+            <if test="abbreviation != null" >
+                abbreviation = #{abbreviation,jdbcType=VARCHAR},
+            </if>
+            <if test="details != null" >
+                details = #{details,jdbcType=VARCHAR},
+            </if>
+            <if test="clickedTimes != null" >
+                clicked_times = #{clickedTimes,jdbcType=INTEGER},
+            </if>
+            <if test="saleQuantity != null" >
+                sale_quantity = #{saleQuantity,jdbcType=INTEGER},
+            </if>
+            <if test="photoUrl != null" >
+                photo_url = #{photoUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="isHot != null" >
+                is_hot = #{isHot,jdbcType=BIT},
+            </if>
+            <if test="isNew != null" >
+                is_new = #{isNew,jdbcType=BIT},
+            </if>
+            <if test="onSaleDate != null" >
+                on_sale_date = #{onSaleDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="categoryId != null" >
+                category_id = #{categoryId,jdbcType=INTEGER},
+            </if>
+            <if test="brandId != null" >
+                brand_id = #{brandId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where product_id = #{productId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="top.doperj.product.domain.Product" >
+        update t_product
+        set product_name = #{productName,jdbcType=VARCHAR},
+            abbreviation = #{abbreviation,jdbcType=VARCHAR},
+            details = #{details,jdbcType=VARCHAR},
+            clicked_times = #{clickedTimes,jdbcType=INTEGER},
+            sale_quantity = #{saleQuantity,jdbcType=INTEGER},
+            photo_url = #{photoUrl,jdbcType=VARCHAR},
+            is_hot = #{isHot,jdbcType=BIT},
+            is_new = #{isNew,jdbcType=BIT},
+            on_sale_date = #{onSaleDate,jdbcType=TIMESTAMP},
+            category_id = #{categoryId,jdbcType=INTEGER},
+            brand_id = #{brandId,jdbcType=INTEGER}
+        where product_id = #{productId,jdbcType=INTEGER}
+    </update>
+    <!-- 批量设置分类 -->
+    <update id="setProductCategoryBatch" parameterType="java.util.Map">
+        UPDATE t_product
+        <set>
+            category_id= #{categoryId},
+        </set>
+        WHERE product_name IN
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </update>
+</mapper>

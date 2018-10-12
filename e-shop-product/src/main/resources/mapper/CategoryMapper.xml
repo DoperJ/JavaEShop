@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="top.doperj.product.dao.CategoryMapper" >
+    <resultMap id="BaseResultMap" type="top.doperj.product.domain.Category" >
+        <id column="category_id" property="categoryId" jdbcType="INTEGER" />
+        <result column="sup_category_id" property="supCategoryId" jdbcType="INTEGER" />
+        <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+        <result column="preview" property="preview" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        category_id, sup_category_id, category_name, preview
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from t_category
+        where category_id = #{categoryId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from t_category
+        where category_id = #{categoryId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="top.doperj.product.domain.Category" >
+        insert into t_category (category_id, sup_category_id, category_name,
+                                preview)
+        values (#{categoryId,jdbcType=INTEGER}, #{supCategoryId,jdbcType=INTEGER}, #{categoryName,jdbcType=VARCHAR},
+                #{preview,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="top.doperj.product.domain.Category" >
+        insert into t_category
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="categoryId != null" >
+                category_id,
+            </if>
+            <if test="supCategoryId != null" >
+                sup_category_id,
+            </if>
+            <if test="categoryName != null" >
+                category_name,
+            </if>
+            <if test="preview != null" >
+                preview,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="categoryId != null" >
+                #{categoryId,jdbcType=INTEGER},
+            </if>
+            <if test="supCategoryId != null" >
+                #{supCategoryId,jdbcType=INTEGER},
+            </if>
+            <if test="categoryName != null" >
+                #{categoryName,jdbcType=VARCHAR},
+            </if>
+            <if test="preview != null" >
+                #{preview,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <!-- 批量插入 -->
+    <insert id="insertCategoryBatch" parameterType="java.util.List">
+        INSERT INTO t_category (category_name)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item})
+        </foreach>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="top.doperj.product.domain.Category" >
+        update t_category
+        <set >
+            <if test="supCategoryId != null" >
+                sup_category_id = #{supCategoryId,jdbcType=INTEGER},
+            </if>
+            <if test="categoryName != null" >
+                category_name = #{categoryName,jdbcType=VARCHAR},
+            </if>
+            <if test="preview != null" >
+                preview = #{preview,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where category_id = #{categoryId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="top.doperj.product.domain.Category" >
+        update t_category
+        set sup_category_id = #{supCategoryId,jdbcType=INTEGER},
+            category_name = #{categoryName,jdbcType=VARCHAR},
+            preview = #{preview,jdbcType=VARCHAR}
+        where category_id = #{categoryId,jdbcType=INTEGER}
+    </update>
+    <!-- 批量设置父分类 -->
+    <update id="setSupCategoryBatch" parameterType="java.util.Map">
+        UPDATE t_category
+        <set>
+            sup_category_id = #{supCategoryId},
+        </set>
+        WHERE category_name IN
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </update>
+</mapper>
