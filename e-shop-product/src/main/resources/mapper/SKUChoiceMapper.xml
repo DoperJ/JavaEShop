@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="top.doperj.product.dao.SKUChoiceMapper" >
+    <resultMap id="BaseResultMap" type="top.doperj.product.domain.SKUChoice" >
+        <id column="sku_choice_id" property="skuChoiceId" jdbcType="INTEGER" />
+        <result column="sku_attribute_id" property="skuAttributeId" jdbcType="INTEGER" />
+        <result column="sku_choice_name" property="skuChoiceName" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        sku_choice_id, sku_attribute_id, sku_choice_name
+    </sql>
+    <sql id="Base_Column_List_AS_TABLE_A" >
+        a.sku_choice_id, a.sku_attribute_id, a.sku_choice_name
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from t_sku_choice
+        where sku_choice_id = #{skuChoiceId,jdbcType=INTEGER}
+    </select>
+    <select id="selectSKUChoicesByProductName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT DISTINCT
+        <include refid="Base_Column_List_AS_TABLE_A" />
+        FROM t_sku_choice AS a, t_sku_and_sku_choice AS b, t_sku AS c, t_product AS d
+        WHERE a.sku_choice_id = b.sku_choice_id
+        AND b.sku_id = c.sku_id
+        AND c.product_id = d.product_id
+        AND d.product_name = #{productName}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from t_sku_choice
+        where sku_choice_id = #{skuChoiceId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="top.doperj.product.domain.SKUChoice" >
+        insert into t_sku_choice (sku_choice_id, sku_attribute_id, sku_choice_name
+        )
+        values (#{skuChoiceId,jdbcType=INTEGER}, #{skuAttributeId,jdbcType=INTEGER}, #{skuChoiceName,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="top.doperj.product.domain.SKUChoice" >
+        insert into t_sku_choice
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="skuChoiceId != null" >
+                sku_choice_id,
+            </if>
+            <if test="skuAttributeId != null" >
+                sku_id,
+            </if>
+            <if test="skuChoiceName != null" >
+                sku_choice,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="skuChoiceId != null" >
+                #{skuChoiceId,jdbcType=INTEGER},
+            </if>
+            <if test="skuAttributeId != null" >
+                #{skuAttributeId,jdbcType=INTEGER},
+            </if>
+            <if test="skuChoiceName != null" >
+                #{skuChoiceName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <!-- 批量插入sku选项 -->
+    <insert id="insertSKUChoiceBatch" parameterType="java.util.List">
+        INSERT INTO t_sku_choice(sku_choice_name)
+        VALUES
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item})
+        </foreach>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="top.doperj.product.domain.SKUChoice" >
+        update t_sku_choice
+        <set >
+            <if test="skuAttributeId != null" >
+                sku_id = #{skuAttributeId,jdbcType=INTEGER},
+            </if>
+            <if test="skuChoiceName != null" >
+                sku_choice = #{skuChoiceName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where sku_choice_id = #{skuChoiceId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="top.doperj.product.domain.SKUChoice" >
+        update t_sku_choice
+        set sku_attribute_id = #{skuAttributeId,jdbcType=INTEGER},
+            sku_choice_name = #{skuChoiceName,jdbcType=VARCHAR}
+        where sku_choice_id = #{skuChoiceId,jdbcType=INTEGER}
+    </update>
+    <!-- 批量设置sku选项所属sku_属性 -->
+    <update id="updateSKUAttributeByNameBatch" parameterType="java.util.Map">
+        UPDATE t_sku_choice
+        <set>
+            sku_attribute_id = #{skuAttributeId},
+        </set>
+        WHERE sku_choice_name
+        IN
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+</mapper>

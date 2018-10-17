@@ -50,4 +50,27 @@ public class Category {
                 ", preview='" + preview + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Category category = (Category) o;
+
+        if (!categoryId.equals(category.categoryId)) return false;
+        if (supCategoryId != null ? !supCategoryId.equals(category.supCategoryId) : category.supCategoryId != null)
+            return false;
+        if (!categoryName.equals(category.categoryName)) return false;
+        return preview != null ? preview.equals(category.preview) : category.preview == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = categoryId.hashCode();
+        result = 31 * result + (supCategoryId != null ? supCategoryId.hashCode() : 0);
+        result = 31 * result + categoryName.hashCode();
+        result = 31 * result + (preview != null ? preview.hashCode() : 0);
+        return result;
+    }
 }

@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class StaticController {
+public class UserController {
     @Autowired
     UserService userService;
 

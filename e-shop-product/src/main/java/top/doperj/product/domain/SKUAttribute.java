@@ -3,7 +3,7 @@ package top.doperj.product.domain;
 public class SKUAttribute {
     private Integer skuAttributeId;
 
-    private Integer skuAttributeName;
+    private String skuAttributeName;
 
     public Integer getSkuAttributeId() {
         return skuAttributeId;
@@ -13,11 +13,19 @@ public class SKUAttribute {
         this.skuAttributeId = skuAttributeId;
     }
 
-    public Integer getSkuAttributeName() {
+    public String getSkuAttributeName() {
         return skuAttributeName;
     }
 
-    public void setSkuAttributeName(Integer skuAttributeName) {
+    public void setSkuAttributeName(String skuAttributeName) {
         this.skuAttributeName = skuAttributeName;
+    }
+
+    @Override
+    public String toString() {
+        return "SKUAttribute{" +
+                "skuAttributeId=" + skuAttributeId +
+                ", skuAttributeName=" + skuAttributeName +
+                '}';
     }
 }

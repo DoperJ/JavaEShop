@@ -14,31 +14,6 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 </head>
-<script>
-    $(document).ready(function(){
-        $("form").submit(function(event){
-            event.preventDefault();
-            var valid = $(".error-list").text() === "" && $("#password-repeat-error").text() === "";
-            console.log(valid);
-            if (valid) {
-                $.post("/api/register",
-                    {
-                        username: $("#username").val(),
-                        email: $("#email").val(),
-                        password : $("#password").val(),
-                    },
-                    function(data,status){
-                        if (data === "用户注册成功") {
-                            $("#feedback").html("<span style='color: greenyellow'>" + data + "</span>");
-                            window.location.pathname = "/";
-                        } else {
-                            $("#feedback").html("<span style='color: red'>" + data + "</span>");
-                        }
-                    });
-            }
-        });
-    });
-</script>
 <body>
 <div class="container">
 

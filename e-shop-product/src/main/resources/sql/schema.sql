@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS t_sku_choice(
 ) ENGINE=INNODB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 #货品-sku选项对应表
-CREATE TABLE IF NOT EXISTS t_sku_to_choice(
+CREATE TABLE IF NOT EXISTS t_sku_and_sku_choice(
   id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   sku_choice_id INT(11) NOT NULL,
   sku_id INT(11) NOT NULL
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS t_sku_to_choice(
 #sku属性
 CREATE TABLE IF NOT EXISTS t_sku_attribute(
   sku_attribute_id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  sku_attribute_name INT(11) NOT NULL
+  sku_attribute_name VARCHAR(255) NOT NULL
 ) ENGINE=INNODB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 #普通属性
@@ -61,14 +61,14 @@ CREATE TABLE IF NOT EXISTS t_attribute_set(
 ) ENGINE=INNODB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 #属性集-sku属性对应表
-CREATE TABLE IF NOT EXISTS t_sku_attribute_to_set(
+CREATE TABLE IF NOT EXISTS t_sku_attribute_and_attribute_set(
   id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   attribute_set_id INT(11) NOT NULL,
   sku_attribute_id INT(11) NOT NULL
 ) ENGINE=INNODB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 #属性集-属性对应表
-CREATE TABLE IF NOT EXISTS t_attribute_to_set(
+CREATE TABLE IF NOT EXISTS t_attribute_and_attribute_set(
   id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   attribute_set_id INT(11) NOT NULL,
   attribute_id INT(11) NOT NULL

@@ -10,6 +10,7 @@ import java.util.Map;
 public interface SKUMapper {
     String TABLE_NAME = " t_sku ";
     String SELECT_FIELDS = " sku_id, product_id, photo_url, original_price, sale_price, stock_quantity ";
+    String SELECT_FIELDS_WITH_PREFIX = " a.sku_id, a.product_id, a.photo_url, a.original_price, a.sale_price, a.stock_quantity ";
 
     // Create
     int insert(SKU record);
@@ -24,8 +25,10 @@ public interface SKUMapper {
     @Select({"select", SELECT_FIELDS, "from", TABLE_NAME})
     List<SKU> selectAllSKUs();
 
-    @Select({"select", SELECT_FIELDS, "from", TABLE_NAME, "as a, t_product as b ", "where a.product_id=b.product_id and b.product_name=#{productName}"})
+    @Select({"select", SELECT_FIELDS_WITH_PREFIX, "from", TABLE_NAME, "as a, t_product as b ", "where a.product_id=b.product_id and b.product_name=#{productName}"})
     List<SKU> selectSKUByProductName(String productName);
+
+    List<SKU> selectSKUBySKUAttributeAndChoiceMap(List<Integer> skuChoiceIdList);
 
     // Update
     int updateByPrimaryKeySelective(SKU record);

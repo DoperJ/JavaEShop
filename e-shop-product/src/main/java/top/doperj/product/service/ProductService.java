@@ -1,16 +1,13 @@
 package top.doperj.product.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import top.doperj.product.dao.CategoryMapper;
 import top.doperj.product.dao.ProductMapper;
-import top.doperj.product.domain.Category;
-import top.doperj.product.domain.Product;
+import top.doperj.product.domain.*;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ProductService {
@@ -18,7 +15,18 @@ public class ProductService {
     ProductMapper productDAO;
 
     @Autowired
-    CategoryMapper categoryDAO;
+    CategoryService categoryService;
+
+    @Autowired
+    SKUService skuService;
+
+    @Autowired
+    SKUChoiceService skuChoiceService;
+
+    @Autowired
+    SKUAttributeService skuAttributeService;
+
+    Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public List<Product> findAllProducts() {
         return productDAO.selectAllProducts();
@@ -26,6 +34,15 @@ public class ProductService {
 
     public Product findProductByName(String name) {
         return productDAO.selectProductByName(name);
+    }
+
+    public List<Product> findProductByCategoryName(String categoryName) {
+        Category category = categoryService.findCategoryByName(categoryName);
+        if (category == null) {
+            logger.error("No category named: " + categoryName + "!");
+            return null;
+        }
+        return productDAO.selectProductByCategoryId(category.getCategoryId());
     }
 
     public int addProduct(Product product) {
@@ -37,7 +54,7 @@ public class ProductService {
     }
 
     public void setProductCategoryBatch(String[] arr, String categoryName) {
-        Category category = categoryDAO.selectByCategoryName(categoryName);
+        Category category = categoryService.findCategoryByName(categoryName);
         if (category == null) {
             System.out.println("No category named: " + categoryName);
         }
@@ -46,4 +63,22 @@ public class ProductService {
         map.put("categoryId", category.getCategoryId());
         productDAO.setProductCategoryBatch(map);
     }
+
+    public Map<String, List<String>> findProductSKUAttributeAndChoices(String productName) {
+        Map<String, List<String>> stringListMap = new HashMap<String, List<String>>();
+        List<SKUChoice> skuChoiceList = skuChoiceService.findSKUChoicesByProductName(productName);
+        System.out.println(skuChoiceList);
+        Iterator<SKUChoice> skuChoiceIterator = skuChoiceList.iterator();
+        while (skuChoiceIterator.hasNext()) {
+            SKUChoice skuChoice = skuChoiceIterator.next();
+            SKUAttribute skuAttribute = skuAttributeService.findSKUAttributeBySKUChoice(skuChoice);
+            String skuAttributeName = skuAttribute.getSkuAttributeName();
+            if (!stringListMap.containsKey(skuAttributeName)) {
+                stringListMap.put(skuAttributeName, new LinkedList<String>());
+            }
+            stringListMap.get(skuAttributeName).add(skuChoice.getSkuChoiceName());
+        }
+        return stringListMap;
+    }
+
 }

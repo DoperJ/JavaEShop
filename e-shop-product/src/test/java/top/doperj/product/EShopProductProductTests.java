@@ -42,4 +42,9 @@ public class EShopProductProductTests {
         productService.setProductCategoryBatch(appleMacBookProducts, "电脑");
         productService.setProductCategoryBatch(appleIPadProducts, "平板电脑");
     }
+
+    @Test
+    public void findAllSKUAttributesAndSKUChoicesByName() throws Exception {
+        System.out.println(productService.findProductSKUAttributeAndChoices("Apple iPhone X(A1865)"));
+    }
 }

@@ -1,6 +1,7 @@
 jQuery(document).ready(function() {
     "use strict";
     var options = {};
+    var valid;
     options.ui = {
         container: "#pwd-container",
         showVerdictsInsideProgressBar: true,
@@ -16,13 +17,34 @@ jQuery(document).ready(function() {
     };
     $('#password').pwstrength(options);
     $('#repeat-password').keyup(function() {
-        console.log($("#password").val() == null || ($("#password").val() === $("#repeat-password").val()));
-        if ($("#password").val() == null || ($("#password").val() === $("#repeat-password").val())) {
+        console.log($("#password").val() === "" || ($("#password").val() === $("#repeat-password").val()));
+        if ($("#password").val() === "" || ($("#password").val() === $("#repeat-password").val())) {
             $("#password-repeat-error").html("");
         } else {
             $("#password-repeat-error").html("<li><span style='color: #d52929'>" + "两次输入的密码不一致" + "</span></li>");
         }
-
+    });
+    $("form").submit(function(event){
+        event.preventDefault();
+        valid = $(".error-list").text() === "" && $("#password-repeat-error").text() === ""
+            && $("#password").val() !== "" && ($("#password").val() === $("#repeat-password").val());
+        console.log(valid);
+        if (valid) {
+            $.post("/api/register",
+                {
+                    username: $("#username").val(),
+                    email: $("#email").val(),
+                    password : $("#password").val(),
+                },
+                function(data,status){
+                    if (data === "用户注册成功") {
+                        $("#feedback").html("<span style='color: greenyellow'>" + data + "</span>");
+                        window.location.pathname = "/";
+                    } else {
+                        $("#feedback").html("<span style='color: red'>" + data + "</span>");
+                    }
+                });
+        }
     });
 });
 
@@ -264,11 +286,11 @@ jQuery(document).ready(function() {
     };
     defaultOptions.ui.errorMessages = {
         wordLength: "密码太短",
-        wordNotEmail: "不能以邮箱作为密码",
-        wordSimilarToUsername: "密码不能包含用户名",
-        wordTwoCharacterClasses: "Use different character classes",
-        wordRepetitions: "Too many repetitions",
-        wordSequences: "Your password contains sequences"
+        wordNotEmail: "请不要在密码中包含邮箱",
+        wordSimilarToUsername: "请不要在密码中包含用户名",
+        wordTwoCharacterClasses: "使用不同字符类别！",
+        wordRepetitions: "请不要在密码中包含太多重复部分",
+        wordSequences: "请不要在密码中包含连续序列"
     };
     defaultOptions.ui.verdicts = ["Weak", "Normal", "Medium", "Strong", "Very Strong"];
     defaultOptions.ui.showVerdicts = true;
@@ -566,6 +588,11 @@ jQuery(document).ready(function() {
         var onKeyUp, applyToAll;
 
         onKeyUp = function (event) {
+            if ($("#password").val() === "" || $("#repeat-password").val() === "" || ($("#password").val() === $("#repeat-password").val())) {
+                $("#password-repeat-error").html("");
+            } else {
+                $("#password-repeat-error").html("<li><span style='color: #d52929'>" + "两次输入的密码不一致" + "</span></li>");
+            }
             var $el = $(event.target),
                 options = $el.data("pwstrength-bootstrap"),
                 word = $el.val(),

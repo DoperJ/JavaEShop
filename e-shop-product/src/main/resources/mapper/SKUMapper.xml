@@ -12,15 +12,27 @@
   <sql id="Base_Column_List" >
     sku_id, product_id, photo_url, original_price, sale_price, stock_quantity
   </sql>
+    <sql id="Base_Column_List_With_PREFIX" >
+        a.sku_id, a.product_id, a.photo_url, a.original_price, a.sale_price, a.stock_quantity
+    </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_sku
-    where sku_id = #{skuId,jdbcType=INTEGER}
+    where sku_id = #{skuAttributeId,jdbcType=INTEGER}
+  </select>
+  <select id="selectSKUBySKUAttributeAndChoiceMap" resultMap="BaseResultMap" parameterType="java.util.List">
+      SELECT
+      <include refid="Base_Column_List_With_PREFIX" />
+      FROM t_sku AS a
+      WHERE
+      <foreach collection="list" index="index" item="item" separator=" AND ">
+          EXISTS(SELECT * FROM t_sku_and_sku_choice AS b WHERE a.sku_id = b.sku_id AND b.sku_choice_id = #{item})
+      </foreach>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_sku
-    where sku_id = #{skuId,jdbcType=INTEGER}
+    where sku_id = #{skuAttributeId,jdbcType=INTEGER}
   </delete>
   <!-- 批量插入 -->
   <insert id="insertSKUBatch" parameterType="java.util.List">
@@ -31,17 +43,17 @@
     </foreach>
   </insert>
   <insert id="insert" parameterType="top.doperj.product.domain.SKU" >
-    insert into t_sku (sku_id, product_id, photo_url, 
+    insert into t_sku (sku_id, product_id, photo_url,
       original_price, sale_price, stock_quantity
       )
-    values (#{skuId,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, #{photoUrl,jdbcType=VARCHAR}, 
+    values (#{skuAttributeId,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, #{photoUrl,jdbcType=VARCHAR},
       #{originalPrice,jdbcType=REAL}, #{salePrice,jdbcType=REAL}, #{stockQuantity,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="top.doperj.product.domain.SKU" >
     insert into t_sku
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="skuId != null" >
+      <if test="skuAttributeId != null" >
         sku_id,
       </if>
       <if test="productId != null" >
@@ -61,8 +73,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="skuId != null" >
-        #{skuId,jdbcType=INTEGER},
+      <if test="skuAttributeId != null" >
+        #{skuAttributeId,jdbcType=INTEGER},
       </if>
       <if test="productId != null" >
         #{productId,jdbcType=INTEGER},
@@ -100,7 +112,7 @@
         stock_quantity = #{stockQuantity,jdbcType=INTEGER},
       </if>
     </set>
-    where sku_id = #{skuId,jdbcType=INTEGER}
+    where sku_id = #{skuAttributeId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="top.doperj.product.domain.SKU" >
     update t_sku
@@ -109,7 +121,7 @@
       original_price = #{originalPrice,jdbcType=REAL},
       sale_price = #{salePrice,jdbcType=REAL},
       stock_quantity = #{stockQuantity,jdbcType=INTEGER}
-    where sku_id = #{skuId,jdbcType=INTEGER}
+    where sku_id = #{skuAttributeId,jdbcType=INTEGER}
   </update>
   <!-- 批量设置sku所属产品 -->
   <update id="setSKUProductBatch" parameterType="java.util.Map">
