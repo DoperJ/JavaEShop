@@ -20,7 +20,8 @@
 ---
 ### 模块
 ##### Eureka注册中心
-位于[eureka-server](https://github.com/DoperJ/JavaEShop/tree/master/eureka-server)目录下，已部署至www.doperj.top:8761
+[eureka-server](https://github.com/DoperJ/JavaEShop/tree/master/eureka-server)
+已部署至www.doperj.top:8761
 ##### 用户模块
 [e-shop-user](https://github.com/DoperJ/JavaEShop/tree/master/e-shop-user)
 提供用户注册、登录功能
