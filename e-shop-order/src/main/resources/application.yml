@@ -1,0 +1,31 @@
+eureka:
+  client:
+    service-url:
+      #defaultZone: http://eureka.springcloud.cn/eureka/
+      defaultZone: http://www.doperj.top:8761/eureka
+server:
+  port: 8083
+
+spring:
+  application:
+    name: user-services
+  datasource:
+    name: test
+    url: jdbc:mysql://119.23.225.135:3306/e_shop?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: 515300
+    type: org.springframework.jdbc.datasource.DriverManagerDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+  mvc:
+    view:
+      prefix: /
+      suffix: .html
+
+## 该配置节点为独立的节点
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: top.doperj.order.domain
+  configuration:
+    map-underscore-to-camel-case: true
+
+

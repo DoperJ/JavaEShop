@@ -118,6 +118,14 @@ public class ProductController {
         return null;
     }
 
+    @GetMapping(value = "/search", produces = "application/json")
+    public List<Product> searchProduct(@RequestParam(value = "key")String key) {
+        logger.info(key);
+        List<Product> productList = productService.findProductByPartialName(key);
+        logger.info(productList.size() + " results is found.");
+        return productList;
+    }
+
     private List<Category> getCategoriesByLevelHelper(int level) {
         List<Category> categoryList = categoryService.findAllCategories();
         List<Category> categoryList1 = new LinkedList<Category>();

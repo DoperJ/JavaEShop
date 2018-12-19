@@ -3,8 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <title>ProductIndex</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var handleSearch = function handleSearch(key) {
+                $.get("/api/product/search?key=" + key,
+                    {},
+                    function (data, status) {
+                        console.log(data);
+                        for (var i = 0; i < data.length; i++) {
+                            console.log(data[i]);
+                            var title = "<h5>" + data[i].productName + "</h5>";
+                            var img = "<img src=" + data[i].photoUrl + " />";
+                            if (i === 0 && $("#result").children().length !== 0) {
+                                $("#result").children().remove();
+                            }
+                            $("#result").append("<div class='col-sm-4'>" + title + img + "</div>");
+                        }
+                    }
+                );
+            };
+            $.get("/api/product/category/1",
+                {},
+                function (data, status) {
+                    console.log(data);
+                    for (var i = 0; i < data.length; i++) {
+                        var category = $("<div class='col-sm-6'><h5>" + data[i].categoryName + "</h5></div>").click(function() {
+                            console.log($(this).text());
+                            $.get("/api/product/category/1/" + $(this).text(),
+                                {},
+                                function (data, status) {
+                                    console.log(data);
+                                    for (var i = 0; i < data.length; i++) {
+                                        var category2 = $("<div class='col-sm-2'><h5>" + data[i].categoryName + "</h5></div>").click(function() {
+                                            console.log($(this).text());
+                                            $.get("/api/product/category/2/" + $(this).text(),
+                                                {},
+                                                function (data, status) {
+                                                    console.log(data);
+                                                    for (var i = 0; i < data.length; i++) {
+                                                        var category3 = $("<div class='col-sm-2'><h5>" + data[i].categoryName + "</h5></div>").click(function() {
+                                                            console.log($(this).text());
+                                                            $.get("/api/product/product/" + $(this).text(),
+                                                                {},
+                                                                function (data, status) {
+                                                                    console.log(data);
+                                                                    if (data.length == 0) {
+                                                                        $("#result").children().remove();
+                                                                    }
+                                                                    for (var i = 0; i < data.length; i++) {
+                                                                        console.log(data[i]);
+                                                                        var title = "<h5>" + data[i].productName + "</h5>";
+                                                                        var img = "<img src=" + data[i].photoUrl + " />";
+                                                                        if (i === 0 && $("#result").children().length !== 0) {
+                                                                            $("#result").children().remove();
+                                                                        }
+                                                                        $("#result").append("<div class='col-sm-4'>" + title + img + "</div>");
+                                                                    }
+                                                                }
+                                                            );
+                                                        });
+                                                        if (i === 0 && $("#categories3").children().length !== 0) {
+                                                            $("#categories3").children().remove();
+                                                            $("#result").children().remove();
+                                                        }
+                                                        $("#categories3")
+                                                            .append(category3);
+                                                        ;
+                                                    }
+                                            });
+
+                                        });
+                                        if (i === 0 && $("#categories2").children().length !== 0) {
+                                            $("#categories2").children().remove();
+                                            $("#categories3").children().remove();
+                                        }
+                                        if ($("#result").length !== 0) {
+                                            $("#result").children().remove();
+                                        }
+                                        $("#categories2").append(category2);
+                                        ;
+                                    }
+                                }
+                            );
+                        });
+                        $("#categories1")
+                            .append(category);
+                        ;
+                    }
+                }
+            );
+            $("#search_bar button").click(function (event) {
+                var val = $("#search_bar input").val();
+                console.log(val);
+                if (val !== "") {
+                    handleSearch(val);
+                }
+            });
+        });
+    </script>
 </head>
 <body>
-
+<div id="search_bar"><input /><button>search</button></div>
+<div class="container-fluid">
+    <div id="categories1" class="row"></div>
+    <div id="categories2" class="row"></div>
+    <div id="categories3" class="row"></div>
+    <div id="result" class="row"></div>
+</div>
 </body>
 </html>

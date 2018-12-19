@@ -24,9 +24,6 @@ public interface CategoryMapper {
     @Select({"select", SELECT_FIELDS, "from", TABLE_NAME})
     List<Category> selectAllCategories();
 
-    @Select({"select", SELECT_FIELDS, "from", TABLE_NAME, "where category_id=#{categoryId}"})
-    Category selectByBrandId(int categoryId);
-
     @Select({"select", SELECT_FIELDS, "from", TABLE_NAME, "where category_name=#{categoryName}"})
     Category selectByCategoryName(String categoryName);
 
@@ -36,6 +33,7 @@ public interface CategoryMapper {
     int updateByPrimaryKey(Category record);
 
     void setSupCategoryBatch(Map<String, Object> map);
+
     // Delete
     int deleteByPrimaryKey(Integer categoryId);
 

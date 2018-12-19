@@ -13,7 +13,7 @@
 
 	<parent>
 		<groupId>top.doperj</groupId>
-		<artifactId>net-disk</artifactId>
+		<artifactId>e-shop</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>

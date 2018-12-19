@@ -81,4 +81,8 @@ public class ProductService {
         return stringListMap;
     }
 
+    public List<Product> findProductByPartialName(String partialName) {
+        return productDAO.selectProductByNameLike(partialName);
+    }
+
 }

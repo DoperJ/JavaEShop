@@ -26,9 +26,11 @@ public class UserController {
     @GetMapping("/")
     public String home(HttpServletRequest request, HttpSession session) {
         Cookie[] cookies = request.getCookies();
-        for (Cookie cookie: cookies) {
-            if (cookie.getName().equals("JSESSIONID")) {
-                System.out.println(cookie.getValue());
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("JSESSIONID")) {
+                    System.out.println(cookie.getValue());
+                }
             }
         }
         System.out.println("home mapping...");
