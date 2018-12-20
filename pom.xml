@@ -82,9 +82,11 @@
             <version>${spring-cloud-eureka-server.version}</version>
 		</dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-ribbon -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-ribbon</artifactId>
+            <version>1.4.0.RELEASE</version>
         </dependency>
 
         <!-- Spring Cloud Dependecies -->
