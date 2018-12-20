@@ -10,7 +10,7 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 @SpringBootApplication
 @EnableZuulProxy
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
-@EnableDiscoveryClient(autoRegister = false)
+//@EnableDiscoveryClient(autoRegister = false)
 public class EShopGatewayApplication {
 
 	public static void main(String[] args) {

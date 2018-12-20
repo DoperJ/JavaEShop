@@ -49,7 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().logoutUrl("/logout")
                 .and()
                 .authorizeRequests()
-                .antMatchers("/favicon.ico", "/", "/login.html", "/**/*.css", "/**/*.js", "/img/**", "/**/eureka", "/api/**", "/register") //放开"/api/**"：为了给被监控端免登录注册
+                .antMatchers("/favicon.ico", "/", "/login.html", "/**/*.css", "/**/*.js", "/img/**", "/**/eureka", "/api/**", "/register", "/gateway/**") //放开"/api/**"：为了给被监控端免登录注册
                 .permitAll()
                 .and()
                 .authorizeRequests().antMatchers("/**").authenticated();

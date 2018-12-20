@@ -82,6 +82,11 @@
             <version>${spring-cloud-eureka-server.version}</version>
 		</dependency>
 
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-ribbon</artifactId>
+        </dependency>
+
         <!-- Spring Cloud Dependecies -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
