@@ -11,7 +11,7 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import top.doperj.service.Entity.JSONRedisSerializer;
+import top.doperj.user.util.JSONRedisSerializer;
 
 import java.time.Duration;
 import java.util.HashMap;
