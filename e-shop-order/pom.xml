@@ -19,7 +19,7 @@
 
     <properties>
         <docker.image.prefix>doperj</docker.image.prefix>
-        <docker.artifactId>e-shop-user</docker.artifactId>
+        <docker.artifactId>e-shop-order</docker.artifactId>
     </properties>
 
 	<dependencies>
