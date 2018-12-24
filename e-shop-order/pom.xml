@@ -23,11 +23,6 @@
     </properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>top.doperj</groupId>
-			<artifactId>e-shop-user</artifactId>
-			<version>0.0.1</version>
-		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
