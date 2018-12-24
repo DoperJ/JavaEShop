@@ -17,6 +17,11 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
+    <properties>
+        <docker.image.prefix>doperj</docker.image.prefix>
+        <docker.artifactId>e-shop-user</docker.artifactId>
+    </properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>top.doperj</groupId>
@@ -36,6 +41,29 @@
 					<verbose>true</verbose>
 				</configuration>
 			</plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <configuration>
+                    <imageName>${docker.image.prefix}/${docker.artifactId}</imageName>
+                    <dockerDirectory>${project.basedir}/src/main/resources</dockerDirectory>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <classifier>exec</classifier>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
 </project>

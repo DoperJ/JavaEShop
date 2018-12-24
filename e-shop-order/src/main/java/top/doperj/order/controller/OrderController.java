@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import top.doperj.order.POJO.ViewOrder;
 import top.doperj.order.domain.Order;
 import top.doperj.order.service.OrderService;
-import top.doperj.user.domain.User;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -37,8 +36,6 @@ public class OrderController {
         String username = (String) httpSession.getAttribute("username");
         System.out.println(httpSession.getId());
         System.out.println(username);
-        User user = new User();
-        user.setUserName(username);
         return httpSession.getId();
     }
 
