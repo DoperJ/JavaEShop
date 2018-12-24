@@ -21,12 +21,19 @@
         <docker.artifactId>e-shop-user</docker.artifactId>
     </properties>
     <dependencies>
+
         <!--
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
             </dependency>
         -->
+
+        <dependency>
+            <groupId>top.doperj</groupId>
+            <artifactId>e-shop-common</artifactId>
+            <version>0.0.1</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

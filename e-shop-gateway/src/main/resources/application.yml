@@ -15,8 +15,8 @@ zuul:
     socket-timeout-millis: 60000
     connect-timeout-millis: 60000
   routes:
-    product-services: /gateway/**
-    #order-services: /gateway/**
+    #product-services: /gateway/**
+    order-services: /gateway/**
 
 hystrix:
   command:

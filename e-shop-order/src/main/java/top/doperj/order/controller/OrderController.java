@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import top.doperj.order.POJO.ViewOrder;
 import top.doperj.order.domain.Order;
 import top.doperj.order.service.OrderService;
+import top.doperj.user.domain.User;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -28,6 +30,17 @@ public class OrderController {
 
     @Autowired
     OrderService orderService;
+
+    @GetMapping(value = "/user", produces = "application/json")
+    @ResponseBody
+    public String getLoginedUser(HttpServletRequest request, HttpSession httpSession) {
+        String username = (String) httpSession.getAttribute("username");
+        System.out.println(httpSession.getId());
+        System.out.println(username);
+        User user = new User();
+        user.setUserName(username);
+        return httpSession.getId();
+    }
 
     @PostMapping("")
     @ResponseBody
@@ -68,9 +81,9 @@ public class OrderController {
         //return orderService.addOrderByViewOrder(viewOrder);
     }
 
-    @GetMapping(value = "/{userName}", produces = "application/json")
+/*    @GetMapping(value = "/{userName}", produces = "application/json")
     @ResponseBody
     public List<Order> getOrdersByUserName(String userName) {
         return orderService.findOrdersByUserName(userName);
-    }
+    }*/
 }

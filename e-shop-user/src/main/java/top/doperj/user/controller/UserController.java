@@ -41,7 +41,7 @@ public class UserController {
     @GetMapping("/api/login_user")
     @ResponseBody
     public String login_user(HttpServletRequest request, HttpSession session) {
-        Cookie[] cookies = request.getCookies();
+/*        Cookie[] cookies = request.getCookies();
         if (cookies == null) return "请登录";
         for (Cookie cookie: cookies) {
             if (cookie.getName().equals("JSESSIONID")) {
@@ -60,6 +60,18 @@ public class UserController {
                 }
                 System.out.println(cookie.getValue());
             }
+        }*/
+        String username = (String) session.getAttribute("username");
+        System.out.println("get username: " + username);
+        String password = (String) session.getAttribute("password");
+        User user = userService.findUserByName(username);
+        if (username != null && user != null && EShopUtil.MD5(password + user.getSalt()).equals(user.getPassword())) {
+            System.out.println(username);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("username", username);
+            jsonObject.put("head_url", user.getHeadUrl());
+            System.out.println(jsonObject.toString());
+            return jsonObject.toString();
         }
         System.out.println("login user looking for...");
         System.out.println(session.getId());

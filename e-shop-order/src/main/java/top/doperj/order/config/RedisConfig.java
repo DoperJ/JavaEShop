@@ -1,4 +1,4 @@
-package top.doperj.eshop.redis.config;
+package top.doperj.order.config;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cache.CacheManager;
