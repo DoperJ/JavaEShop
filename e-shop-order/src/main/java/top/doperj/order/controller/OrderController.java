@@ -31,7 +31,7 @@ public class OrderController {
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private RestTemplate restTemplate;
+    RestTemplate restTemplate;
 
     @Autowired
     OrderService orderService;
