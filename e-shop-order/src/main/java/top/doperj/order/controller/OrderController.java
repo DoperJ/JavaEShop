@@ -49,7 +49,7 @@ public class OrderController {
     @ResponseBody
     public String loginFailed() {
         System.out.println("failed");
-        return restTemplate.getForObject("http://" + "user-services" + "/api/login_user", String.class);
+        return restTemplate.getForObject("http://user-services/api/login_user", String.class);
     }
 
     @PostMapping("")
