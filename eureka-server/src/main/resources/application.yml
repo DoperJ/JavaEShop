@@ -18,9 +18,8 @@ server:
 eureka:
   instance:
     prefer-ip-address: true
-    hostname: www.doperj.top
   client:
-    fetch-registry: true
+    fetch-registry: false
     register-with-eureka: false
   server:
     enable-self-preservation: true
