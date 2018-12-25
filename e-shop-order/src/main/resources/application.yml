@@ -2,7 +2,8 @@ eureka:
   client:
     service-url:
       #defaultZone: http://eureka.springcloud.cn/eureka/
-      defaultZone: http://www.doperj.top:8761/eureka
+      defaultZone: http://localhost:8761/eureka
+      #defaultZone: http://www.doperj.top:8761/eureka
 server:
   port: 8083
 
