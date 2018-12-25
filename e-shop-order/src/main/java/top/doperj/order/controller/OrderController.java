@@ -5,11 +5,14 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 import top.doperj.order.POJO.ViewOrder;
 import top.doperj.order.domain.Order;
 import top.doperj.order.service.OrderService;
@@ -28,6 +31,9 @@ public class OrderController {
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
+    private RestTemplate restTemplate;
+
+    @Autowired
     OrderService orderService;
 
     @GetMapping(value = "/user", produces = "application/json")
@@ -36,7 +42,14 @@ public class OrderController {
         String username = (String) httpSession.getAttribute("username");
         System.out.println(httpSession.getId());
         System.out.println(username);
-        return httpSession.getId();
+        return "session id: " + httpSession.getId() + "; username: " + username;
+    }
+
+    @GetMapping(value = "/failed", produces = "application/json")
+    @ResponseBody
+    public String loginFailed() {
+        System.out.println("failed");
+        return restTemplate.getForObject("http://" + "user-services" + "/api/login_user", String.class);
     }
 
     @PostMapping("")

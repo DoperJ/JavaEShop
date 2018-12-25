@@ -3,6 +3,8 @@ eureka:
     service-url:
       #defaultZone: http://eureka.springcloud.cn/eureka/
       defaultZone: http://www.doperj.top:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
 server:
   port: 8081
 
