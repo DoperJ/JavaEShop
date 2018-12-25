@@ -22,9 +22,7 @@
 		<docker.image.prefix>doperj</docker.image.prefix>
 		<docker.artifactId>e-shop-eureka</docker.artifactId>
 	</properties>
-    
-	<dependencies>
-	</dependencies>
+
 	<!--
 	<dependencies>
 		<dependency>

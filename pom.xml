@@ -89,12 +89,6 @@
             <version>1.4.0.RELEASE</version>
         </dependency>
 
-        <!-- security -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-
 
         <!-- Spring Cloud Dependecies -->
         <dependency>
@@ -175,7 +169,7 @@
         <module>e-shop-product</module>
         <module>e-shop-redis</module>
         <module>e-shop-user</module>
-        <module>eureka-server</module>
+<!--        <module>eureka-server</module>-->
     </modules>
 
 	<build>
