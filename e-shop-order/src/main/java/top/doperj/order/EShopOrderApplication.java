@@ -10,9 +10,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.web.client.RestTemplate;
 
+//@ServletComponentScan(basePackages = "top.doperj.order.filter")
 @EnableDiscoveryClient(autoRegister = true)
 @MapperScan("top.doperj.order.dao")
-@ServletComponentScan(basePackages = "top.doperj.order.filter")
 @EnableRedisHttpSession
 @SpringBootApplication
 public class EShopOrderApplication {

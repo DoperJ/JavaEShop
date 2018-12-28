@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import top.doperj.order.POJO.ViewOrder;
 import top.doperj.order.domain.Order;
@@ -36,14 +33,14 @@ public class OrderController {
     @Autowired
     OrderService orderService;
 
-    @GetMapping(value = "/user", produces = "application/json")
+/*    @GetMapping(value = "/user", produces = "application/json")
     @ResponseBody
     public String getLoginedUser(HttpServletRequest request, HttpSession httpSession) {
         String username = (String) httpSession.getAttribute("username");
         System.out.println(httpSession.getId());
         System.out.println(username);
         return "session id: " + httpSession.getId() + "; username: " + username;
-    }
+    }*/
 
     @GetMapping(value = "/failed", produces = "application/json")
     @ResponseBody
@@ -52,7 +49,7 @@ public class OrderController {
         return restTemplate.getForObject("http://user-services/api/login_user", String.class);
     }
 
-    @PostMapping("")
+    @PostMapping("/create")
     @ResponseBody
     public Order createOrder(HttpServletRequest httpServletRequest) {
         try {
@@ -80,6 +77,8 @@ public class OrderController {
             }
             viewOrder.setItems(map);
             viewOrder.setAddressId(json.getInt("addressId"));
+            viewOrder.setFirst_name(json.getString("firstName"));
+            viewOrder.setLast_name(json.getString("lastName"));
             logger.info("[getRequestPostJson][" + json
                     + "]-- get request body with json success.");
             System.out.println(viewOrder);
@@ -91,9 +90,12 @@ public class OrderController {
         //return orderService.addOrderByViewOrder(viewOrder);
     }
 
-/*    @GetMapping(value = "/{userName}", produces = "application/json")
+    @GetMapping(value = "/user/{username}", produces = "application/json")
     @ResponseBody
-    public List<Order> getOrdersByUserName(String userName) {
-        return orderService.findOrdersByUserName(userName);
-    }*/
+    public List<Order> getOrdersByUserName(@PathVariable("username") String userName) {
+        System.out.println("find " + userName + " orders.");
+        List<Order> orderList = orderService.findOrdersByUserName(userName);
+        System.out.println(orderList);
+        return orderList;
+    }
 }

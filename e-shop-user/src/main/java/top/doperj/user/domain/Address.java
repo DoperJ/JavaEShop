@@ -7,7 +7,7 @@ public class Address {
 
     private Integer userId;
 
-    private Short zip;
+    private Integer zip;
 
     private String province;
 
@@ -37,11 +37,11 @@ public class Address {
         this.userId = userId;
     }
 
-    public Short getZip() {
+    public Integer getZip() {
         return zip;
     }
 
-    public void setZip(Short zip) {
+    public void setZip(Integer zip) {
         this.zip = zip;
     }
 

@@ -1,81 +1,126 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="top.doperj.order.dao.OrderMapper">
-    <resultMap id="BaseResultMap" type="top.doperj.order.domain.Order">
-        <id column="order_id" jdbcType="INTEGER" property="orderId" />
-        <result column="address_id" jdbcType="INTEGER" property="addressId" />
-        <result column="status" jdbcType="VARCHAR" property="status" />
-    </resultMap>
-    <sql id="Base_Column_List">
-        order_id, address_id, status, created_time
-    </sql>
-    <sql id="Base_Column_List_As_A">
-        a.order_id, a.address_id, a.status, a.created_time
-    </sql>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List" />
-        from t_order
-        where order_id = #{orderId,jdbcType=INTEGER}
-    </select>
-    <!-- 根据用户名查找订单 -->
-    <select id="selectByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
-        SELECT
-        <include refid="Base_Column_List_As_A" />
-        FROM t_order AS a, t_user AS b, t_address AS c
-        WHERE c.address_id = a.address_id AND c.user_id = b.user_id AND b.user_name = #{userName}
-    </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-        delete from t_order
-        where order_id = #{orderId,jdbcType=INTEGER}
-    </delete>
-    <insert id="insert" useGeneratedKeys="true" keyProperty="orderId" parameterType="top.doperj.order.domain.Order">
-        insert into t_order (order_id, address_id, status
-        )
-        values (#{orderId,jdbcType=INTEGER}, #{addressId,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}
-        )
-    </insert>
-    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="orderId" parameterType="top.doperj.order.domain.Order">
-        insert into t_order
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="orderId != null">
-                order_id,
-            </if>
-            <if test="addressId != null">
-                address_id,
-            </if>
-            <if test="status != null">
-                status,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="orderId != null">
-                #{orderId,jdbcType=INTEGER},
-            </if>
-            <if test="addressId != null">
-                #{addressId,jdbcType=INTEGER},
-            </if>
-            <if test="status != null">
-                #{status,jdbcType=VARCHAR},
-            </if>
-        </trim>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="top.doperj.order.domain.Order">
-        update t_order
-        <set>
-            <if test="addressId != null">
-                address_id = #{addressId,jdbcType=INTEGER},
-            </if>
-            <if test="status != null">
-                status = #{status,jdbcType=VARCHAR},
-            </if>
-        </set>
-        where order_id = #{orderId,jdbcType=INTEGER}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="top.doperj.order.domain.Order">
-        update t_order
-        set address_id = #{addressId,jdbcType=INTEGER},
-            status = #{status,jdbcType=VARCHAR}
-        where order_id = #{orderId,jdbcType=INTEGER}
-    </update>
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="top.doperj.order.dao.OrderMapper" >
+  <resultMap id="BaseResultMap" type="top.doperj.order.domain.Order" >
+    <id column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="address_id" property="addressId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+    <result column="first_name" property="firstName" jdbcType="VARCHAR" />
+    <result column="last_name" property="lastName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    order_id, address_id, status, created_time, first_name, last_name
+  </sql>
+  <sql id="Base_Column_List_As_A">
+    a.order_id, a.address_id, a.status, a.created_time, a.first_name, a.last_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </select>
+  <!-- 根据用户名查找订单 -->
+  <select id="selectByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List_As_A" />
+    FROM t_order AS a, t_user AS b, t_address AS c
+    WHERE c.address_id = a.address_id AND c.user_id = b.user_id AND b.user_name = #{userName}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </delete>
+  <!-- 根据用户名删除订单 -->
+  <delete id="deleteByUserName" parameterType="java.lang.String">
+    DELETE
+    FROM t_order
+    WHERE address_id in (
+            SELECT address_id
+            FROM t_address, t_user
+            WHERE t_address.user_id = t_user.user_id AND t_user.user_name = #{userName}
+    )
+  </delete>
+  <insert id="insert" parameterType="top.doperj.order.domain.Order" >
+    insert into t_order (order_id, address_id, status, 
+      created_time, first_name, last_name
+      )
+    values (#{orderId,jdbcType=INTEGER}, #{addressId,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, 
+      #{createdTime,jdbcType=TIMESTAMP}, #{firstName,jdbcType=VARCHAR}, #{lastName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="orderId" parameterType="top.doperj.order.domain.Order" >
+    insert into t_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="addressId != null" >
+        address_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="firstName != null" >
+        first_name,
+      </if>
+      <if test="lastName != null" >
+        last_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="addressId != null" >
+        #{addressId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="firstName != null" >
+        #{firstName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastName != null" >
+        #{lastName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="top.doperj.order.domain.Order" >
+    update t_order
+    <set >
+      <if test="addressId != null" >
+        address_id = #{addressId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="firstName != null" >
+        first_name = #{firstName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastName != null" >
+        last_name = #{lastName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="top.doperj.order.domain.Order" >
+    update t_order
+    set address_id = #{addressId,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      first_name = #{firstName,jdbcType=VARCHAR},
+      last_name = #{lastName,jdbcType=VARCHAR}
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
 </mapper>

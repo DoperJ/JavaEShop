@@ -11,6 +11,10 @@ public class Order {
 
     private Date createdTime;
 
+    private String firstName;
+
+    private String lastName;
+
     public Integer getOrderId() {
         return orderId;
     }
@@ -43,6 +47,22 @@ public class Order {
         this.createdTime = createdTime;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName == null ? null : firstName.trim();
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName == null ? null : lastName.trim();
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -50,6 +70,8 @@ public class Order {
                 ", addressId=" + addressId +
                 ", status='" + status + '\'' +
                 ", createdTime=" + createdTime +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 '}';
     }
 }

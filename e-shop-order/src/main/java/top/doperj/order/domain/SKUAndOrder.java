@@ -40,4 +40,14 @@ public class SKUAndOrder {
     public void setSkuAmount(Integer skuAmount) {
         this.skuAmount = skuAmount;
     }
+
+    @Override
+    public String toString() {
+        return "SKUAndOrder{" +
+                "skuAndOrderId=" + skuAndOrderId +
+                ", skuId=" + skuId +
+                ", orderId=" + orderId +
+                ", skuAmount=" + skuAmount +
+                '}';
+    }
 }

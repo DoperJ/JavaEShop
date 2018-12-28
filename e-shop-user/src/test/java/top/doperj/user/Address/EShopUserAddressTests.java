@@ -17,7 +17,7 @@ public class EShopUserAddressTests {
     public void addAddress() throws Exception {
         addressService.addAddress(
                 "doperj",
-                (short) 510641,
+                510641,
                 "广东省",
                 "广州市",
                 "天河区",

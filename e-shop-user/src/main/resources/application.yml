@@ -27,7 +27,7 @@ spring:
     name: user-services
   datasource:
     name: test
-    url: jdbc:mysql://119.23.225.135:3306/e_shop?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://119.23.225.135:3306/e_shop?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false
     username: root
     password: 515300
     type: org.springframework.jdbc.datasource.DriverManagerDataSource

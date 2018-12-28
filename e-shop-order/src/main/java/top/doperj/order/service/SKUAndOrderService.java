@@ -8,7 +8,6 @@ import top.doperj.order.domain.Order;
 import top.doperj.order.domain.SKUAndOrder;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -22,8 +21,10 @@ public class SKUAndOrderService {
     public Order addByViewOrder(ViewOrder viewOrder) {
         Map<Integer, Integer> skuMap = viewOrder.getItems();
         int addressId = viewOrder.getAddressId();
+        String firstName = viewOrder.getFirst_name();
+        String lastName = viewOrder.getLast_name();
         Iterator<Integer> iterator = skuMap.keySet().iterator();
-        Order order = orderService.addOrderByAddressId(addressId);
+        Order order = orderService.addOrderByAddressAndName(addressId, firstName, lastName);
         while (iterator.hasNext()) {
             int skuId = iterator.next();
             System.out.println(order);
@@ -39,5 +40,9 @@ public class SKUAndOrderService {
         skuAndOrderDAO.insertSelective(skuAndOrder);
         System.out.println(skuAndOrder);
         return skuAndOrder;
+    }
+
+    int deleteSKUAndOrderByOrder(Order order) {
+        return skuAndOrderDAO.deleteByOrderId(order.getOrderId());
     }
 }

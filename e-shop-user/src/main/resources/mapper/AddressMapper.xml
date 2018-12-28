@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="top.doperj.user.domain.Address" >
     <id column="address_id" property="addressId" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="zip" property="zip" jdbcType="SMALLINT" />
+    <result column="zip" property="zip" jdbcType="INTEGER" />
     <result column="province" property="province" jdbcType="VARCHAR" />
     <result column="city" property="city" jdbcType="VARCHAR" />
     <result column="district" property="district" jdbcType="VARCHAR" />
