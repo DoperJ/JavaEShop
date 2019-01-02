@@ -22,7 +22,7 @@ import top.doperj.product.service.SKUAttributeService;
 import top.doperj.product.service.SKUService;
 
 @RestController
-@RequestMapping("/api/product")
+@RequestMapping("/api/")
 public class ProductController {
     Logger logger = LoggerFactory.getLogger(this.getClass());
 

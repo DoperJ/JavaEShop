@@ -5,9 +5,9 @@ import top.doperj.user.domain.Address;
 
 import java.util.List;
 
-public interface AddressMapper {
+public interface AddressMapper_old {
     String TABLE_NAME = " t_address ";
-    String SELECT_FIELDS = " address_id, user_id, zip, province, city, district, address, phone_num, is_default, modified_time ";
+    String SELECT_FIELDS = " address_id, user_id, zip, province, city, district, address, is_default, modified_time ";
 
     // Create
     int insert(Address record);
@@ -23,8 +23,6 @@ public interface AddressMapper {
     @Select({"select", SELECT_FIELDS, "from", TABLE_NAME, "where user_id=#{userId}"})
     List<Address> selectByUserId(int userId);
 
-    List<Address> selectByUserName(String userName);
-
     // Update
     int updateByPrimaryKeySelective(Address record);
 
@@ -32,6 +30,4 @@ public interface AddressMapper {
 
     // Delete
     int deleteByPrimaryKey(Integer addressId);
-
-    int deleteByUserName(String userName);
 }

@@ -29,8 +29,7 @@ public interface ProductMapper {
     @Select({"select", SELECT_FIELDS, "from", TABLE_NAME, "where product_name like CONCAT('%', #{productPartialName}, '%')"})
     List<Product> selectProductByNameLike(String productPartialName);
 
-    @Select({"select", SELECT_FIELDS, "from", TABLE_NAME, "where category_id=#{categoryId}"})
-    List<Product> selectProductByCategoryId(int categoryId);
+    List<Product> selectProductByCategoryName(String categoryName);
 
     // Update
     int updateByPrimaryKeySelective(Product record);

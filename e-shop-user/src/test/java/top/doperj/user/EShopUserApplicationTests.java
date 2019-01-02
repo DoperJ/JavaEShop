@@ -1,5 +1,6 @@
 package top.doperj.user;
 
+import org.junit.Ignore;
 import top.doperj.user.domain.User;
 import top.doperj.user.service.AddressService;
 import top.doperj.user.service.UserService;
@@ -25,10 +26,10 @@ public class EShopUserApplicationTests {
 
     @Test
     public void findAddressByUsername() {
-        System.out.println(addressService.findAddressByUserName("doperj"));
+        System.out.println(addressService.findAddressesByUserName("doperj"));
     }
 
-    @Test
+    //@Test
     public void addAddress() throws Exception {
         addressService.addAddress(
                 "doperj",
@@ -52,7 +53,7 @@ public class EShopUserApplicationTests {
 
     @Test
     public void findAllAddresses() throws Exception {
-        System.out.println(addressService.findAllAddress());
+        System.out.println(addressService.findAllAddresses());
     }
 
 	@Test

@@ -1,7 +1,11 @@
 (function ($) {
     'use strict';
 
+    $.ajaxSetup({
+        async : false
+    });
     var $window = $(window);
+
 
     // :: Nav Active Code
     if ($.fn.classyNav) {
@@ -147,5 +151,36 @@
     $("a[href='#']").on('click', function ($) {
         $.preventDefault();
     });
+
+    $.get("http://www.doperj.top:8082/api/product/category/1",
+        {},
+        function (data, status) {
+            //console.log(data);
+            for (var i = 0; i < data.length; i++) {
+                var category = $("<ul class='single-mega cn-col-4'></ul>");
+                var categoryName = data[i].categoryName;
+                var category_title = $("<li class='title'>" + categoryName + "</li>");
+                category.append(category_title);
+                //console.log(categoryName);
+                $.get("http://www.doperj.top:8082/api/product/category/1/" + categoryName,
+                    {},
+                    function (data2, status) {
+                        //console.log(data2);
+                        for (var j = 0; j < data2.length; j++) {
+                            var category2 = $("<li><a href='#'>" + data2[j].categoryName + "</a></li>");
+                            //console.log(category2)
+                            category.append(category2);
+                        }
+                        //console.log(category);
+                    }
+                );
+                $("div.megamenu").first().append(category);
+            }
+        }
+    );
+/*<script>
+    $(document).ready(function() {
+    });
+</script>*/
 
 })(jQuery);

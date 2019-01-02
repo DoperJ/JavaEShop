@@ -7,11 +7,23 @@ server:
   port: 8082
 
 spring:
+  redis:
+    database: 0      # Redis数据库索引（默认为0）
+    host: www.doperj.top # Redis服务器地址
+    port: 6379       # Redis服务器连接端口
+    password: 515300        # Redis服务器连接密码（默认为空）
+    timeout: 10000       # 连接超时时间（毫秒）
+    jedis:
+      pool:
+        max-active: 8  # 连接池最大连接数（使用负值表示没有限制）
+        max-idle: 8    # 连接池中的最大空闲连接
+        max-wait: -1   # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        min-idle: 0
   application:
     name: product-services
   datasource:
     name: test
-    url: jdbc:mysql://119.23.225.135:3306/e_shop?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://119.23.225.135:3306/e_shop?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false
     username: root
     password: 515300
     type: org.springframework.jdbc.datasource.DriverManagerDataSource

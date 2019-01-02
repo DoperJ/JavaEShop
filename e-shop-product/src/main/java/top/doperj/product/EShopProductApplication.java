@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @EnableDiscoveryClient(autoRegister = true)
-@MapperScan("top.doperj.product.dao_old")
+@MapperScan("top.doperj.product.dao")
 @SpringBootApplication
 public class EShopProductApplication {
 

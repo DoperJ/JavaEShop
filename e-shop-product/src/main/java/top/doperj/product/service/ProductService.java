@@ -42,7 +42,7 @@ public class ProductService {
             logger.error("No category named: " + categoryName + "!");
             return null;
         }
-        return productDAO.selectProductByCategoryId(category.getCategoryId());
+        return productDAO.selectProductByCategoryName(categoryName);
     }
 
     public int addProduct(Product product) {

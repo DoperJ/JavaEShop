@@ -18,6 +18,6 @@ public class AddressController {
     @GetMapping("/api/address/{username}")
     @ResponseBody
     public List<Address> getAddressByUsername(@PathVariable("username") String username) {
-        return addressService.findAddressByUserName(username);
+        return addressService.findAddressesByUserName(username);
     }
 }

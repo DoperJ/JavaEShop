@@ -28,11 +28,11 @@ public class EShopUserAddressTests {
 
     @Test
     public void findAllAddresses() throws Exception {
-        System.out.println(addressService.findAllAddress());
+        System.out.println(addressService.findAllAddresses());
     }
 
     @Test
     public void findAddressesByUserName() throws Exception {
-        System.out.println(addressService.findAddressByUserName("doperj"));
+        System.out.println(addressService.findAddressesByUserName("doperj"));
     }
 }

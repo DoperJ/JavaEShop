@@ -17,18 +17,36 @@
     <!-- Core Style CSS -->
     <link rel="stylesheet" href="css/core-style.css">
     <link rel="stylesheet" href="style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+    <!-- jQuery (Necessary for All JavaScript Plugins) -->
+    <script src="js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="js/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Classy Nav js -->
+    <script src="js/classy-nav.min.js"></script>
 </head>
 
 <body>
 <script>
     $(document).ready(function() {
-        $.get("http://www.doperj.top:8081/api/users", {}, function(data, status) {
+        $.get("http://www.doperj.top:8081/api/address/doperj", {}, function(data, status) {
             console.log(data);
+            if (data.length === 0) return;
             for (var i = 0; i < data.length; i++) {
-                console.log(data[i]);
+                if (data[i].isDefault) {
+                    var tmp = data[0];
+                    data[0] = data[i];
+                    data[i] = tmp;
+                }
+            }
+            for (var i = 0; i < data.length; i++) {
+                var add_val = data[i].province + ", " + data[i].city + ", " + data[i].district + ", " + data[i].address + ", " + data[i].zip;
+                var add_tag = $("<li></li>").text(add_val).attr("data-value", data[i].address_id).attr("class", "option selected focus");
+                console.log(add_tag);
+                console.log($("#address"));
+                $("#address").next().children("ul").append(add_tag);
             }
         });
     });
@@ -254,16 +272,9 @@
                                     <input type="text" class="form-control" id="company" value="">
                                 </div>-->
                                 <div class="col-12 mb-3">
-                                    <label for="country">地址<span>*</span></label>
-                                    <select class="w-100" id="country">
-                                        <option value="usa">United States</option>
-                                        <option value="uk">United Kingdom</option>
-                                        <option value="ger">Germany</option>
-                                        <option value="fra">France</option>
-                                        <option value="ind">India</option>
-                                        <option value="aus">Australia</option>
-                                        <option value="bra">Brazil</option>
-                                        <option value="cana">Canada</option>
+                                    <label for="address">地址<span>*</span></label>
+                                    <select class="w-100" id="address">
+                                        <option value="usa">选择地址</option>
                                     </select>
                                 </div>
                                 <div class="custom-control custom-checkbox d-block mb-2">
@@ -322,7 +333,7 @@
                         <ul class="order-details-form mb-4">
                             <li><span>产品</span> <span>总计</span></li>
                             <li><span>Cocktail Yellow dress</span> <span>$59.90</span></li>
-                            <li><span>Subtotal</span> <span>$59.90</span></li>
+                            <li><span>合计</span> <span>$59.90</span></li>
                             <li><span>邮费</span> <span>0</span></li>
                             <li><span>总计</span> <span>$59.90</span></li>
                         </ul>
@@ -472,19 +483,10 @@
     </footer>
     <!-- ##### Footer Area End ##### -->
 
-    <!-- jQuery (Necessary for All JavaScript Plugins) -->
-    <script src="js/jquery/jquery-2.2.4.min.js"></script>
-    <!-- Popper js -->
-    <script src="js/popper.min.js"></script>
-    <!-- Bootstrap js -->
-    <script src="js/bootstrap.min.js"></script>
-    <!-- Plugins js -->
-    <script src="js/plugins.js"></script>
-    <!-- Classy Nav js -->
-    <script src="js/classy-nav.min.js"></script>
-    <!-- Active js -->
-    <script src="js/active.js"></script>
-
 </body>
 
+<!-- Plugins js -->
+<script src="js/plugins.js"></script>
+<!-- Active js -->
+<script src="js/active.js"></script>
 </html>

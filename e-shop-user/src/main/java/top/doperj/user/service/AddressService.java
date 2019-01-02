@@ -40,16 +40,16 @@ public class AddressService {
     }
 
     // Read
-    public List<Address> findAllAddress() {
+    public List<Address> findAddressesByUserName(String userName) {
+        return addressDAO.selectByUserName(userName);
+    }
+
+    public List<Address> findAllAddresses() {
         return addressDAO.selectAllAddresses();
     }
 
-    public List<Address> findAddressByUserName(String userName) {
-        User user = userDAO.selectByName(userName);
-        if (user == null) {
-            logger.error("No user named: " + userName);
-            return null;
-        }
-        return addressDAO.selectByUserId(user.getUserId());
+    // Delete
+    public void delteAddressesByUserName(String userName) {
+
     }
 }

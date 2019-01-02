@@ -21,6 +21,8 @@ public class Address {
 
     private Date modifiedTime;
 
+    private String phoneNum;
+
     public Integer getAddressId() {
         return addressId;
     }
@@ -93,6 +95,14 @@ public class Address {
         this.modifiedTime = modifiedTime;
     }
 
+    public String getPhoneNum() {
+        return phoneNum;
+    }
+
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum == null ? null : phoneNum.trim();
+    }
+
     @Override
     public String toString() {
         return "Address{" +
@@ -105,6 +115,7 @@ public class Address {
                 ", address='" + address + '\'' +
                 ", isDefault=" + isDefault +
                 ", modifiedTime=" + modifiedTime +
+                ", phoneNum='" + phoneNum + '\'' +
                 '}';
     }
 }

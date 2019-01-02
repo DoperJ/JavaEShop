@@ -19,11 +19,30 @@
         product_id, product_name, abbreviation, details, clicked_times, sale_quantity, photo_url,
         is_hot, is_new, on_sale_date, category_id, brand_id
     </sql>
+    <sql id="Product_Column_List" >
+        t_product.product_id, t_product.product_name, t_product.abbreviation, t_product.details, t_product.clicked_times,
+        t_product.sale_quantity, t_product.photo_url, t_product.is_hot, t_product.is_new, t_product.on_sale_date,
+        t_product.category_id, t_product.brand_id
+    </sql>
+    <sql id="Product_A_Column_List" >
+        a.product_id, a.product_name, a.abbreviation, a.details, a.clicked_times,
+        a.sale_quantity, a.photo_url, a.is_hot, a.is_new, a.on_sale_date,
+        a.category_id, a.brand_id
+    </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
         select
         <include refid="Base_Column_List" />
         from t_product
         where product_id = #{productId,jdbcType=INTEGER}
+    </select>
+    <select id="selectProductByCategoryName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT <include refid="Product_A_Column_List" />
+        FROM t_product AS a, t_category as b
+        WHERE
+        (a.category_id = b.category_id
+        OR a.category_id IN (SELECT c.category_id FROM t_category AS c WHERE c.sup_category_id = b.category_id)
+        )
+        AND b.category_name = #{categoryName}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
         delete from t_product
