@@ -41,6 +41,8 @@
         WHERE
         (a.category_id = b.category_id
         OR a.category_id IN (SELECT c.category_id FROM t_category AS c WHERE c.sup_category_id = b.category_id)
+        OR a.category_id IN (SELECT d.category_id FROM t_category AS c, t_category AS d
+            WHERE c.sup_category_id = b.category_id AND d.sup_category_id = c.category_id)
         )
         AND b.category_name = #{categoryName}
     </select>

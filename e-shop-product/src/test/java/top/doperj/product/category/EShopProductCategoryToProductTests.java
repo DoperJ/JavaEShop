@@ -26,6 +26,7 @@ public class EShopProductCategoryToProductTests {
     @Test
     public void findProductsByCategoryName() {
         //System.out.println(productService.findProductByCategoryName("手机"));
-        System.out.println(productService.findProductByCategoryName("电脑办公"));
+        //System.out.println(productService.findProductByCategoryName("电脑办公"));
+        System.out.println(productService.findProductByCategoryName("电子产品"));
     }
 }
