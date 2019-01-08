@@ -1,84 +1,98 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="top.doperj.product.dao.SKUMapper" >
-  <resultMap id="BaseResultMap" type="top.doperj.product.domain.SKU" >
-    <id column="sku_id" property="skuId" jdbcType="INTEGER" />
-    <result column="product_id" property="productId" jdbcType="INTEGER" />
-    <result column="photo_url" property="photoUrl" jdbcType="VARCHAR" />
-    <result column="original_price" property="originalPrice" jdbcType="REAL" />
-    <result column="sale_price" property="salePrice" jdbcType="REAL" />
-    <result column="stock_quantity" property="stockQuantity" jdbcType="INTEGER" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    sku_id, product_id, photo_url, original_price, sale_price, stock_quantity
-  </sql>
+    <resultMap id="BaseResultMap" type="top.doperj.product.domain.SKU" >
+        <id column="sku_id" property="skuId" jdbcType="INTEGER" />
+        <result column="product_id" property="productId" jdbcType="INTEGER" />
+        <result column="photo_url" property="photoUrl" jdbcType="VARCHAR" />
+        <result column="original_price" property="originalPrice" jdbcType="REAL" />
+        <result column="sale_price" property="salePrice" jdbcType="REAL" />
+        <result column="stock_quantity" property="stockQuantity" jdbcType="INTEGER" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        sku_id, product_id, photo_url, original_price, sale_price, stock_quantity
+    </sql>
     <sql id="Base_Column_List_With_PREFIX" >
         a.sku_id, a.product_id, a.photo_url, a.original_price, a.sale_price, a.stock_quantity
     </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from t_sku
-    where sku_id = #{skuAttributeId,jdbcType=INTEGER}
-  </select>
-  <select id="selectSKUBySKUAttributeAndChoiceMap" resultMap="BaseResultMap" parameterType="java.util.List">
-      SELECT
-      <include refid="Base_Column_List_With_PREFIX" />
-      FROM t_sku AS a
-      WHERE
-      <foreach collection="list" index="index" item="item" separator=" AND ">
-          EXISTS(SELECT * FROM t_sku_and_sku_choice AS b WHERE a.sku_id = b.sku_id AND b.sku_choice_id = #{item})
-      </foreach>
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_sku
-    where sku_id = #{skuAttributeId,jdbcType=INTEGER}
-  </delete>
-  <!-- 批量插入 -->
-  <insert id="insertSKUBatch" parameterType="java.util.List">
-    INSERT INTO t_sku (original_price)
-    VALUES
-    <foreach collection="list" item="item" separator=",">
-      (#{item})
-    </foreach>
-  </insert>
-  <insert id="insert" parameterType="top.doperj.product.domain.SKU" >
-    insert into t_sku (sku_id, product_id, photo_url,
-      original_price, sale_price, stock_quantity
-      )
-    values (#{skuAttributeId,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, #{photoUrl,jdbcType=VARCHAR},
-      #{originalPrice,jdbcType=REAL}, #{salePrice,jdbcType=REAL}, #{stockQuantity,jdbcType=INTEGER}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="top.doperj.product.domain.SKU" >
-    insert into t_sku
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="skuAttributeId != null" >
-        sku_id,
-      </if>
-      <if test="productId != null" >
-        product_id,
-      </if>
-      <if test="photoUrl != null" >
-        photo_url,
-      </if>
-      <if test="originalPrice != null" >
-        original_price,
-      </if>
-      <if test="salePrice != null" >
-        sale_price,
-      </if>
-      <if test="stockQuantity != null" >
-        stock_quantity,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="skuAttributeId != null" >
-        #{skuAttributeId,jdbcType=INTEGER},
-      </if>
-      <if test="productId != null" >
-        #{productId,jdbcType=INTEGER},
-      </if>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from t_sku
+        where sku_id = #{skuAttributeId,jdbcType=INTEGER}
+    </select>
+    <select id="selectSKUBySKUAttributeAndChoiceMap" resultMap="BaseResultMap" parameterType="java.util.List">
+        SELECT
+        <include refid="Base_Column_List_With_PREFIX" />
+        FROM t_sku AS a
+        WHERE
+        <foreach collection="list" index="index" item="item" separator=" AND ">
+            EXISTS(SELECT * FROM t_sku_and_sku_choice AS b WHERE a.sku_id = b.sku_id AND b.sku_choice_id = #{item})
+        </foreach>
+    </select>
+    <select id="selectSKUByCategoryName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT <include refid="Base_Column_List_With_PREFIX" />
+        FROM t_sku AS a WHERE product_id IN (
+        SELECT b.product_id
+        FROM t_product AS b, t_category as c
+        WHERE
+        (b.category_id = c.category_id
+        OR b.category_id IN (SELECT d.category_id FROM t_category AS d WHERE d.sup_category_id = c.category_id)
+        OR b.category_id IN (SELECT e.category_id FROM t_category AS d, t_category AS e
+        WHERE d.sup_category_id = c.category_id AND e.sup_category_id = d.category_id)
+        )
+        AND c.category_name = #{categoryName}
+        )
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from t_sku
+        where sku_id = #{skuAttributeId,jdbcType=INTEGER}
+    </delete>
+    <!-- 批量插入 -->
+    <insert id="insertSKUBatch" parameterType="java.util.List">
+        INSERT INTO t_sku (original_price)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item})
+        </foreach>
+    </insert>
+    <insert id="insert" parameterType="top.doperj.product.domain.SKU" >
+        insert into t_sku (sku_id, product_id, photo_url,
+                           original_price, sale_price, stock_quantity
+        )
+        values (#{skuAttributeId,jdbcType=INTEGER}, #{productId,jdbcType=INTEGER}, #{photoUrl,jdbcType=VARCHAR},
+                #{originalPrice,jdbcType=REAL}, #{salePrice,jdbcType=REAL}, #{stockQuantity,jdbcType=INTEGER}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="top.doperj.product.domain.SKU" >
+        insert into t_sku
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="skuAttributeId != null" >
+                sku_id,
+            </if>
+            <if test="productId != null" >
+                product_id,
+            </if>
+            <if test="photoUrl != null" >
+                photo_url,
+            </if>
+            <if test="originalPrice != null" >
+                original_price,
+            </if>
+            <if test="salePrice != null" >
+                sale_price,
+            </if>
+            <if test="stockQuantity != null" >
+                stock_quantity,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="skuAttributeId != null" >
+                #{skuAttributeId,jdbcType=INTEGER},
+            </if>
+            <if test="productId != null" >
+                #{productId,jdbcType=INTEGER},
+            </if>
       <if test="photoUrl != null" >
         #{photoUrl,jdbcType=VARCHAR},
       </if>

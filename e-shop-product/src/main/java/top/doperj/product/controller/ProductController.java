@@ -22,7 +22,7 @@ import top.doperj.product.service.SKUAttributeService;
 import top.doperj.product.service.SKUService;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api/product")
 public class ProductController {
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -38,48 +38,18 @@ public class ProductController {
     @Autowired
     SKUService skuService;
 
-    @GetMapping(value = "/categories", produces = "application/json")
-    public List<Category> getCategories() {
-        return categoryService.findAllCategories();
-    }
 
-    @GetMapping(path = "/category/{level}", produces = "application/json")
-    public List<Category> getCategoriesByLevel(@PathVariable("level") int level) {
-        return getCategoriesByLevelHelper(level);
-    }
-
-    @GetMapping(path = "/category/{level}/{sup_category_name}", produces = "application/json")
-    public List<Category> getCategoriesByLevelAndSupCategoryName(@PathVariable("level") int level, @PathVariable("sup_category_name") String supCategoryName) {
-        List<Category> supcategoryList = getCategoriesByLevelHelper(level);
-        Category supCategory = categoryService.findCategoryByName(supCategoryName);
-        Set<Category> supCategorySet = new HashSet<Category>(supcategoryList);
-        if (!supCategorySet.contains(supCategory)) {
-            logger.error("No super category in level " + level + " named: " + supCategoryName + "!");
-            return null;
-        }
-        List<Category> categoryList = getCategoriesByLevelHelper(level + 1);
-        List<Category> result = new LinkedList<Category>();
-        Iterator<Category> iterator = categoryList.iterator();
-        while (iterator.hasNext()) {
-            Category category = iterator.next();
-            if (category.getSupCategoryId() == supCategory.getCategoryId()) {
-                result.add(category);
-            }
-        }
-        return result;
-    }
-
-    @GetMapping(path = "/product/{categoryName}", produces = "application/json")
+    @GetMapping(path = "/{categoryName}", produces = "application/json")
     public List<Product> getProductsByCategoryName(@PathVariable("categoryName") String categoryName) {
         return productService.findProductByCategoryName(categoryName);
     }
 
-    @GetMapping(path = "/product/{categoryName}/{productName}", produces = "application/json")
+    @GetMapping(path = "/{categoryName}/{productName}", produces = "application/json")
     public Map<String, List<String>> getSKUAttributeAndSKUChoices(@PathVariable("productName") String productName) {
         return productService.findProductSKUAttributeAndChoices(productName);
     }
 
-    @PostMapping(path = "/product/{categroyName}/{productName}", produces = "application/json")
+    @PostMapping(path = "/{categroyName}/{productName}", produces = "application/json")
     public SKU getSKUByChoices(HttpServletRequest request) {
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
@@ -126,47 +96,4 @@ public class ProductController {
         return productList;
     }
 
-    private List<Category> getCategoriesByLevelHelper(int level) {
-        List<Category> categoryList = categoryService.findAllCategories();
-        List<Category> categoryList1 = new LinkedList<Category>();
-        List<Category> categoryList2 = new LinkedList<Category>();
-        List<Category> categoryList3 = new LinkedList<Category>();
-        Iterator<Category> iterator;
-        iterator = categoryList.iterator();
-        Set<Integer> supCategoryIdSet;
-        Set<Integer> categoryIdSet = new HashSet<Integer>();
-        while (iterator.hasNext()) {
-            Category category = iterator.next();
-            if (category.getSupCategoryId() == null) {
-                categoryList1.add(category);
-                categoryIdSet.add(category.getCategoryId());
-            }
-        }
-        supCategoryIdSet = categoryIdSet;
-        categoryIdSet = new HashSet<Integer>();
-        iterator = categoryList.iterator();
-        while (iterator.hasNext()) {
-            Category category = iterator.next();
-            if (supCategoryIdSet.contains(category.getSupCategoryId())) {
-                categoryList2.add(category);
-                categoryIdSet.add(category.getCategoryId());
-            }
-        }
-        supCategoryIdSet = categoryIdSet;
-        categoryIdSet = new HashSet<Integer>();
-        iterator = categoryList.iterator();
-        while (iterator.hasNext()) {
-            Category category = iterator.next();
-            if (supCategoryIdSet.contains(category.getSupCategoryId())) {
-                categoryList3.add(category);
-                categoryIdSet.add(category.getCategoryId());
-            }
-        }
-        switch (level) {
-            case 1: return categoryList1;
-            case 2: return categoryList2;
-            case 3: return categoryList3;
-            default: return categoryList;
-        }
-    }
 }

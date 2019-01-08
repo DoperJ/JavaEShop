@@ -36,6 +36,10 @@ public class SKUService {
         return skuDAO.selectSKUByProductName(name);
     }
 
+    public List<SKU> findSKUByCategoryName(String categoryName) {
+        return skuDAO.selectSKUByCategoryName(categoryName);
+    }
+
     public int addSKU(SKU sku) {
         return skuDAO.insertSelective(sku);
     }
@@ -106,6 +110,7 @@ public class SKUService {
             }
             skuChoiceIdList.add(skuChoice.getSkuChoiceId());
         }
+        System.out.println(skuChoiceIdList);
         return skuDAO.selectSKUBySKUAttributeAndChoiceMap(skuChoiceIdList);
     }
 }

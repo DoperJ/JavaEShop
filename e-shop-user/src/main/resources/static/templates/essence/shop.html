@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -31,18 +31,68 @@
     $(document).ready(function () {
         var current_category = $(".page-title").first();
         var current_category_name = $(".page-title").first().text().trim();
-        $.get("http://www.doperj.top:8082/api/product/category/2/" + current_category_name,
+        $.get("http://www.doperj.top:8082/api/category/2/" + current_category_name,
             {},
             function (data, status) {
                 categories = new Array(data.length);
                 var menuContent2 = $("#menu-content2");
                 for (var i = 0; i < data.length; i++) {
                     var item = $("<li data-toggle='collapse' class='collapsed'></li>").attr("data-target", data[i].categoryName);
-                    console.log(data[i]);
+                    //console.log(data[i]);
                     var subCategoryName = data[i].categoryName;
                     var subCategory = $("<a href='#'>" + subCategoryName + "</a>");
                     item.append(subCategory);
                     menuContent2.append(item);
+                }
+            }
+        );
+        $.get("http://www.doperj.top:8082/api/product/" + current_category_name,
+            {},
+            function (data, status) {
+                console.log(data);
+                $("#products-num").text(data.length);
+                for (var i = 0; i < data.length; i++) {
+                    var product = $("<div class='col-12 col-sm-6 col-lg-4'></div>");
+                    var productWrapper = $("<div class='single-product-wrapper'></div>");
+                    var productImageWrapper = $("<div class='product-img'></div>");
+                    var productImage = $("<img alt=''>").attr("src", data[i].photoUrl.replace(/^\/+/, ''));
+                    var hoverImage = $("<img class='hover-img' src='img/product-img/product-2.jpg' alt=''>");
+                    var productBadge = $("<div class='product-badge offer-badge'>").append($("<span></span>").text("-66%"));
+                    var productFavorite = $("<div class=\"product-favourite\">\n" +
+                        "                                            <a href=\"#\" class=\"favme fa fa-heart\"></a>\n" +
+                        "                                        </div>");
+                    productImageWrapper.append(productImage);
+                    productImageWrapper.append(hoverImage);
+                    productImageWrapper.append(productBadge);
+                    productImageWrapper.append(productFavorite);
+                    productWrapper.append(productImageWrapper);
+
+                    var productDescription = $("<div class='product-description'></div>");
+                    var brand = $("<span>topshop</span>");
+                    var productNameAddress = $("<a href='single-product-details.html'></a>");
+                    var productName = $("<h6></h6>").text(data[i].productName);
+                    productNameAddress.append(productName);
+
+                    var oldPricce = $("<span class='old-price'></span>").text(" $" + data[i].productId);
+                    var productPrice = $("<p class='product-price'></p>");
+                    //if (data[i].oldPrice != data[i].price) {}
+                    productPrice.text(" $" + data[i].productId);
+
+                    var hoverContent = $("<div class='hover-content'></div>");
+                    var addToCart = $("<div class='add-to-cart-btn'></div>");
+                    var addToCartAddress = $("<a href='#' class='btn essence-btn'>加入购物车</a>");
+                    addToCart.append(addToCartAddress);
+                    hoverContent.append(addToCart);
+
+                    productDescription.append(brand);
+                    productDescription.append(productPrice);
+                    productDescription.append(hoverContent);
+
+                    productWrapper.append(productDescription);
+
+                    product.append(productWrapper);
+
+                    $("#product-row").append(product);
                 }
             }
         );
@@ -205,7 +255,9 @@
             <div class="row h-100 align-items-center">
                 <div class="col-12">
                     <div class="page-title text-center">
-                        <h2>手机数码</h2>
+<!--                        <h2>手机数码</h2>-->
+                        <h2>电脑办公</h2>
+<!--                        <h2 th:text="${category}"></h2>-->
                     </div>
                 </div>
             </div>
@@ -223,7 +275,7 @@
                         <!-- ##### Single Widget ##### -->
                         <div class="widget catagory mb-50">
                             <!-- Widget Title -->
-                            <h6 class="widget-title mb-30">种类</h6>
+                            <h6 class="widget-title mb-30">分类</h6>
 
                             <!--  Catagories  -->
                             <div class="catagories-menu">
@@ -331,28 +383,28 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row" id="product-row">
 
-                            <!-- Single Product -->
+<!--                            &lt;!&ndash; Single Product &ndash;&gt;
                             <div class="col-12 col-sm-6 col-lg-4">
                                 <div class="single-product-wrapper">
-                                    <!-- Product Image -->
+                                    &lt;!&ndash; Product Image &ndash;&gt;
                                     <div class="product-img">
                                         <img src="img/product-img/product-1.jpg" alt="">
-                                        <!-- Hover Thumb -->
+                                        &lt;!&ndash; Hover Thumb &ndash;&gt;
                                         <img class="hover-img" src="img/product-img/product-2.jpg" alt="">
 
-                                        <!-- Product Badge -->
+                                        &lt;!&ndash; Product Badge &ndash;&gt;
                                         <div class="product-badge offer-badge">
                                             <span>-30%</span>
                                         </div>
-                                        <!-- Favourite -->
+                                        &lt;!&ndash; Favourite &ndash;&gt;
                                         <div class="product-favourite">
                                             <a href="#" class="favme fa fa-heart"></a>
                                         </div>
                                     </div>
 
-                                    <!-- Product Description -->
+                                    &lt;!&ndash; Product Description &ndash;&gt;
                                     <div class="product-description">
                                         <span>topshop</span>
                                         <a href="single-product-details.html">
@@ -360,9 +412,9 @@
                                         </a>
                                         <p class="product-price"><span class="old-price">$75.00</span> $55.00</p>
 
-                                        <!-- Hover Content -->
+                                        &lt;!&ndash; Hover Content &ndash;&gt;
                                         <div class="hover-content">
-                                            <!-- Add to Cart -->
+                                            &lt;!&ndash; Add to Cart &ndash;&gt;
                                             <div class="add-to-cart-btn">
                                                 <a href="#" class="btn essence-btn">加入购物车</a>
                                             </div>
@@ -371,22 +423,22 @@
                                 </div>
                             </div>
 
-                            <!-- Single Product -->
+                            &lt;!&ndash; Single Product &ndash;&gt;
                             <div class="col-12 col-sm-6 col-lg-4">
                                 <div class="single-product-wrapper">
-                                    <!-- Product Image -->
+                                    &lt;!&ndash; Product Image &ndash;&gt;
                                     <div class="product-img">
                                         <img src="img/product-img/product-2.jpg" alt="">
-                                        <!-- Hover Thumb -->
+                                        &lt;!&ndash; Hover Thumb &ndash;&gt;
                                         <img class="hover-img" src="img/product-img/product-3.jpg" alt="">
 
-                                        <!-- Favourite -->
+                                        &lt;!&ndash; Favourite &ndash;&gt;
                                         <div class="product-favourite">
                                             <a href="#" class="favme fa fa-heart"></a>
                                         </div>
                                     </div>
 
-                                    <!-- Product Description -->
+                                    &lt;!&ndash; Product Description &ndash;&gt;
                                     <div class="product-description">
                                         <span>topshop</span>
                                         <a href="single-product-details.html">
@@ -394,9 +446,9 @@
                                         </a>
                                         <p class="product-price">$80.00</p>
 
-                                        <!-- Hover Content -->
+                                        &lt;!&ndash; Hover Content &ndash;&gt;
                                         <div class="hover-content">
-                                            <!-- Add to Cart -->
+                                            &lt;!&ndash; Add to Cart &ndash;&gt;
                                             <div class="add-to-cart-btn">
                                                 <a href="#" class="btn essence-btn">Add to Cart</a>
                                             </div>
@@ -405,27 +457,27 @@
                                 </div>
                             </div>
 
-                            <!-- Single Product -->
+                            &lt;!&ndash; Single Product &ndash;&gt;
                             <div class="col-12 col-sm-6 col-lg-4">
                                 <div class="single-product-wrapper">
-                                    <!-- Product Image -->
+                                    &lt;!&ndash; Product Image &ndash;&gt;
                                     <div class="product-img">
                                         <img src="img/product-img/product-3.jpg" alt="">
-                                        <!-- Hover Thumb -->
+                                        &lt;!&ndash; Hover Thumb &ndash;&gt;
                                         <img class="hover-img" src="img/product-img/product-4.jpg" alt="">
 
-                                        <!-- Product Badge -->
+                                        &lt;!&ndash; Product Badge &ndash;&gt;
                                         <div class="product-badge new-badge">
                                             <span>New</span>
                                         </div>
 
-                                        <!-- Favourite -->
+                                        &lt;!&ndash; Favourite &ndash;&gt;
                                         <div class="product-favourite">
                                             <a href="#" class="favme fa fa-heart"></a>
                                         </div>
                                     </div>
 
-                                    <!-- Product Description -->
+                                    &lt;!&ndash; Product Description &ndash;&gt;
                                     <div class="product-description">
                                         <span>topshop</span>
                                         <a href="single-product-details.html">
@@ -433,9 +485,9 @@
                                         </a>
                                         <p class="product-price">$80.00</p>
 
-                                        <!-- Hover Content -->
+                                        &lt;!&ndash; Hover Content &ndash;&gt;
                                         <div class="hover-content">
-                                            <!-- Add to Cart -->
+                                            &lt;!&ndash; Add to Cart &ndash;&gt;
                                             <div class="add-to-cart-btn">
                                                 <a href="#" class="btn essence-btn">Add to Cart</a>
                                             </div>
@@ -444,22 +496,22 @@
                                 </div>
                             </div>
 
-                            <!-- Single Product -->
+                            &lt;!&ndash; Single Product &ndash;&gt;
                             <div class="col-12 col-sm-6 col-lg-4">
                                 <div class="single-product-wrapper">
-                                    <!-- Product Image -->
+                                    &lt;!&ndash; Product Image &ndash;&gt;
                                     <div class="product-img">
                                         <img src="img/product-img/product-4.jpg" alt="">
-                                        <!-- Hover Thumb -->
+                                        &lt;!&ndash; Hover Thumb &ndash;&gt;
                                         <img class="hover-img" src="img/product-img/product-5.jpg" alt="">
 
-                                        <!-- Favourite -->
+                                        &lt;!&ndash; Favourite &ndash;&gt;
                                         <div class="product-favourite">
                                             <a href="#" class="favme fa fa-heart"></a>
                                         </div>
                                     </div>
 
-                                    <!-- Product Description -->
+                                    &lt;!&ndash; Product Description &ndash;&gt;
                                     <div class="product-description">
                                         <span>topshop</span>
                                         <a href="single-product-details.html">
@@ -467,9 +519,9 @@
                                         </a>
                                         <p class="product-price">$80.00</p>
 
-                                        <!-- Hover Content -->
+                                        &lt;!&ndash; Hover Content &ndash;&gt;
                                         <div class="hover-content">
-                                            <!-- Add to Cart -->
+                                            &lt;!&ndash; Add to Cart &ndash;&gt;
                                             <div class="add-to-cart-btn">
                                                 <a href="#" class="btn essence-btn">Add to Cart</a>
                                             </div>
@@ -478,27 +530,27 @@
                                 </div>
                             </div>
 
-                            <!-- Single Product -->
+                            &lt;!&ndash; Single Product &ndash;&gt;
                             <div class="col-12 col-sm-6 col-lg-4">
                                 <div class="single-product-wrapper">
-                                    <!-- Product Image -->
+                                    &lt;!&ndash; Product Image &ndash;&gt;
                                     <div class="product-img">
                                         <img src="img/product-img/product-5.jpg" alt="">
-                                        <!-- Hover Thumb -->
+                                        &lt;!&ndash; Hover Thumb &ndash;&gt;
                                         <img class="hover-img" src="img/product-img/product-6.jpg" alt="">
 
-                                        <!-- Product Badge -->
+                                        &lt;!&ndash; Product Badge &ndash;&gt;
                                         <div class="product-badge offer-badge">
                                             <span>-30%</span>
                                         </div>
 
-                                        <!-- Favourite -->
+                                        &lt;!&ndash; Favourite &ndash;&gt;
                                         <div class="product-favourite">
                                             <a href="#" class="favme fa fa-heart"></a>
                                         </div>
                                     </div>
 
-                                    <!-- Product Description -->
+                                    &lt;!&ndash; Product Description &ndash;&gt;
                                     <div class="product-description">
                                         <span>topshop</span>
                                         <a href="single-product-details.html">
@@ -506,9 +558,9 @@
                                         </a>
                                         <p class="product-price"><span class="old-price">$75.00</span> $55.00</p>
 
-                                        <!-- Hover Content -->
+                                        &lt;!&ndash; Hover Content &ndash;&gt;
                                         <div class="hover-content">
-                                            <!-- Add to Cart -->
+                                            &lt;!&ndash; Add to Cart &ndash;&gt;
                                             <div class="add-to-cart-btn">
                                                 <a href="#" class="btn essence-btn">Add to Cart</a>
                                             </div>
@@ -517,61 +569,61 @@
                                 </div>
                             </div>
 
-                            <!-- Single Product -->
+                            &lt;!&ndash; Single Product &ndash;&gt;
                             <div class="col-12 col-sm-6 col-lg-4">
                                 <div class="single-product-wrapper">
-                                    <!-- Product Image -->
+                                    &lt;!&ndash; Product Image &ndash;&gt;
                                     <div class="product-img">
                                         <img src="img/product-img/product-6.jpg" alt="">
-                                        <!-- Hover Thumb -->
+                                        &lt;!&ndash; Hover Thumb &ndash;&gt;
                                         <img class="hover-img" src="img/product-img/product-7.jpg" alt="">
 
-                                        <!-- Favourite -->
+                                        &lt;!&ndash; Favourite &ndash;&gt;
                                         <div class="product-favourite">
                                             <a href="#" class="favme fa fa-heart"></a>
                                         </div>
                                     </div>
 
-                                    <!-- Product Description -->
+                                    &lt;!&ndash; Product Description &ndash;&gt;
                                     <div class="product-description">
-                                        <span>topshop</span>
-                                        <a href="single-product-details.html">
-                                            <h6>Knot Front Mini Dress</h6>
-                                        </a>
-                                        <p class="product-price">$80.00</p>
+                                                                    <span>topshop</span>
+                                                                    <a href="single-product-details.html">
+                                                                        <h6>Knot Front Mini Dress</h6>
+                                                                    </a>
+                                                                    <p class="product-price">$80.00</p>
 
-                                        <!-- Hover Content -->
-                                        <div class="hover-content">
-                                            <!-- Add to Cart -->
-                                            <div class="add-to-cart-btn">
-                                                <a href="#" class="btn essence-btn">Add to Cart</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                                                    &lt;!&ndash; Hover Content &ndash;&gt;
+                                                                    <div class="hover-content">
+                                                                        &lt;!&ndash; Add to Cart &ndash;&gt;
+                                                                        <div class="add-to-cart-btn">
+                                                                            <a href="#" class="btn essence-btn">Add to Cart</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
-                            <!-- Single Product -->
+                            &lt;!&ndash; Single Product &ndash;&gt;
                             <div class="col-12 col-sm-6 col-lg-4">
                                 <div class="single-product-wrapper">
-                                    <!-- Product Image -->
+                                    &lt;!&ndash; Product Image &ndash;&gt;
                                     <div class="product-img">
                                         <img src="img/product-img/product-7.jpg" alt="">
-                                        <!-- Hover Thumb -->
+                                        &lt;!&ndash; Hover Thumb &ndash;&gt;
                                         <img class="hover-img" src="img/product-img/product-8.jpg" alt="">
 
-                                        <!-- Product Badge -->
+                                        &lt;!&ndash; Product Badge &ndash;&gt;
                                         <div class="product-badge new-badge">
                                             <span>New</span>
                                         </div>
 
-                                        <!-- Favourite -->
+                                        &lt;!&ndash; Favourite &ndash;&gt;
                                         <div class="product-favourite">
                                             <a href="#" class="favme fa fa-heart"></a>
                                         </div>
                                     </div>
 
-                                    <!-- Product Description -->
+                                    &lt;!&ndash; Product Description &ndash;&gt;
                                     <div class="product-description">
                                         <span>topshop</span>
                                         <a href="single-product-details.html">
@@ -579,9 +631,9 @@
                                         </a>
                                         <p class="product-price">$80.00</p>
 
-                                        <!-- Hover Content -->
+                                        &lt;!&ndash; Hover Content &ndash;&gt;
                                         <div class="hover-content">
-                                            <!-- Add to Cart -->
+                                            &lt;!&ndash; Add to Cart &ndash;&gt;
                                             <div class="add-to-cart-btn">
                                                 <a href="#" class="btn essence-btn">Add to Cart</a>
                                             </div>
@@ -590,22 +642,22 @@
                                 </div>
                             </div>
 
-                            <!-- Single Product -->
+                            &lt;!&ndash; Single Product &ndash;&gt;
                             <div class="col-12 col-sm-6 col-lg-4">
                                 <div class="single-product-wrapper">
-                                    <!-- Product Image -->
+                                    &lt;!&ndash; Product Image &ndash;&gt;
                                     <div class="product-img">
                                         <img src="img/product-img/product-8.jpg" alt="">
-                                        <!-- Hover Thumb -->
+                                        &lt;!&ndash; Hover Thumb &ndash;&gt;
                                         <img class="hover-img" src="img/product-img/product-9.jpg" alt="">
-                                        
-                                        <!-- Favourite -->
+
+                                        &lt;!&ndash; Favourite &ndash;&gt;
                                         <div class="product-favourite">
                                             <a href="#" class="favme fa fa-heart"></a>
                                         </div>
                                     </div>
 
-                                    <!-- Product Description -->
+                                    &lt;!&ndash; Product Description &ndash;&gt;
                                     <div class="product-description">
                                         <span>topshop</span>
                                         <a href="single-product-details.html">
@@ -613,9 +665,9 @@
                                         </a>
                                         <p class="product-price">$80.00</p>
 
-                                        <!-- Hover Content -->
+                                        &lt;!&ndash; Hover Content &ndash;&gt;
                                         <div class="hover-content">
-                                            <!-- Add to Cart -->
+                                            &lt;!&ndash; Add to Cart &ndash;&gt;
                                             <div class="add-to-cart-btn">
                                                 <a href="#" class="btn essence-btn">Add to Cart</a>
                                             </div>
@@ -624,22 +676,22 @@
                                 </div>
                             </div>
 
-                            <!-- Single Product -->
+                            &lt;!&ndash; Single Product &ndash;&gt;
                             <div class="col-12 col-sm-6 col-lg-4">
                                 <div class="single-product-wrapper">
-                                    <!-- Product Image -->
+                                    &lt;!&ndash; Product Image &ndash;&gt;
                                     <div class="product-img">
                                         <img src="img/product-img/product-9.jpg" alt="">
-                                        <!-- Hover Thumb -->
+                                        &lt;!&ndash; Hover Thumb &ndash;&gt;
                                         <img class="hover-img" src="img/product-img/product-1.jpg" alt="">
 
-                                        <!-- Favourite -->
+                                        &lt;!&ndash; Favourite &ndash;&gt;
                                         <div class="product-favourite">
                                             <a href="#" class="favme fa fa-heart"></a>
                                         </div>
                                     </div>
 
-                                    <!-- Product Description -->
+                                    &lt;!&ndash; Product Description &ndash;&gt;
                                     <div class="product-description">
                                         <span>topshop</span>
                                         <a href="single-product-details.html">
@@ -647,17 +699,16 @@
                                         </a>
                                         <p class="product-price">$80.00</p>
 
-                                        <!-- Hover Content -->
+                                        &lt;!&ndash; Hover Content &ndash;&gt;
                                         <div class="hover-content">
-                                            <!-- Add to Cart -->
+                                            &lt;!&ndash; Add to Cart &ndash;&gt;
                                             <div class="add-to-cart-btn">
                                                 <a href="#" class="btn essence-btn">Add to Cart</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
+                            </div>-->
                         </div>
                     </div>
                     <!-- Pagination -->

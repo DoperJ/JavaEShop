@@ -166,12 +166,18 @@ public class EShopProductSKUTests {
 
     @Test
     public void findAllSKUs() throws Exception {
-        System.out.println(skuService.findAllSKUs().get(0));
+        System.out.println(skuService.findAllSKUs());
     }
 
     @Test
     public void findSKUByProductName() throws Exception {
-        skuService.findSKUByProductName("Apple iPhone X(A1865)");
+        System.out.println(skuService.findSKUByProductName("Apple iPhone X(A1865)"));
+    }
+
+    @Test
+    public void findSKUByCategoryName() throws Exception {
+        //System.out.println(skuService.findSKUByCategoryName("电脑办公"));
+        System.out.println(skuService.findSKUByCategoryName("手机数码"));
     }
 
     @Test
