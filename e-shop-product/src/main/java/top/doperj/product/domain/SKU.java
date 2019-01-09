@@ -1,6 +1,9 @@
 package top.doperj.product.domain;
 
-public class SKU {
+import java.io.Serializable;
+
+public class SKU implements Serializable {
+
     private Integer skuId;
 
     private Integer productId;

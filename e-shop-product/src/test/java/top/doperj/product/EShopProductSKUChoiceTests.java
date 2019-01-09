@@ -5,9 +5,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import top.doperj.product.domain.SKU;
 import top.doperj.product.service.SKUChoiceService;
+import top.doperj.product.service.SKUService;
 
 import java.util.Arrays;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -19,6 +22,9 @@ public class EShopProductSKUChoiceTests {
 
     @Autowired
     SKUChoiceService skuChoiceService;
+
+    @Autowired
+    SKUService skuService;
 
     // Read
     @Test
@@ -82,6 +88,12 @@ public class EShopProductSKUChoiceTests {
     public void setSKUChoiceForWayBatch() throws Exception {
         skuChoiceService.setSKUAttributeByNameBatch(skuChoicesForWay, "购买方式");
         System.out.println(skuChoiceService.findAllSKUChoices());
+    }
+
+    @Test
+    public void setSKUChoiceBySKU() {
+        SKU sku = skuService.findAllSKUs().get(0);
+        System.out.println(skuChoiceService.findSKUChoiceBySKUId(sku.getSkuId()));
     }
 
     @Test

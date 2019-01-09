@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.doperj.product.dao.*;
 import top.doperj.product.domain.*;
+import top.doperj.product.pojo.SKUView;
 
 import java.util.*;
 
@@ -14,19 +15,20 @@ public class SKUService {
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    ProductMapper productDAO;
+    ProductService productService;
 
     @Autowired
     SKUMapper skuDAO;
 
     @Autowired
-    SKUAndSKUChoiceMapper skuAndSKUChoiceDAO;
+    SKUAndSKUChoiceService skuAndSKUChoiceService;
 
     @Autowired
     SKUAttributeService skuAttributeService;
 
     @Autowired
-    SKUChoiceMapper skuChoiceDAO;
+    SKUChoiceService skuChoiceService;
+
 
     public List<SKU> findAllSKUs() {
         return skuDAO.selectAllSKUs();
@@ -49,7 +51,7 @@ public class SKUService {
     }
 
     public void setSKUProductBatch(Integer[] arr, String productName) {
-        Product product = productDAO.selectProductByName(productName);
+        Product product = productService.findProductByName(productName);
         if (product == null) {
             System.out.println("No category named: " + productName);
             return;
@@ -66,7 +68,7 @@ public class SKUService {
             logger.error("No sku attribute named: " + skuAttributeName);
             return;
         }
-        SKUChoice skuChoice = skuChoiceDAO.selectSKUChoiceBySKUAttributeAndName(skuAttribute.getSkuAttributeId(), skuChoiceName);
+        SKUChoice skuChoice = skuChoiceService.findSKUChoiceByAttributeAndName(skuAttribute.getSkuAttributeName(), skuChoiceName);
         if (skuChoice == null) {
             logger.error("No sku choice named: " + skuChoiceName);
             return;
@@ -74,7 +76,7 @@ public class SKUService {
         SKUAndSKUChoice skuAndSKUChoice = new SKUAndSKUChoice();
         skuAndSKUChoice.setSkuId(skuId);
         skuAndSKUChoice.setSkuChoiceId(skuChoice.getSkuChoiceId());
-        skuAndSKUChoiceDAO.insertSelective(skuAndSKUChoice);
+        skuAndSKUChoiceService.addSKUAndSKUChoice(skuAndSKUChoice);
     }
 
     public void addSKUChoiceBatch(String[][] skuAttributeAndChoiceBatch, Integer skuId) {
@@ -103,7 +105,7 @@ public class SKUService {
                 logger.error("No sku attribute named: " + skuAttributeName);
                 return null;
             }
-            SKUChoice skuChoice = skuChoiceDAO.selectSKUChoiceBySKUAttributeAndName(skuAttribute.getSkuAttributeId(), skuChoiceName);
+            SKUChoice skuChoice = skuChoiceService.findSKUChoiceByAttributeAndName(skuAttribute.getSkuAttributeName(), skuChoiceName);
             if (skuChoice == null) {
                 logger.error("No sku choice named: " + skuChoiceName);
                 return null;
@@ -112,5 +114,32 @@ public class SKUService {
         }
         System.out.println(skuChoiceIdList);
         return skuDAO.selectSKUBySKUAttributeAndChoiceMap(skuChoiceIdList);
+    }
+
+    public SKUView convert(SKU sku) {
+        SKUView skuView = new SKUView();
+        skuView.setOriginalPrice(sku.getOriginalPrice());;
+        if (sku.getSalePrice() == null) {
+            skuView.setSalePrice(skuView.getOriginalPrice());
+            skuView.setDiscount((float) 0);;
+        } else {
+            skuView.setSalePrice(sku.getSalePrice());
+            skuView.setDiscount((skuView.getOriginalPrice() - skuView.getSalePrice()) / skuView.getOriginalPrice() * 100);
+        }
+        skuView.setStockQuantity(sku.getStockQuantity());
+        skuView.setPhotoUrl(sku.getPhotoUrl());
+/*        System.out.println(sku.getProductId());
+        System.out.println(productService);
+        System.out.println(productService.findProductById(sku.getProductId()));*/
+        skuView.setProductName(productService.findProductById(sku.getProductId()).getProductName());
+/*        skuView.setSkuChoices(skuChoiceService.findSKUChoiceBySKUId(sku.getSkuId()));*/
+        String skuName = skuView.getProductName();
+        Iterator<SKUChoice> skuViewIterator = skuChoiceService.findSKUChoiceBySKUId(sku.getSkuId()).iterator();
+        while (skuViewIterator.hasNext()) {
+            skuName += " ";
+            skuName += skuViewIterator.next().getSkuChoiceName();
+        }
+        skuView.setSkuName(skuName);
+        return skuView;
     }
 }

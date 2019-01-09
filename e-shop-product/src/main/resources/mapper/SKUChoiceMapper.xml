@@ -27,6 +27,14 @@
         AND c.product_id = d.product_id
         AND d.product_name = #{productName}
     </select>
+    <select id="selectSKUChoiceBySKUId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT
+        <include refid="Base_Column_List_AS_TABLE_A" />
+        FROM t_sku_choice AS a, t_sku_and_sku_choice AS b, t_sku AS c
+        WHERE a.sku_choice_id = b.sku_choice_id
+        AND b.sku_id = c.sku_id
+        AND c.sku_id = #{skuId}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
         delete from t_sku_choice
         where sku_choice_id = #{skuChoiceId,jdbcType=INTEGER}

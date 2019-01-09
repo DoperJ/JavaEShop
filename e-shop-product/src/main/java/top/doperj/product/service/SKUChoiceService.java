@@ -70,7 +70,7 @@ public class SKUChoiceService {
     }
 
     public List<SKUChoice> findSKUChoiceBySKUId(Integer skuId) {
-        List<SKUAndSKUChoice> skuAndSKUChoiceList = skuAndSKUChoiceDAO.selectBySKU(skuId);
+/*        List<SKUAndSKUChoice> skuAndSKUChoiceList = skuAndSKUChoiceDAO.selectBySKU(skuId);
         Iterator<SKUAndSKUChoice> iterator = skuAndSKUChoiceList.iterator();
         List<SKUChoice> skuChoiceList = new LinkedList<SKUChoice>();
         while (iterator.hasNext()) {
@@ -78,7 +78,7 @@ public class SKUChoiceService {
             Integer skuChoiceId = skuAndSKUChoice.getSkuChoiceId();
             SKUChoice skuChoice = skuChoiceDAO.selectByPrimaryKey(skuChoiceId);
             skuChoiceList.add(skuChoice);
-        }
-        return skuChoiceList;
+        }*/
+        return skuChoiceDAO.selectSKUChoiceBySKUId(skuId);
     }
 }

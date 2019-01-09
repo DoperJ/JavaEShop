@@ -28,6 +28,8 @@ public interface SKUChoiceMapper {
     @Select({"select", SELECT_FIELDS, "from", TABLE_NAME, "where sku_attribute_id=#{skuAttributeId} and sku_choice_name=#{skuChoiceName}"})
     SKUChoice selectSKUChoiceBySKUAttributeAndName(@Param("skuAttributeId") Integer skuAttributeId, @Param("skuChoiceName") String skuChoiceName);
 
+    List<SKUChoice> selectSKUChoiceBySKUId(Integer skuId);
+
     List<SKUChoice> selectSKUChoicesByProductName(String productName);
 
     // Update

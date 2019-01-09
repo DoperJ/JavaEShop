@@ -46,7 +46,8 @@
                 }
             }
         );
-        $.get("http://www.doperj.top:8082/api/product/" + current_category_name,
+        console.log("current category name: " + current_category_name);
+        $.get("http://www.doperj.top:8082/api/sku/" + current_category_name,
             {},
             function (data, status) {
                 console.log(data);
@@ -58,9 +59,7 @@
                     var productImage = $("<img alt=''>").attr("src", data[i].photoUrl.replace(/^\/+/, ''));
                     var hoverImage = $("<img class='hover-img' src='img/product-img/product-2.jpg' alt=''>");
                     var productBadge = $("<div class='product-badge offer-badge'>").append($("<span></span>").text("-66%"));
-                    var productFavorite = $("<div class=\"product-favourite\">\n" +
-                        "                                            <a href=\"#\" class=\"favme fa fa-heart\"></a>\n" +
-                        "                                        </div>");
+                    var productFavorite = $("<div class='product-favourite'>\n" + "<a href='#' class='favme fa fa-heart'></a>\n" + "</div>");
                     productImageWrapper.append(productImage);
                     productImageWrapper.append(hoverImage);
                     productImageWrapper.append(productBadge);
@@ -73,10 +72,10 @@
                     var productName = $("<h6></h6>").text(data[i].productName);
                     productNameAddress.append(productName);
 
-                    var oldPricce = $("<span class='old-price'></span>").text(" $" + data[i].productId);
+                    var oldPricce = $("<span class='old-price'></span>").text(" $" + data[i].originalPrice);
                     var productPrice = $("<p class='product-price'></p>");
                     //if (data[i].oldPrice != data[i].price) {}
-                    productPrice.text(" $" + data[i].productId);
+                    productPrice.text(" $" + data[i].originalPrice);
 
                     var hoverContent = $("<div class='hover-content'></div>");
                     var addToCart = $("<div class='add-to-cart-btn'></div>");
@@ -255,8 +254,8 @@
             <div class="row h-100 align-items-center">
                 <div class="col-12">
                     <div class="page-title text-center">
-<!--                        <h2>手机数码</h2>-->
-                        <h2>电脑办公</h2>
+                        <h2>手机数码</h2>
+<!--                        <h2>电脑办公</h2>-->
 <!--                        <h2 th:text="${category}"></h2>-->
                     </div>
                 </div>

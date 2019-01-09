@@ -8,8 +8,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.doperj.product.domain.SKU;
+import top.doperj.product.pojo.SKUView;
 import top.doperj.product.service.SKUService;
+import top.doperj.product.util.ViewConverter;
 
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 @RestController
@@ -18,11 +22,22 @@ public class SKUController {
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
+    ViewConverter viewConverter;
+
+    @Autowired
     SKUService skuService;
 
     @GetMapping(value = "", produces = "application/json")
-    public List<SKU> getAllSKU() {
-        return skuService.findAllSKUs();
+    public List<SKUView> getAllSKU() {
+        List<SKU> skuList = skuService.findAllSKUs();
+        List<SKUView> skuViewList = new LinkedList<>();
+        Iterator<SKU> skuIterator = skuList.iterator();
+        while (skuIterator.hasNext()) {
+            SKUView skuView = skuService.convert(skuIterator.next());
+            skuViewList.add(skuView);
+        }
+        //System.out.println(skuViewList);
+        return skuViewList;
     }
 
     @GetMapping(value = "/{category}", produces = "application/json")

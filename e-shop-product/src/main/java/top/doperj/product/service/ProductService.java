@@ -32,6 +32,10 @@ public class ProductService {
         return productDAO.selectAllProducts();
     }
 
+    public Product findProductById(Integer productId) {
+        return productDAO.selectByPrimaryKey(productId);
+    }
+
     public Product findProductByName(String name) {
         return productDAO.selectProductByName(name);
     }
