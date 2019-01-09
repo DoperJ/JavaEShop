@@ -21,6 +21,9 @@ public class SKUService {
     SKUMapper skuDAO;
 
     @Autowired
+    BrandService brandService;
+
+    @Autowired
     SKUAndSKUChoiceService skuAndSKUChoiceService;
 
     @Autowired
@@ -116,23 +119,11 @@ public class SKUService {
         return skuDAO.selectSKUBySKUAttributeAndChoiceMap(skuChoiceIdList);
     }
 
-    public SKUView convert(SKU sku) {
+    public SKUView convertSKUToView(SKU sku) {
         SKUView skuView = new SKUView();
-        skuView.setOriginalPrice(sku.getOriginalPrice());;
-        if (sku.getSalePrice() == null) {
-            skuView.setSalePrice(skuView.getOriginalPrice());
-            skuView.setDiscount((float) 0);;
-        } else {
-            skuView.setSalePrice(sku.getSalePrice());
-            skuView.setDiscount((skuView.getOriginalPrice() - skuView.getSalePrice()) / skuView.getOriginalPrice() * 100);
-        }
-        skuView.setStockQuantity(sku.getStockQuantity());
-        skuView.setPhotoUrl(sku.getPhotoUrl());
-/*        System.out.println(sku.getProductId());
-        System.out.println(productService);
-        System.out.println(productService.findProductById(sku.getProductId()));*/
-        skuView.setProductName(productService.findProductById(sku.getProductId()).getProductName());
-/*        skuView.setSkuChoices(skuChoiceService.findSKUChoiceBySKUId(sku.getSkuId()));*/
+//        Integer skuId;
+        skuView.setSkuId(sku.getSkuId());
+//        String skuName;
         String skuName = skuView.getProductName();
         Iterator<SKUChoice> skuViewIterator = skuChoiceService.findSKUChoiceBySKUId(sku.getSkuId()).iterator();
         while (skuViewIterator.hasNext()) {
@@ -140,6 +131,25 @@ public class SKUService {
             skuName += skuViewIterator.next().getSkuChoiceName();
         }
         skuView.setSkuName(skuName);
+//        String brandName;
+        skuView.setBrandName(brandService.findBrandBySKUId(sku.getSkuId()).getBrandName());
+//        float originalPrice;
+        skuView.setOriginalPrice(sku.getOriginalPrice());;
+        if (sku.getSalePrice() == null) {
+//        float salePrice;
+            skuView.setSalePrice(skuView.getOriginalPrice());
+//        Integer discount;
+            skuView.setDiscount(0);;
+        } else {
+            skuView.setSalePrice(sku.getSalePrice());
+            skuView.setDiscount((int)((skuView.getOriginalPrice() - skuView.getSalePrice()) / skuView.getOriginalPrice() * 100));
+        }
+//        Integer stockQuantity;
+        skuView.setStockQuantity(sku.getStockQuantity());
+//        String photoUrl;
+        skuView.setPhotoUrl(sku.getPhotoUrl());
+//        String productName;
+        skuView.setProductName(productService.findProductById(sku.getProductId()).getProductName());
         return skuView;
     }
 }

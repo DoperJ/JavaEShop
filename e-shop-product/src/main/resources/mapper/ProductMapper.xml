@@ -212,4 +212,14 @@
             #{item}
         </foreach>
     </update>
+    <update id="setProductBrandBatch" parameterType="java.util.Map">
+        UPDATE t_product
+        <set>
+            brand_id = #{brandId},
+        </set>
+        WHERE product_name IN
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </update>
 </mapper>

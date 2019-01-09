@@ -34,10 +34,10 @@ public class ViewConverter {
         skuView.setOriginalPrice(sku.getOriginalPrice());;
         if (sku.getSalePrice() == null) {
             skuView.setSalePrice(skuView.getOriginalPrice());
-            skuView.setDiscount((float) 0);;
+            skuView.setDiscount(0);;
         } else {
             skuView.setSalePrice(sku.getSalePrice());
-            skuView.setDiscount((skuView.getOriginalPrice() - skuView.getSalePrice()) / skuView.getOriginalPrice() * 100);
+            skuView.setDiscount((int)((skuView.getOriginalPrice() - skuView.getSalePrice()) / skuView.getOriginalPrice() * 100));
         }
         skuView.setStockQuantity(sku.getStockQuantity());
         skuView.setPhotoUrl(sku.getPhotoUrl());

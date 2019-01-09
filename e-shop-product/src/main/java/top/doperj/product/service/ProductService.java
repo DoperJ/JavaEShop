@@ -24,6 +24,9 @@ public class ProductService {
     SKUChoiceService skuChoiceService;
 
     @Autowired
+    BrandService brandService;
+
+    @Autowired
     SKUAttributeService skuAttributeService;
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -66,6 +69,17 @@ public class ProductService {
         map.put("list", Arrays.asList(arr));
         map.put("categoryId", category.getCategoryId());
         productDAO.setProductCategoryBatch(map);
+    }
+
+    public void setProductBrandBatch(String[] arr, String brandName) {
+        Brand brand = brandService.findBrandByName(brandName);
+        if (brand == null) {
+            System.out.println("No category named: " + brandName);
+        }
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("list", Arrays.asList(arr));
+        map.put("brandId", brand.getBrandId());
+        productDAO.setProductBrandBatch(map);
     }
 
     public Map<String, List<String>> findProductSKUAttributeAndChoices(String productName) {

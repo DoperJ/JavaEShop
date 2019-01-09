@@ -38,6 +38,8 @@ public interface ProductMapper {
 
     void setProductCategoryBatch(Map<String, Object> map);
 
+    void setProductBrandBatch(Map<String, Object> map);
+
     // Delete
     int deleteByPrimaryKey(Integer productId);
 }

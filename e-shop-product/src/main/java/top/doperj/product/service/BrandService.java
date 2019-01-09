@@ -26,6 +26,9 @@ public class BrandService {
         return brandDAO.selectByBrandName(brandName);
     }
 
+    public Brand findBrandBySKUId(Integer skuId) {
+        return brandDAO.selectBySKUId(skuId);
+    }
     // Update
     public Brand updateBrandByName(String name1, String name2) {
         Brand brand = brandDAO.selectByBrandName(name1);

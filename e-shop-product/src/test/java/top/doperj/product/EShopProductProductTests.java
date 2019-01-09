@@ -44,6 +44,13 @@ public class EShopProductProductTests {
     }
 
     @Test
+    public void setProductBrandBatch() throws Exception {
+        productService.setProductBrandBatch(appleIPhoneProducts, "Apple");
+        productService.setProductBrandBatch(appleMacBookProducts, "Apple");
+        productService.setProductBrandBatch(appleIPadProducts, "Apple");
+    }
+
+    @Test
     public void findAllSKUAttributesAndSKUChoicesByName() throws Exception {
         System.out.println(productService.findProductSKUAttributeAndChoices("Apple iPhone X(A1865)"));
     }

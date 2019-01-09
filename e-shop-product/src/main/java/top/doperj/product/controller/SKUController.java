@@ -33,7 +33,7 @@ public class SKUController {
         List<SKUView> skuViewList = new LinkedList<>();
         Iterator<SKU> skuIterator = skuList.iterator();
         while (skuIterator.hasNext()) {
-            SKUView skuView = skuService.convert(skuIterator.next());
+            SKUView skuView = skuService.convertSKUToView(skuIterator.next());
             skuViewList.add(skuView);
         }
         //System.out.println(skuViewList);
@@ -46,7 +46,7 @@ public class SKUController {
         List<SKUView> skuViewList = new LinkedList<>();
         Iterator<SKU> skuIterator = skuList.iterator();
         while (skuIterator.hasNext()) {
-            SKUView skuView = skuService.convert(skuIterator.next());
+            SKUView skuView = skuService.convertSKUToView(skuIterator.next());
             skuViewList.add(skuView);
         }
         //System.out.println(skuViewList);

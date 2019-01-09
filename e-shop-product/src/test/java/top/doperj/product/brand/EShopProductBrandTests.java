@@ -21,6 +21,11 @@ public class EShopProductBrandTests {
     }
 
     @Test
+    public void findBrandBySkuId() {
+        System.out.println(brandService.findBrandBySKUId(25));
+    }
+
+    @Test
     public void addBrand() {
         System.out.println(brandService.findAllBrands());
         Brand brand = new Brand();

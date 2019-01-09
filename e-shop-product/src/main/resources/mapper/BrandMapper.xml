@@ -10,11 +10,22 @@
   <sql id="Base_Column_List" >
     brand_id, brand_name, introduction, logo_url
   </sql>
+  <sql id="Column_List_As_A" >
+    a.brand_id, a.brand_name, a.introduction, a.logo_url
+  </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_brand
     where brand_id = #{brandId,jdbcType=INTEGER}
+  </select>
+  <select id="selectBySKUId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Column_List_As_A" />
+    from t_brand AS a, t_product as b, t_sku as c
+    where a.brand_id = b.brand_id
+    AND b.product_id = c.product_id
+    AND c.sku_id = #{skuId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_brand

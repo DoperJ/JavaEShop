@@ -13,15 +13,25 @@ import java.io.Serializable;
 import java.util.List;
 
 public class SKUView implements Serializable {
+    Integer skuId;
     String skuName;
+    String brandName;
     float originalPrice;
     float salePrice;
-    float discount;
+    Integer discount;
     Integer stockQuantity;
     String photoUrl;
     String productName;
     //String finalCategory;
 
+
+    public Integer getSkuId() {
+        return skuId;
+    }
+
+    public void setSkuId(Integer skuId) {
+        this.skuId = skuId;
+    }
 
     public String getSkuName() {
         return skuName;
@@ -29,6 +39,14 @@ public class SKUView implements Serializable {
 
     public void setSkuName(String skuName) {
         this.skuName = skuName;
+    }
+
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
     }
 
     public float getOriginalPrice() {
@@ -47,11 +65,11 @@ public class SKUView implements Serializable {
         this.salePrice = salePrice;
     }
 
-    public float getDiscount() {
+    public Integer getDiscount() {
         return discount;
     }
 
-    public void setDiscount(float discount) {
+    public void setDiscount(Integer discount) {
         this.discount = discount;
     }
 
@@ -82,7 +100,9 @@ public class SKUView implements Serializable {
     @Override
     public String toString() {
         return "SKUView{" +
-                "skuName='" + skuName + '\'' +
+                "skuId=" + skuId +
+                ", skuName='" + skuName + '\'' +
+                ", brandName='" + brandName + '\'' +
                 ", originalPrice=" + originalPrice +
                 ", salePrice=" + salePrice +
                 ", discount=" + discount +

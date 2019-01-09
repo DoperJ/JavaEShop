@@ -27,6 +27,8 @@ public interface BrandMapper {
     @Select({"select", SELECT_FIELDS, "from", TABLE_NAME, "where brand_name=#{brandName}"})
     Brand selectByBrandName(String brandName);
 
+    Brand selectBySKUId(Integer skuId);
+
     // Update
     int updateByPrimaryKeySelective(Brand record);
 
