@@ -41,7 +41,15 @@ public class SKUController {
     }
 
     @GetMapping(value = "/{category}", produces = "application/json")
-    public List<SKU> getSKUByCategory(@PathVariable("category") String categoryName) {
-        return skuService.findSKUByCategoryName(categoryName);
+    public List<SKUView> getSKUByCategory(@PathVariable("category") String categoryName) {
+        List<SKU> skuList = skuService.findSKUByCategoryName(categoryName);
+        List<SKUView> skuViewList = new LinkedList<>();
+        Iterator<SKU> skuIterator = skuList.iterator();
+        while (skuIterator.hasNext()) {
+            SKUView skuView = skuService.convert(skuIterator.next());
+            skuViewList.add(skuView);
+        }
+        //System.out.println(skuViewList);
+        return skuViewList;
     }
 }
