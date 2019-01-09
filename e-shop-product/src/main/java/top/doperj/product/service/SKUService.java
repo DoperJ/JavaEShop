@@ -123,6 +123,8 @@ public class SKUService {
         SKUView skuView = new SKUView();
 //        Integer skuId;
         skuView.setSkuId(sku.getSkuId());
+//        String productName;
+        skuView.setProductName(productService.findProductById(sku.getProductId()).getProductName());
 //        String skuName;
         String skuName = skuView.getProductName();
         Iterator<SKUChoice> skuViewIterator = skuChoiceService.findSKUChoiceBySKUId(sku.getSkuId()).iterator();
@@ -148,8 +150,6 @@ public class SKUService {
         skuView.setStockQuantity(sku.getStockQuantity());
 //        String photoUrl;
         skuView.setPhotoUrl(sku.getPhotoUrl());
-//        String productName;
-        skuView.setProductName(productService.findProductById(sku.getProductId()).getProductName());
         return skuView;
     }
 }
