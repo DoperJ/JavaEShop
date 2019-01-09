@@ -14,7 +14,7 @@ import java.util.Map;
 @RequestMapping("/api/cart")
 public class ShoppingCartController {
 
-    @GetMapping("")
+    @GetMapping(value = "", produces = "application/json")
     public List<CartItem> getCart(HttpSession session) {
         List<CartItem> cartItemList = (List<CartItem>) session.getAttribute("cart");
         return cartItemList;
