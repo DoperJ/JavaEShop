@@ -20,8 +20,7 @@ public class ShoppingCartController {
         return cartItemList;
     }
 
-    @GetMapping("/addItem")
-    @ResponseBody
+    @GetMapping(value = "/addItem", produces = "application/json")
     public void addItem(@RequestParam("skuId") Integer skuId, HttpSession session) {
         List<CartItem> cartItemList = (List<CartItem>) session.getAttribute("cart");
         if (cartItemList == null) {
