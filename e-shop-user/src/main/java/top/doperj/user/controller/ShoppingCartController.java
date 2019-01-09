@@ -1,10 +1,7 @@
 package top.doperj.user.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import top.doperj.user.pojo.CartItem;
 
 import javax.servlet.http.HttpSession;
@@ -24,6 +21,7 @@ public class ShoppingCartController {
     }
 
     @GetMapping("/addItem")
+    @ResponseBody
     public void addItem(@RequestParam("skuId") Integer skuId, HttpSession session) {
         List<CartItem> cartItemList = (List<CartItem>) session.getAttribute("cart");
         if (cartItemList == null) {

@@ -83,7 +83,22 @@
 
                     var hoverContent = $("<div class='hover-content'></div>");
                     var addToCart = $("<div class='add-to-cart-btn'></div>");
-                    var addToCartAddress = $("<a href='#' class='btn essence-btn'>加入购物车</a>");
+                    var addToCartAddress = $("<a class='btn essence-btn'>加入购物车</a>").attr("href", data[i].skuId).click(function (event) {
+                        event.preventDefault();
+                        console.log($(this).attr("href"));
+                        $.get("http://www.doperj.top:8081/api/cart/addItem?skuId=" + $(this).attr("href"),
+                            {},
+                            function(data, status) {
+                                console.log(data);
+                                $.get("http://www.doperj.top:8081/api/cart",
+                                    {},
+                                    function(data, status) {
+                                        console.log(data);
+                                    }
+                                );
+                            }
+                        );
+                    });
                     addToCart.append(addToCartAddress);
                     hoverContent.append(addToCart);
 
@@ -720,11 +735,11 @@
                         <ul class="pagination mt-50 mb-70">
                             <li class="page-item"><a class="page-link" href="#"><i class="fa fa-angle-left"></i></a></li>
                             <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+<!--                            <li class="page-item"><a class="page-link" href="#">2</a></li>
                             <li class="page-item"><a class="page-link" href="#">3</a></li>
                             <li class="page-item"><a class="page-link" href="#">...</a></li>
                             <li class="page-item"><a class="page-link" href="#">21</a></li>
-                            <li class="page-item"><a class="page-link" href="#"><i class="fa fa-angle-right"></i></a></li>
+                            <li class="page-item"><a class="page-link" href="#"><i class="fa fa-angle-right"></i></a></li>-->
                         </ul>
                     </nav>
                 </div>
