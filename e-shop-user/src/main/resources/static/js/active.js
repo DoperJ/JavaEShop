@@ -167,13 +167,15 @@
                     function (data2, status) {
                         //console.log(data2);
                         for (var j = 0; j < data2.length; j++) {
-                            var category2 = $("<li><a href='#'>" + data2[j].categoryName + "</a></li>");
+                            var category2Wrapper = $("<li></li>");
+                            var category2 = $("<a>" + data2[j].categoryName + "</a>").attr("href", "http://www.doperj.top:8081/shop?category=" + data2[j].categoryName);
+                            category2Wrapper.append(category2);
                             category2.click(function() {
                                 console.log($(this).text());
 /*                                $.get("www.doperj.top:8082/shop.html", {category: data2[j].categoryName});*/
                             });
                             //console.log(category2)
-                            category.append(category2);
+                            category.append(category2Wrapper);
                         }
                         //console.log(category);
                     }

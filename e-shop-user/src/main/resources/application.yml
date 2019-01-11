@@ -37,10 +37,10 @@ spring:
     view:
       prefix: /
       suffix: .html
-  #thymeleaf:
-    #cache: false
-    #prefix: classpath:/static/
-    #suffix: .html
+  thymeleaf:
+    cache: false
+    prefix: classpath:/static/
+    suffix: .html
   devtools:
     restart:
       enabled: true
