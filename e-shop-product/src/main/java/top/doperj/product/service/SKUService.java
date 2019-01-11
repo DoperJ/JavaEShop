@@ -45,6 +45,10 @@ public class SKUService {
         return skuDAO.selectSKUByCategoryName(categoryName);
     }
 
+    public List<SKU> findSKUbySKUIdList(List<Integer> skuIdList) {
+        return skuDAO.selectSKUBySKUIdList(skuIdList);
+    }
+
     public int addSKU(SKU sku) {
         return skuDAO.insertSelective(sku);
     }

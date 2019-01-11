@@ -44,6 +44,14 @@
         AND c.category_name = #{categoryName}
         )
     </select>
+    <select id="selectSKUBySKUIdList" resultMap="BaseResultMap" parameterType="java.util.List">
+        SELECT <include refid="Base_Column_List" />
+        FROM t_sku
+        WHERE sku_id IN
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
         delete from t_sku
         where sku_id = #{skuAttributeId,jdbcType=INTEGER}

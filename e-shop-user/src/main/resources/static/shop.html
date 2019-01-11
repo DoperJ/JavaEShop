@@ -27,9 +27,47 @@
 
 <body>
 <script>
+/*    <div class='single-cart-item'>
+        <a href='#' class='product-image'>
+        <img src='img/product-img/product-1.jpg' class='cart-thumb' alt=''>
+        <!-- Cart Item Desc -->
+        <div class='cart-item-desc'>
+        <span class='product-remove'><i class='fa fa-close' aria-hidden='true'></i></span>
+    <span class='badge'>Mango</span>
+        <h6>Button Through Strap Mini Dress</h6>
+    <p class='size'>Size: S</p>
+    <p class='color'>Color: Red</p>
+    <p class='price'>$45.00</p>
+    </div>
+    </a>
+    </div>*/
+    $.func = {
+        getCartInfo : function() {
+            var skuIdList;
+            $.get("http://localhost:8081/api/cart",
+                {},
+                function(data, status) {
+                    skuIdList = new Array(data.length);
+                    //console.log(data);
+                    var cartItemsNum = 0;
+                    for (var i = 0; i < data.length; i++) {
+                        cartItemsNum += data[i].skuNum;
+                        skuIdList[i] = data[i].skuId;
+                    }
+                    $("#cart-num").text(cartItemsNum);
+                    $("#cart-items-number1").text(cartItemsNum);
+                }
+            );
+            console.log("skus in cart are: " + skuIdList);
+            var singleCartItem = $("<div class='single-cart-item'></div>");
+            var productImageAddress = $("<a href='#' class='product-image'></a>");
+            var productImage = $("<img class='cart-thumb' alt=''>").attr("src", data[i].photoUrl.replace(/^\/+/, ''));
+        }
+    };
     $(document).ready(function () {
         var current_category = $(".page-title").first();
         var current_category_name = $(".page-title").first().text().trim();
+        $.func.getCartInfo();
         $.get("http://www.doperj.top:8082/api/category/2/" + current_category_name,
             {},
             function (data, status) {
@@ -89,12 +127,7 @@
                         $.get("http://localhost:8081/api/cart/addItem?skuId=" + $(this).attr("href"));
                         console.log("ooops");
                         //$.get("http://www.doperj.top:8081/api/cart",
-                        $.get("http://localhost:8081/api/cart",
-                            {},
-                            function(data2, status) {
-                                console.log(data2.length);
-                            }
-                        );
+                        $.func.getCartInfo();
                     });
                     addToCart.append(addToCartAddress);
                     hoverContent.append(addToCart);
@@ -176,7 +209,7 @@
                 </div>
                 <!-- Cart Area -->
                 <div class="cart-area">
-                    <a href="#" id="essenceCartBtn"><img src="img/core-img/bag.svg" alt=""> <span id="cart-items-number1">3</span></a>
+                    <a href="#" id="essenceCartBtn"><img src="img/core-img/bag.svg" alt=""> <span id="cart-items-number1"></span></a>
                 </div>
             </div>
 
@@ -191,28 +224,13 @@
 
         <!-- Cart Button -->
         <div class="cart-button">
-            <a href="#" id="rightSideCart"><img src="img/core-img/bag.svg" alt=""> <span>3</span></a>
+            <a href="#" id="rightSideCart"><img src="img/core-img/bag.svg" alt=""> <span id="cart-num"></span></a>
         </div>
 
         <div class="cart-content d-flex">
 
             <!-- Cart List Area -->
             <div class="cart-list">
-                <!-- Single Cart Item -->
-                <div class="single-cart-item">
-                    <a href="#" class="product-image">
-                        <img src="img/product-img/product-1.jpg" class="cart-thumb" alt="">
-                        <!-- Cart Item Desc -->
-                        <div class="cart-item-desc">
-                          <span class="product-remove"><i class="fa fa-close" aria-hidden="true"></i></span>
-                            <span class="badge">Mango</span>
-                            <h6>Button Through Strap Mini Dress</h6>
-                            <p class="size">Size: S</p>
-                            <p class="color">Color: Red</p>
-                            <p class="price">$45.00</p>
-                        </div>
-                    </a>
-                </div>
 
                 <!-- Single Cart Item -->
                 <div class="single-cart-item">

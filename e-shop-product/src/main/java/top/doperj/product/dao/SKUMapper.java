@@ -32,6 +32,8 @@ public interface SKUMapper {
 
     List<SKU> selectSKUByCategoryName(String categoryName);
 
+    List<SKU> selectSKUBySKUIdList(List<Integer> skuIdList);
+
     // Update
     int updateByPrimaryKeySelective(SKU record);
 
