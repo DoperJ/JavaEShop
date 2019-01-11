@@ -47,6 +47,7 @@
             var skuNumList = [];
             var cartItemsNum = 0;
             $.get("http://www.doperj.top:8081/api/cart",
+            //$.get("http://localhost:8081/api/cart",
                 {},
                 function(data, status) {
                     skuIdList = new Array(data.length);
@@ -63,7 +64,7 @@
             );
 /*            skuIdList = [24, 35];
             skuNumList = [2, 3];*/
-            if (cartItem === 0) return;
+            if (cartItemsNum === 0) return;
             console.log("skus in cart are: " + skuIdList);
             var url = "http://www.doperj.top:8082/api/sku/List";
             var plainPrice = 0;
@@ -166,8 +167,8 @@
                     var addToCartAddress = $("<a class='btn essence-btn'>加入购物车</a>").attr("href", data[i].skuId).click(function (event) {
                         event.preventDefault();
                         console.log($(this).attr("href"));
-                        //$.get("http://www.doperj.top:8081/api/cart/addItem?skuId=" + $(this).attr("href"));
-                        $.get("http://localhost:8081/api/cart/addItem?skuId=" + $(this).attr("href"));
+                        $.get("http://www.doperj.top:8081/api/cart/addItem?skuId=" + $(this).attr("href"));
+                        //$.get("http://localhost:8081/api/cart/addItem?skuId=" + $(this).attr("href"));
                         console.log("ooops");
                         //$.get("http://www.doperj.top:8081/api/cart",
                         $.func.getCartInfo();
