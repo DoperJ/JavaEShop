@@ -43,25 +43,68 @@
     </div>*/
     $.func = {
         getCartInfo : function() {
-            var skuIdList;
-            $.get("http://localhost:8081/api/cart",
+            var skuIdList = [];
+            var skuNumList = [];
+            var cartItemsNum = 0;
+            $.get("http://www.doperj.top:8081/api/cart",
                 {},
                 function(data, status) {
                     skuIdList = new Array(data.length);
+                    skuNumList = new Array(data.length);
                     //console.log(data);
-                    var cartItemsNum = 0;
                     for (var i = 0; i < data.length; i++) {
                         cartItemsNum += data[i].skuNum;
                         skuIdList[i] = data[i].skuId;
+                        skuNumList[i] = data[i].skuNum;
                     }
                     $("#cart-num").text(cartItemsNum);
                     $("#cart-items-number1").text(cartItemsNum);
                 }
             );
+/*            skuIdList = [24, 35];
+            skuNumList = [2, 3];*/
+            if (cartItem === 0) return;
             console.log("skus in cart are: " + skuIdList);
-            var singleCartItem = $("<div class='single-cart-item'></div>");
-            var productImageAddress = $("<a href='#' class='product-image'></a>");
-            var productImage = $("<img class='cart-thumb' alt=''>").attr("src", data[i].photoUrl.replace(/^\/+/, ''));
+            var url = "http://www.doperj.top:8082/api/sku/List";
+            var plainPrice = 0;
+            var shippingPrice = 0;
+            for (var i = 0; i < skuIdList.length; i++) {
+                if (i === 0) {
+                  url += "?";
+                }
+                url += "skuId=";
+                url += skuIdList[i];
+                if (i !== skuIdList.length - 1) {
+                    url += "&";
+                }
+            }
+            $.get(url,
+                {},
+                function (data, status) {
+                    console.log(data);
+                    for (var i = 0; i < data.length; i++) {
+                        plainPrice += data[i].salePrice;
+                        var singleCartItem = $("<div class='single-cart-item'></div>");
+                        var productImageAddress = $("<a href='#' class='product-image'></a>");
+                        var productImage = $("<img class='cart-thumb' alt=''>").attr("src", data[i].photoUrl.replace(/^\/+/, ''));
+
+                        var cartItemDesc = $("<div class='cart-item-desc'></div>");
+                        //var productRemove = $("<span class='product-remove'><i class='fa fa-close' aria-hidden='true'></i></span>");
+                        var productRemove = $("<span class='product-remove'><i class='fa fa-minus-circle' aria-hidden='true'></i></span>");
+                        var badge = $("<span class='badge'></span>").text(data[i].brandName);
+                        var skuName = $("<h6></h6>").text(data[i].skuName);
+                        var skuNum = $("<p class='size'></p>").text("数量：" + skuNumList[i]);
+                        cartItemDesc.append(productRemove).append(badge).append(skuName).append(skuNum);
+
+                        productImageAddress.append(productImage).append(cartItemDesc);
+                        singleCartItem.append(productImageAddress);
+                        $("#cart-list1").append(singleCartItem);
+                    }
+                    $("#plain-price").text("$" + plainPrice);
+                    $("#shipping-price").text("$" + shippingPrice);
+                    $("#total-price").text("$" + (plainPrice - shippingPrice));
+                }
+            );
         }
     };
     $(document).ready(function () {
@@ -176,7 +219,7 @@
                                     <li><a href="index.html">Home</a></li>
                                     <li><a href="shop.html">Shop</a></li>
                                     <li><a href="single-product-details.html">Product Details</a></li>
-                                    <li><a href="checkout.html">Checkout</a></li>
+                                    <li><a href="checkout.html">结算</a></li>
                                     <li><a href="blog.html">Blog</a></li>
                                     <li><a href="single-blog.html">Single Blog</a></li>
                                     <li><a href="regular-page.html">Regular Page</a></li>
@@ -230,53 +273,21 @@
         <div class="cart-content d-flex">
 
             <!-- Cart List Area -->
-            <div class="cart-list">
-
-                <!-- Single Cart Item -->
-                <div class="single-cart-item">
-                    <a href="#" class="product-image">
-                        <img src="img/product-img/product-2.jpg" class="cart-thumb" alt="">
-                        <!-- Cart Item Desc -->
-                        <div class="cart-item-desc">
-                          <span class="product-remove"><i class="fa fa-close" aria-hidden="true"></i></span>
-                            <span class="badge">Mango</span>
-                            <h6>Button Through Strap Mini Dress</h6>
-                            <p class="size">Size: S</p>
-                            <p class="color">Color: Red</p>
-                            <p class="price">$45.00</p>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Single Cart Item -->
-                <div class="single-cart-item">
-                    <a href="#" class="product-image">
-                        <img src="img/product-img/product-3.jpg" class="cart-thumb" alt="">
-                        <!-- Cart Item Desc -->
-                        <div class="cart-item-desc">
-                          <span class="product-remove"><i class="fa fa-close" aria-hidden="true"></i></span>
-                            <span class="badge">Mango</span>
-                            <h6>Button Through Strap Mini Dress</h6>
-                            <p class="size">Size: S</p>
-                            <p class="color">Color: Red</p>
-                            <p class="price">$45.00</p>
-                        </div>
-                    </a>
-                </div>
+            <div class="cart-list" id="cart-list1">
             </div>
 
             <!-- Cart Summary -->
-            <div class="cart-amount-summary">
+            <div class="cart-amount-summary" id="cart-summary">
 
-                <h2>Summary</h2>
+                <h2>结算</h2>
                 <ul class="summary-table">
-                    <li><span>subtotal:</span> <span>$274.00</span></li>
-                    <li><span>delivery:</span> <span>Free</span></li>
-                    <li><span>discount:</span> <span>-15%</span></li>
-                    <li><span>total:</span> <span>$232.00</span></li>
+                    <li><span>原价:</span> <span id="plain-price"></span></li>
+                    <li><span>运费:</span> <span id="shipping-price"></span></li>
+<!--                    <li><span>折扣:</span> <span>-15%</span></li>-->
+                    <li><span>总计:</span> <span id="total-price"></span></li>
                 </ul>
                 <div class="checkout-btn mt-100">
-                    <a href="checkout.html" class="btn essence-btn">check out</a>
+                    <a href="checkout.html" class="btn essence-btn">提交订单</a>
                 </div>
             </div>
         </div>
