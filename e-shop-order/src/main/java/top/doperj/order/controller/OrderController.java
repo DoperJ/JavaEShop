@@ -98,4 +98,12 @@ public class OrderController {
         System.out.println(orderList);
         return orderList;
     }
+
+    @DeleteMapping(value = "/user", produces = "application/json")
+    @ResponseBody
+    public String removeOrderById(@RequestParam("orderId") Integer orderId) {
+        String res = restTemplate.getForObject("http://user-services/api/address/doperj", String.class);
+        System.out.println(res);
+        return res;
+    }
 }
