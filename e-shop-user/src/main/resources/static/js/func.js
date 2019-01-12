@@ -1,10 +1,11 @@
 $.func = {
     getCartInfo : function() {
+        //console.log("call getCartInfo");
         var skuIdList = [];
         var skuNumList = [];
         var cartItemsNum = 0;
         $.get("http://www.doperj.top:8081/api/cart",
-            //$.get("http://localhost:8081/api/cart",
+        //$.get("http://localhost:8081/api/cart",
             {},
             function(data, status) {
                 skuIdList = new Array(data.length);
@@ -23,6 +24,7 @@ $.func = {
         skuNumList = [2, 3];
         if (cartItemsNum === 0) return;
         console.log("skus in cart are: " + skuIdList);
+        //var url = "http://www.doperj.top:8082/api/sku/List";
         var url = "http://www.doperj.top:8082/api/sku/List";
         var plainPrice = 0;
         var shippingPrice = 0;
@@ -158,5 +160,66 @@ $.func = {
                 }
             }
         );
+    },
+
+    getOrderInfoFromCart: function() {
+        // 根据购物车内容生成订单页面提交信息
+        var items = {};
+        $.get("http://www.doperj.top:8081/api/cart",
+        //$.get("http://localhost:8081/api/cart",
+            {},
+            function(data, status) {
+                var skuIdList = [];
+                var skuNumList = [];
+                var cartItemsNum = 0;
+                skuIdList = new Array(data.length);
+                skuNumList = new Array(data.length);
+                //console.log(data);
+                for (var i = 0; i < data.length; i++) {
+                    skuIdList[i] = data[i].skuId;
+                    skuNumList[i] = data[i].skuNum;
+                }
+/*                skuIdList = [24, 35];
+                skuNumList = [2, 3];*/
+                var url = "http://www.doperj.top:8082/api/sku/List";
+                var plainPrice = 0;
+                var shippingPrice = 0;
+                for (var i = 0; i < skuIdList.length; i++) {
+                    if (i === 0) {
+                        url += "?";
+                    }
+                    url += "skuId=";
+                    url += skuIdList[i];
+                    if (i !== skuIdList.length - 1) {
+                        url += "&";
+                    }
+                }
+                $.get(url,
+                    {},
+                    function (data, status) {
+                        console.log("skulist: ");
+                        console.log(data);
+                        var sumPrice = 0;
+                        var shippingPrice = 0;
+                        for (var i = 0; i < data.length; i++) {
+                            var skuName = $("<span></span>").text(data[i].skuName + " (x " + skuNumList[i] + ")");
+                            var skuPrice = data[i].salePrice;
+                            var skuNum = skuNumList[i];
+                            var skuSumPrice = $("<span></span>").text(skuPrice * skuNum);
+                            var skuRow = $("<li></li>").append(skuName).append(skuSumPrice);
+                            sumPrice += (skuPrice * skuNum);
+                            $("#order-details").children().first().after(skuRow);
+                        }
+                        $("#order-sum-price").text("$" + sumPrice);
+                        $("#order-shipping-price").text("$" + shippingPrice);
+                        $("#order-total-price").text("$" + (sumPrice + shippingPrice));
+                    }
+                );
+                for (var i = 0; i < skuIdList.length; i++) {
+                    items[skuIdList[i] + ""] = skuNumList[i];
+                }
+            }
+        );
+        return items;
     }
 };
