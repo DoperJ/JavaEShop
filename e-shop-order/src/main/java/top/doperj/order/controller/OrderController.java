@@ -49,7 +49,7 @@ public class OrderController {
         return restTemplate.getForObject("http://user-services/api/login_user", String.class);
     }
 
-    @PostMapping("/create")
+    @PostMapping("")
     @ResponseBody
     public Order createOrder(HttpServletRequest httpServletRequest) {
         try {

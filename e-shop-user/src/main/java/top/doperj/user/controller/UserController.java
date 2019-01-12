@@ -65,6 +65,7 @@ public class UserController {
         System.out.println("get username: " + username);
         String password = (String) session.getAttribute("password");
         User user = userService.findUserByName(username);
+        System.out.println("find login user: " + username);
         if (username != null && user != null && EShopUtil.MD5(password + user.getSalt()).equals(user.getPassword())) {
             System.out.println(username);
             JSONObject jsonObject = new JSONObject();

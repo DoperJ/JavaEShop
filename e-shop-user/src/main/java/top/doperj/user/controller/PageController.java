@@ -28,7 +28,7 @@ public class PageController {
     }
 
     @GetMapping("/checkout")
-    public String checkoutPage(@RequestParam("") String category, HttpSession httpSession, Map<String, Object> map) {
+    public String checkoutPage(HttpSession httpSession, Map<String, Object> map) {
         //public String shoppingPage() {
         String username = (String) httpSession.getAttribute("username");
         System.out.println("get username: " + username);
@@ -39,10 +39,11 @@ public class PageController {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("username", username);
             jsonObject.put("head_url", user.getHeadUrl());
-            System.out.println(jsonObject.toString());
-            map.put("user", jsonObject);
+            System.out.println("user: " + jsonObject.toString());
+            map.put("username", username);
             return "checkout";
+        } else {
+            return "login";
         }
-        return "login";
     }
 }

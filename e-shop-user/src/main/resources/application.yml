@@ -41,9 +41,9 @@ spring:
     cache: false
     prefix: classpath:/static/
     suffix: .html
-  devtools:
-    restart:
-      enabled: true
+  #devtools:
+    #restart:
+      #enabled: true
 
 
 ## 该配置节点为独立的节点

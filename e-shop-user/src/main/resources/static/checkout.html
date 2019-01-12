@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
 <head>
     <meta charset="UTF-8">
@@ -26,12 +27,22 @@
     <script src="js/bootstrap.min.js"></script>
     <!-- Classy Nav js -->
     <script src="js/classy-nav.min.js"></script>
+    <script src="js/func.js"></script>
 </head>
 
 <body>
 <script>
     $(document).ready(function() {
-        $.get("http://www.doperj.top:8081/api/address/doperj", {}, function(data, status) {
+        $.func.getCartInfo();
+        //$.get("http://www.doperj.top:8081/api/login_user", {}, function (data, status) {
+        var username = "";
+        $.get("http://localhost:8081/api/login_user", {}, function (data, status) {
+            var obj = JSON.parse(data);
+            console.log(obj);
+            username = obj.username;
+        });
+        console.log("username" + username);
+        $.get("http://www.doperj.top:8081/api/address/" + username, {}, function(data, status) {
             console.log(data);
             if (data.length === 0) return;
             for (var i = 0; i < data.length; i++) {
@@ -48,6 +59,64 @@
                 console.log($("#address"));
                 $("#address").next().children("ul").append(add_tag);
             }
+        });
+/*    <li><span>Cocktail Yellow dress</span> <span>$59.90</span></li>*/
+/*        $.get("http://www.doperj.top:8081")*/
+        $.get("http://www.doperj.top:8081/api/cart",
+            //$.get("http://localhost:8081/api/cart",
+            {},
+            function(data, status) {
+                var skuIdList = [];
+                var skuNumList = [];
+                var cartItemsNum = 0;
+                skuIdList = new Array(data.length);
+                skuNumList = new Array(data.length);
+                //console.log(data);
+                for (var i = 0; i < data.length; i++) {
+                    skuIdList[i] = data[i].skuId;
+                    skuNumList[i] = data[i].skuNum;
+                }
+                skuIdList = [24, 35];
+                skuNumList = [2, 3];
+                var url = "http://www.doperj.top:8082/api/sku/List";
+                var plainPrice = 0;
+                var shippingPrice = 0;
+                for (var i = 0; i < skuIdList.length; i++) {
+                    if (i === 0) {
+                        url += "?";
+                    }
+                    url += "skuId=";
+                    url += skuIdList[i];
+                    if (i !== skuIdList.length - 1) {
+                        url += "&";
+                    }
+                }
+                $.get(url,
+                    {},
+                    function (data, status) {
+                        console.log("skulist: ");
+                        console.log(data);
+                        var sumPrice = 0;
+                        var shippingPrice = 0;
+                        for (var i = 0; i < data.length; i++) {
+                            var skuName = $("<span></span>").text(data[i].skuName + " (x" + skuNumList[i] + ")");
+                            var skuPrice = data[i].salePrice;
+                            var skuNum = skuNumList[i];
+                            var skuSumPrice = $("<span></span>").text(skuPrice * skuNum);
+                            var skuRow = $("<li></li>").append(skuName).append(skuSumPrice);
+                            sumPrice += (skuPrice * skuNum);
+                            $("#order-details").children().first().after(skuRow);
+                        }
+                        $("#order-sum-price").text("$" + sumPrice);
+                        $("#order-shipping-price").text("$" + shippingPrice);
+                        $("#order-total-price").text("$" + (sumPrice + shippingPrice));
+                    }
+                );
+            }
+        );
+
+        $("#submit-button").click(function (event) {
+            event.preventDefault();
         });
     });
 </script>
@@ -114,7 +183,7 @@
                 </div>
                 <!-- Cart Area -->
                 <div class="cart-area">
-                    <a href="#" id="essenceCartBtn"><img src="img/core-img/bag.svg" alt=""> <span id="cart-items-number1">3</span></a>
+                    <a href="#" id="essenceCartBtn"><img src="img/core-img/bag.svg" alt=""> <span id="cart-items-number1"></span></a>
                 </div>
             </div>
 
@@ -129,75 +198,27 @@
 
         <!-- Cart Button -->
         <div class="cart-button">
-            <a href="#" id="rightSideCart"><img src="img/core-img/bag.svg" alt=""> <span id="cart-items-number2">3</span></a>
+            <a href="#" id="rightSideCart"><img src="img/core-img/bag.svg" alt=""> <span id="cart-num"></span></a>
         </div>
 
         <div class="cart-content d-flex">
 
             <!-- Cart List Area -->
-            <div class="cart-list">
-                <!-- Single Cart Item -->
-                <div class="single-cart-item">
-                    <a href="#" class="product-image">
-                        <img src="img/product-img/product-1.jpg" class="cart-thumb" alt="">
-                        <!-- Cart Item Desc -->
-                        <div class="cart-item-desc">
-                          <span class="product-remove"><i class="fa fa-close" aria-hidden="true"></i></span>
-                            <span class="badge">Mango</span>
-                            <h6>Button Through Strap Mini Dress</h6>
-                            <p class="size">Size: S</p>
-                            <p class="color">Color: Red</p>
-                            <p class="price">$45.00</p>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Single Cart Item -->
-                <div class="single-cart-item">
-                    <a href="#" class="product-image">
-                        <img src="img/product-img/product-2.jpg" class="cart-thumb" alt="">
-                        <!-- Cart Item Desc -->
-                        <div class="cart-item-desc">
-                          <span class="product-remove"><i class="fa fa-close" aria-hidden="true"></i></span>
-                            <span class="badge">Mango</span>
-                            <h6>Button Through Strap Mini Dress</h6>
-                            <p class="size">Size: S</p>
-                            <p class="color">Color: Red</p>
-                            <p class="price">$45.00</p>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Single Cart Item -->
-                <div class="single-cart-item">
-                    <a href="#" class="product-image">
-                        <img src="img/product-img/product-3.jpg" class="cart-thumb" alt="">
-                        <!-- Cart Item Desc -->
-                        <div class="cart-item-desc">
-                          <span class="product-remove"><i class="fa fa-close" aria-hidden="true"></i></span>
-                            <span class="badge">Mango</span>
-                            <h6>Button Through Strap Mini Dress</h6>
-                            <p class="size">Size: S</p>
-                            <p class="color">Color: Red</p>
-                            <p class="price">$45.00</p>
-                        </div>
-                    </a>
-                </div>
-
+            <div class="cart-list" id="cart-list1">
             </div>
 
             <!-- Cart Summary -->
             <div class="cart-amount-summary">
 
-                <h2>总计</h2>
+                <h2>结算</h2>
                 <ul class="summary-table">
-                    <li><span>原价:</span> <span>$274.00</span></li>
-                    <li><span>运费:</span> <span>0</span></li>
-                    <li><span>折扣:</span> <span>0%</span></li>
-                    <li><span>总计:</span> <span>$274.00</span></li>
+                    <li><span>原价:</span> <span id="plain-price"></span></li>
+                    <li><span>运费:</span> <span id="shipping-price"></span></li>
+                    <!--                    <li><span>折扣:</span> <span>-15%</span></li>-->
+                    <li><span>总计:</span> <span id="total-price"></span></li>
                 </ul>
                 <div class="checkout-btn mt-100">
-                    <a href="checkout.html" class="btn essence-btn">check out</a>
+                    <a href="/checkout" class="btn essence-btn">提交订单</a>
                 </div>
             </div>
         </div>
@@ -305,10 +326,9 @@
 
                         <ul class="order-details-form mb-4" id="order-details">
                             <li><span>产品</span> <span>总计</span></li>
-                            <li><span>Cocktail Yellow dress</span> <span>$59.90</span></li>
-                            <li><span>合计</span> <span>$59.90</span></li>
-                            <li><span>邮费</span> <span>0</span></li>
-                            <li><span>总计</span> <span>$59.90</span></li>
+                            <li><span>合计</span> <span id="order-sum-price"></span></li>
+                            <li><span>邮费</span> <span id="order-shipping-price"></span></li>
+                            <li><span>总计</span> <span id="order-total-price"></span></li>
                         </ul>
 
                         <div class="custom-control custom-checkbox d-block mb-2">
@@ -367,7 +387,7 @@
                             </div>-->
                         </div>
 
-                        <a href="#" class="btn essence-btn">提交订单</a>
+                        <a href="#" class="btn essence-btn" id="submit-button">提交订单</a>
                     </div>
                 </div>
             </div>
@@ -416,7 +436,7 @@
                 <div class="col-12 col-md-6">
                     <div class="single_widget_area">
                         <div class="footer_heading mb-30">
-                            <h6>Subscribe</h6>
+                            <h6>订阅</h6>
                         </div>
                         <div class="subscribtion_form">
                             <form action="#" method="post">
