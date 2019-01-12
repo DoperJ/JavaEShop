@@ -1,4 +1,5 @@
 $.func = {
+    // 更新购物车信息
     getCartInfo : function() {
         //console.log("call getCartInfo");
         var skuIdList = [];
@@ -20,8 +21,8 @@ $.func = {
                 $("#cart-items-number1").text(cartItemsNum);
             }
         );
-        skuIdList = [24, 35];
-        skuNumList = [2, 3];
+/*        skuIdList = [24, 35];
+        skuNumList = [2, 3];*/
         if (cartItemsNum === 0) return;
         console.log("skus in cart are: " + skuIdList);
         //var url = "http://www.doperj.top:8082/api/sku/List";
@@ -41,6 +42,7 @@ $.func = {
         $.get(url,
             {},
             function (data, status) {
+                $("#cart-list1").children().remove();
                 console.log(data);
                 for (var i = 0; i < data.length; i++) {
                     plainPrice += data[i].salePrice;
@@ -67,8 +69,8 @@ $.func = {
         );
     },
 
+    // 左侧边栏的分类
     getLeftSideCategories : function() {
-        // 左侧边栏的分类
         var current_category = $(".page-title").first();
         var current_category_name = $(".page-title").first().text().trim();
         $.get("http://www.doperj.top:8082/api/category/2/" + current_category_name,
@@ -95,8 +97,8 @@ $.func = {
         return current_category_name;
     },
 
+    // 显示所有商品
     getCategoriesItems: function (current_category_name) {
-        // 显示所有商品
         console.log("current category name: " + current_category_name);
         $.get("http://www.doperj.top:8082/api/sku/" + current_category_name,
             {},
@@ -162,8 +164,8 @@ $.func = {
         );
     },
 
+    // 根据购物车内容生成订单页面提交信息
     getOrderInfoFromCart: function() {
-        // 根据购物车内容生成订单页面提交信息
         var items = {};
         $.get("http://www.doperj.top:8081/api/cart",
         //$.get("http://localhost:8081/api/cart",
@@ -221,5 +223,84 @@ $.func = {
             }
         );
         return items;
+    },
+
+    // 设置用户可选的地址
+    getUserAddresses: function () {
+        var username = "";
+        $.get("http://www.doperj.top:8081/api/login_user", {}, function (data, status) {
+            //$.get("http://localhost:8081/api/login_user", {}, function (data, status) {
+            var obj = JSON.parse(data);
+            console.log(obj);
+            username = obj.username;
+        });
+        //username = "doperj";
+        console.log("username: " + username);
+        $.get("http://www.doperj.top:8081/api/address/" + username, {}, function(data, status) {
+            console.log(data);
+            if (data.length === 0) return;
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].isDefault) {
+                    var tmp = data[0];
+                    data[0] = data[i];
+                    data[i] = tmp;
+                }
+            }
+            for (var i = 0; i < data.length; i++) {
+                var add_val = data[i].province + ", " + data[i].city + ", " + data[i].district + ", " + data[i].address + ", " + data[i].zip;
+                var add_tag = $("<li></li>").text(add_val).attr("address-id", data[i].addressId)
+                    .attr("class", "option selected focus").click(function (event) {
+                        event.preventDefault();
+                        var address_id = $(this).attr("address-id");
+                        console.log(address_id);
+                        $("#address").next().attr("tabindex", address_id);
+                    });
+                console.log(add_tag);
+                console.log($("#address"));
+                $("#address").next().children("ul").append(add_tag);
+            }
+        });
+    },
+
+    // 设置订单点击提交功能
+    getOrderSubmittable: function (items) {
+        $("#submit-button").click(function (event) {
+            event.preventDefault();
+            console.log("address id is: " + $("#address").next().attr("tabindex"));
+            var addressId = $("#address").next().attr("tabindex");
+            if (addressId === "0" || addressId === null) {
+                alert("请选择地址");
+                return;
+            }
+            var firstName = $("#first_name").val();
+            if (firstName === "" || firstName === null) {
+                alert("请输入收件人姓氏");
+                return;
+            }
+            var lastName = $("#last_name").val();
+            if (lastName === "" || lastName === null) {
+                alert("请输入收件人名称");
+                return;
+            }
+            var jsonObj = {
+                "addressId": addressId,
+                "items": items,
+                "firstName": firstName,
+                "lastName": lastName
+            };
+            var jsonReq = JSON.stringify(jsonObj);
+            console.log(jsonReq);
+            $.ajax({
+                type: 'post',
+                url: 'http://www.doperj.top:8083/api/order',
+                contentType:"application/json;charset=utf-8",
+                data: jsonReq,
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+                    alert("订单提交成功");
+                }
+            });
+        });
     }
 };

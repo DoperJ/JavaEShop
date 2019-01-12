@@ -34,81 +34,12 @@
 <script>
     $(document).ready(function() {
         $.func.getCartInfo();
-        var username = "";
-        $.get("http://www.doperj.top:8081/api/login_user", {}, function (data, status) {
-        //$.get("http://localhost:8081/api/login_user", {}, function (data, status) {
-            var obj = JSON.parse(data);
-            console.log(obj);
-            username = obj.username;
-        });
-        //username = "doperj";
-        console.log("username: " + username);
-        $.get("http://www.doperj.top:8081/api/address/" + username, {}, function(data, status) {
-            console.log(data);
-            if (data.length === 0) return;
-            for (var i = 0; i < data.length; i++) {
-                if (data[i].isDefault) {
-                    var tmp = data[0];
-                    data[0] = data[i];
-                    data[i] = tmp;
-                }
-            }
-            for (var i = 0; i < data.length; i++) {
-                var add_val = data[i].province + ", " + data[i].city + ", " + data[i].district + ", " + data[i].address + ", " + data[i].zip;
-                var add_tag = $("<li></li>").text(add_val).attr("address-id", data[i].addressId)
-                    .attr("class", "option selected focus").click(function (event) {
-                        event.preventDefault();
-                        var address_id = $(this).attr("address-id");
-                        console.log(address_id);
-                        $("#address").next().attr("tabindex", address_id);
-                    });
-                console.log(add_tag);
-                console.log($("#address"));
-                $("#address").next().children("ul").append(add_tag);
-            }
-        });
-/*    <li><span>Cocktail Yellow dress</span> <span>$59.90</span></li>*/
-/*        $.get("http://www.doperj.top:8081")*/
+        $.func.getUserAddresses();
+        /*    <li><span>Cocktail Yellow dress</span> <span>$59.90</span></li>*/
+        /*        $.get("http://www.doperj.top:8081")*/
         var items = $.func.getOrderInfoFromCart();
         console.log("items: " + items);
-        $("#submit-button").click(function (event) {
-            event.preventDefault();
-            console.log("address id is: " + $("#address").next().attr("tabindex"));
-            var addressId = $("#address").next().attr("tabindex");
-            if (addressId === "0" || addressId === null) {
-                alert("请选择地址");
-                return;
-            }
-            var firstName = $("#first_name").val();
-            if (firstName === "" || firstName === null) {
-                alert("请输入收件人姓氏");
-                return;
-            }
-            var lastName = $("#last_name").val();
-            if (lastName === "" || lastName === null) {
-                alert("请输入收件人名称");
-                return;
-            }
-            var jsonObj = {
-                "addressId": addressId,
-                "items": items,
-                "firstName": firstName,
-                "lastName": lastName
-            };
-            var jsonReq = JSON.stringify(jsonObj);
-            console.log(jsonReq);
-            $.ajax({
-                type: 'post',
-                url: 'http://www.doperj.top:8083/api/order',
-                contentType:"application/json;charset=utf-8",
-                data: jsonReq,
-                dataType: "json",
-                success: function(data) {
-                    console.log(data);
-                    alert("订单提交成功");
-                }
-            });
-        });
+        $.func.getOrderSubmittable(items);
     });
 </script>
     <!-- ##### Header Area Start ##### -->
