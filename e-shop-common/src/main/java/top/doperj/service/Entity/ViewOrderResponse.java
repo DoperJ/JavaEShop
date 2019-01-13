@@ -5,12 +5,21 @@ import java.util.List;
 import java.util.Map;
 
 public class ViewOrderResponse {
+    private int orderId;
     List<OrderSKUView> items;
     private int addressId;
     private String first_name;
     private String last_name;
     private Float totalPrice;
     private Date createdTime;
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
 
     public List<OrderSKUView> getItems() {
         return items;
@@ -63,7 +72,8 @@ public class ViewOrderResponse {
     @Override
     public String toString() {
         return "ViewOrderResponse{" +
-                "items=" + items +
+                "orderId=" + orderId +
+                ", items=" + items +
                 ", addressId=" + addressId +
                 ", first_name='" + first_name + '\'' +
                 ", last_name='" + last_name + '\'' +

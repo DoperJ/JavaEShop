@@ -102,6 +102,7 @@ public class OrderService {
                 items.add(orderSKUView);
                 totalPrice += (skuView.getSalePrice() * skuNum);
             }
+            viewOrderResponse.setOrderId(order.getOrderId());
             viewOrderResponse.setItems(items);
             viewOrderResponse.setAddressId(order.getAddressId());
             viewOrderResponse.setFirst_name(order.getFirstName());
