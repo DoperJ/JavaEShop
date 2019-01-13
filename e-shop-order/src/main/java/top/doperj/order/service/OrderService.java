@@ -15,6 +15,7 @@ import top.doperj.order.POJO.ViewOrder;
 import top.doperj.order.dao.OrderMapper;
 import top.doperj.order.domain.Order;
 import top.doperj.order.domain.SKUAndOrder;
+import top.doperj.service.Entity.OrderSKUView;
 import top.doperj.service.Entity.SKUView;
 import top.doperj.service.Entity.ViewOrderResponse;
 import top.doperj.service.Entity.Wrapper;
@@ -63,7 +64,7 @@ public class OrderService {
             List<Integer> skuIdList = new LinkedList<Integer>();
             List<Integer> skuNumList = new LinkedList<Integer>();
             ViewOrderResponse viewOrderResponse = new ViewOrderResponse();
-            Map<SKUView, Integer> items = new HashMap<SKUView, Integer>();
+            List<OrderSKUView> items = new LinkedList<OrderSKUView>();
             Order order = orderIterator.next();
             System.out.println(order);
             // 找出订单相关产品的信息
@@ -97,7 +98,8 @@ public class OrderService {
             for (int i = 0; i < len; i++) {
                 SKUView skuView = skuViewList.get(i);
                 int skuNum = skuNumList.get(i);
-                items.put(skuView, skuNum);
+                OrderSKUView orderSKUView = new OrderSKUView(skuView, skuNum);
+                items.add(orderSKUView);
                 totalPrice += (skuView.getSalePrice() * skuNum);
             }
             viewOrderResponse.setItems(items);

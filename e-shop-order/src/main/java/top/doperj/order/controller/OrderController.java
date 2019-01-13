@@ -111,9 +111,9 @@ public class OrderController {
         Order order = orderService.selectOrderByOrderId(orderId);
         System.out.println("request order: " + order);
         OrderUser orderUser = orderService.getUserNameByOrder(order);
-        if (orderUser.getUserName().equals(user)) {
+        //if (orderUser.getUserName().equals(user)) {
             orderService.deleteOrderByOrderId(orderId);
-        }
+        //}
         return user;
     }
 }

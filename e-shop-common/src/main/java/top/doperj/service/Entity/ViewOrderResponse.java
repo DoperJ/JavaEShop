@@ -1,19 +1,20 @@
 package top.doperj.service.Entity;
 
+import java.util.List;
 import java.util.Map;
 
 public class ViewOrderResponse {
-    private Map<SKUView, Integer> items;
+    List<OrderSKUView> items;
     private int addressId;
     private String first_name;
     private String last_name;
     private Float totalPrice;
 
-    public Map<SKUView, Integer> getItems() {
+    public List<OrderSKUView> getItems() {
         return items;
     }
 
-    public void setItems(Map<SKUView, Integer> items) {
+    public void setItems(List<OrderSKUView> items) {
         this.items = items;
     }
 
