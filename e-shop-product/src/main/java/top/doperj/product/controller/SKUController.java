@@ -5,9 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.doperj.product.domain.SKU;
-import top.doperj.product.pojo.SKUView;
 import top.doperj.product.service.SKUService;
 import top.doperj.product.util.ViewConverter;
+import top.doperj.service.Entity.SKUView;
 
 import java.util.Iterator;
 import java.util.LinkedList;

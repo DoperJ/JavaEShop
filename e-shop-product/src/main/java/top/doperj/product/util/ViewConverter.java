@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import top.doperj.product.domain.SKU;
 import top.doperj.product.domain.SKUChoice;
-import top.doperj.product.pojo.SKUView;
 import top.doperj.product.service.ProductService;
 import top.doperj.product.service.SKUChoiceService;
+import top.doperj.service.Entity.SKUView;
 
 import javax.annotation.PostConstruct;
 import java.util.Iterator;

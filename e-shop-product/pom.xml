@@ -54,9 +54,19 @@
 			<artifactId>spring-session-data-redis</artifactId>
 		</dependency>
 
+		<!-- 公共模块 -->
+		<dependency>
+			<groupId>top.doperj</groupId>
+			<artifactId>e-shop-common</artifactId>
+			<version>0.0.1</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
 			<plugin>
 				<groupId>org.mybatis.generator</groupId>
 				<artifactId>mybatis-generator-maven-plugin</artifactId>

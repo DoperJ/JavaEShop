@@ -1,14 +1,5 @@
-package top.doperj.product.pojo;
+package top.doperj.service.Entity;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Component;
-import top.doperj.product.domain.SKU;
-import top.doperj.product.domain.SKUChoice;
-import top.doperj.product.service.ProductService;
-import top.doperj.product.service.SKUChoiceService;
-
-import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.util.List;
 

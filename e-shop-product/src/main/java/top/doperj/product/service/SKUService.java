@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.doperj.product.dao.*;
 import top.doperj.product.domain.*;
-import top.doperj.product.pojo.SKUView;
+import top.doperj.service.Entity.SKUView;
 
 import java.util.*;
 
