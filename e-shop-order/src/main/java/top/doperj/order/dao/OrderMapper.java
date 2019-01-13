@@ -2,6 +2,7 @@ package top.doperj.order.dao;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Select;
+import top.doperj.order.POJO.OrderUser;
 import top.doperj.order.domain.Order;
 
 import java.util.List;
@@ -25,6 +26,8 @@ public interface OrderMapper {
     List<Order> selectByAddressId(int addressId);
 
     List<Order> selectByUserName(String userName);
+
+    OrderUser selectUserNameByOrderId(Integer orderId);
 
     // Update
     int updateByPrimaryKeySelective(Order record);

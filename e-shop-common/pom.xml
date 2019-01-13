@@ -19,11 +19,11 @@
 
     <dependencies>
         <!-- security -->
-        <dependency>
+<!--        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
             <optional>true</optional>
-        </dependency>
+        </dependency>-->
 
         <!--spring2.0集成redis所需common-pool2-->
         <dependency>
@@ -33,25 +33,25 @@
 
         <!-- redis -->
         <!-- redis starter -->
-        <dependency>
+<!--        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
+        </dependency>-->
 
         <!-- spring session的依赖 -->
-        <dependency>
+<!--        <dependency>
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-data-redis</artifactId>
-        </dependency>
+        </dependency>-->
     </dependencies>
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-<!--				<configuration>
+				<configuration>
 					<classifier>exec</classifier>
-				</configuration>-->
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

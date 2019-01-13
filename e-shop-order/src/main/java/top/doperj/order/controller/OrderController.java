@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import top.doperj.order.POJO.OrderUser;
 import top.doperj.order.POJO.ViewOrder;
 import top.doperj.order.domain.Order;
 import top.doperj.order.service.OrderService;
@@ -90,7 +91,7 @@ public class OrderController {
         //return orderService.addOrderByViewOrder(viewOrder);
     }
 
-    @GetMapping(value = "/user/{username}", produces = "application/json")
+    @GetMapping(value = "/{username}", produces = "application/json")
     @ResponseBody
     public List<Order> getOrdersByUserName(@PathVariable("username") String userName) {
         System.out.println("find " + userName + " orders.");
@@ -99,11 +100,19 @@ public class OrderController {
         return orderList;
     }
 
-    @DeleteMapping(value = "/user", produces = "application/json")
+    @DeleteMapping(value = "", produces = "application/json")
     @ResponseBody
     public String removeOrderById(@RequestParam("orderId") Integer orderId) {
         String res = restTemplate.getForObject("http://user-services/api/address/doperj", String.class);
         System.out.println(res);
-        return res;
+        String user = restTemplate.getForObject("http://user-services/api/login_user", String.class);
+        System.out.println(user);
+        Order order = orderService.selectOrderByOrderId(orderId);
+        System.out.println("request order: " + order);
+        OrderUser orderUser = orderService.getUserNameByOrder(order);
+        if (orderUser.getUserName().equals(user)) {
+            orderService.deleteOrderByOrderId(orderId);
+        }
+        return user;
     }
 }

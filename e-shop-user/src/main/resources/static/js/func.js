@@ -128,12 +128,12 @@ $.func = {
                     var skuName = $("<h6></h6>").text(data[i].skuName);
                     productNameAddress.append(skuName);
 
-                    var originalPricce = $("<span class='old-price'></span>").text(" $" + data[i].originalPrice);
+                    var originalPricce = $("<span class='old-price'></span>").text(" ￥" + data[i].originalPrice);
                     var productPrice = $("<p class='product-price'></p>");
                     if (data[i].originalPrice != data[i].salePrice) {
                         productPrice.append(originalPricce);
                     }
-                    productPrice.text(" $" + data[i].salePrice);
+                    productPrice.text(" ￥" + data[i].salePrice);
 
                     var hoverContent = $("<div class='hover-content'></div>");
                     var addToCart = $("<div class='add-to-cart-btn'></div>");
@@ -212,9 +212,9 @@ $.func = {
                             sumPrice += (skuPrice * skuNum);
                             $("#order-details").children().first().after(skuRow);
                         }
-                        $("#order-sum-price").text("$" + sumPrice);
-                        $("#order-shipping-price").text("$" + shippingPrice);
-                        $("#order-total-price").text("$" + (sumPrice + shippingPrice));
+                        $("#order-sum-price").text("￥" + sumPrice);
+                        $("#order-shipping-price").text("￥" + shippingPrice);
+                        $("#order-total-price").text("￥" + (sumPrice + shippingPrice));
                     }
                 );
                 for (var i = 0; i < skuIdList.length; i++) {

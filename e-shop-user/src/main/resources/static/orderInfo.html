@@ -34,6 +34,10 @@
 <script>
     $(document).ready(function() {
         $.func.getCartInfo();
+        var username = "doperj";
+        $.get("http://www.doperj.top:8083/api/order" + username, {}, function (data, status) {
+            console.log(data);
+        });
     });
 </script>
 <!-- ##### Header Area Start ##### -->
@@ -163,18 +167,20 @@
             <div class="col-12 col-md-6">
                 <div class="order-details-confirmation">
                     <div class="cart-page-heading">
-                        <h5>订单创建时间</h5>
+                        <h5>收件人：<span id="receiver">江泽群</span></h5>
                         <p>共<span id="item-num">5</span>件商品</p>
                     </div>
 
                     <ul class="order-details-form mb-4">
                         <li><span>产品</span> <span>总计</span></li>
-                        <li><span>Apple iPhone X(A1865) 银色 公开版 64GB 官方标配</span> <span>x2</span><span>$2131</span></li>
+                        <li><span>Apple iPhone X(A1865) 银色 公开版 64GB 官方标配</span> <span>x2</span><span>￥2131</span></li>
                         <li><span>合计</span> <span></span></li>
                         <li><span>邮费</span> <span></span></li>
                         <li><span>总计</span> <span></span></li>
                         <li><span>付款方式</span> <span>货到付款</span></li>
                         <li><span>订单状态</span> <span>未收货</span></li>
+                        <li><span>创建时间</span> <span></span></li>
+                        <li><span>配送地址</span> <span></span></li>
                     </ul>
 
                     <a href="#" class="btn essence-btn">删除订单</a>
