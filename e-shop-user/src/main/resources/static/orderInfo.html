@@ -39,24 +39,41 @@
             console.log(data);
             for (var i = 0; i < data.length; i++) {
                 var skuAmout = 0;
-                var items = [];
-                for (var key in data[i].items) {
-                    items.push(key + " x" + data[i].items[key]);
-                    skuAmout += data[i].items[key];
-                }
                 var orderWrapper = $("<div class='col-12 col-md-6'></div>");
                 var orderDetails = $("<div class='order-details-confirmation'></div>");
 
                 var cartPageHeading = $("<div class='cart-page-heading'></div>");
                 var receiver = $("<h5>收件人：</h5>").append($("<span></span>").text(data[i].last_name + data[i].first_name));
-                var amount = $("<p></p>").text("共" + skuAmout + "件商品");
+                var amount = $("<p></p>");
                 cartPageHeading.append(receiver).append(amount);
+                orderDetails.append(cartPageHeading);
 
                 var orderDetailsForm = $("<ul class='order-details-form mb-4'></ul>");
                 var title = $("<li><span>产品</span> <span>总计</span></li>");
-                for (var i = 0; i < items.length; i++) {
-                    var listItem = $("<li></li>").append($("<span></span>").text(items[i])).append($("<span></span>").text("￥"));
+                orderDetailsForm.append(title);
+                for (var j = 0; j < data[i].items.length; j++) {
+                    var item = data[i].items[j];
+                    var skuNum = item.skuNum;
+                    skuAmout += skuNum;
+                    var listItem = $("<li></li>").append($("<span></span>").text(item.skuName + "  x" + skuNum)).append($("<span></span>").text("￥" + (item.salePrice * skuNum)));
+                    orderDetailsForm.append(listItem);
                 }
+                var summanyPrice = $("<li></li>").append($("<span>合计</span>")).append($("<span></span>").text(data[i].totalPrice));
+                var shippingPrice = $("<li></li>").append("<span>邮费</span>").append($("<span></span>").text(0));
+                var totalPrice = $("<li></li>").append("<span>总计</span>").append($("<span></span>").text(data[i].totalPrice));
+                var paymentWay = $("<li><span>付款方式</span> <span>货到付款</span></li>");
+                var orderStatus = $("<li><span>订单状态</span> <span>未收货</span></li>");
+                var createdDate = $("<li></li>").append("<span>创建时间</span>").append($("<span></span>").text());
+                var address = $("<li></li>").append("<span>配送地址</span>").append($("<span></span>").text());
+                orderDetailsForm.append(summanyPrice).append(shippingPrice).append(totalPrice)
+                    .append(paymentWay).append(orderStatus).append(createdDate).append(address);
+                amount.text("共" + skuAmout + "件商品");
+
+                var deleteButton = $("<a href='#' class='btn essence-btn'>删除订单</a>");
+                var confirmButton = $("<a href='#' class='btn essence-btn'>确认收货</a>");
+                orderDetails.append(orderDetails).append(orderDetailsForm).append(deleteButton).append(confirmButton);
+                orderWrapper.append(orderDetails);
+                $("#order-row").append(orderWrapper);
             }
         });
 
@@ -208,7 +225,7 @@
 <!-- ##### Checkout Area Start ##### -->
 <div class="checkout_area section-padding-80">
     <div class="container">
-        <div class="row">
+        <div class="row" id="order-row">
 
             <div class="col-12 col-md-6">
                 <div class="order-details-confirmation">

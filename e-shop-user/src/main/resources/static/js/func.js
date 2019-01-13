@@ -247,7 +247,7 @@ $.func = {
                 }
             }
             for (var i = 0; i < data.length; i++) {
-                var add_val = data[i].province + ", " + data[i].city + ", " + data[i].district + ", " + data[i].address + ", " + data[i].zip;
+                var add_val = data[i].province + ", " + data[i].city + ", " + data[i].district + ", " + data[i].address + ", " + data[i].zip + data[i].phoneNum;
                 var add_tag = $("<li></li>").text(add_val).attr("address-id", data[i].addressId)
                     .attr("class", "option selected focus").click(function (event) {
                         event.preventDefault();

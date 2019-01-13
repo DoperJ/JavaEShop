@@ -107,6 +107,7 @@ public class OrderService {
             viewOrderResponse.setFirst_name(order.getFirstName());
             viewOrderResponse.setLast_name(order.getLastName());
             viewOrderResponse.setTotalPrice(totalPrice);
+            viewOrderResponse.setCreatedTime(order.getCreatedTime());
             result.add(viewOrderResponse);
         }
         return result;

@@ -2,10 +2,7 @@ package top.doperj.user.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import top.doperj.user.domain.Address;
 import top.doperj.user.service.AddressService;
 
@@ -17,9 +14,15 @@ public class AddressController {
     @Autowired
     AddressService addressService;
 
-    @GetMapping("/{username}")
+    @GetMapping(value = "/{username}", produces = "application/json")
     @ResponseBody
     public List<Address> getAddressByUsername(@PathVariable("username") String username) {
         return addressService.findAddressesByUserName(username);
+    }
+
+    @GetMapping(value = "", produces = "application/json")
+    @ResponseBody
+    public String getAddressContentById(@RequestParam("addressId") Integer addressId) {
+        return addressService.fingAddressContentByAddressId(addressId);
     }
 }

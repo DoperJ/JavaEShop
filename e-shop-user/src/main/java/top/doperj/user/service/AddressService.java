@@ -44,12 +44,20 @@ public class AddressService {
         return addressDAO.selectByUserName(userName);
     }
 
+    public String fingAddressContentByAddressId(Integer addressId) {
+        Address address = addressDAO.selectByPrimaryKey(addressId);
+        String addressContent = "";
+        addressContent += address.getProvince() + ", " + address.getCity() + ", "
+                + address.getDistrict() + ", " + address.getZip() + ", " + address.getPhoneNum();
+        return addressContent;
+    }
+
     public List<Address> findAllAddresses() {
         return addressDAO.selectAllAddresses();
     }
 
     // Delete
     public void delteAddressesByUserName(String userName) {
-
+        addressDAO.deleteByUserName(userName);
     }
 }

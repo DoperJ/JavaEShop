@@ -1,5 +1,6 @@
 package top.doperj.service.Entity;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ public class ViewOrderResponse {
     private String first_name;
     private String last_name;
     private Float totalPrice;
+    private Date createdTime;
 
     public List<OrderSKUView> getItems() {
         return items;
@@ -50,6 +52,14 @@ public class ViewOrderResponse {
         this.totalPrice = totalPrice;
     }
 
+    public Date getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(Date createdTime) {
+        this.createdTime = createdTime;
+    }
+
     @Override
     public String toString() {
         return "ViewOrderResponse{" +
@@ -58,6 +68,7 @@ public class ViewOrderResponse {
                 ", first_name='" + first_name + '\'' +
                 ", last_name='" + last_name + '\'' +
                 ", totalPrice=" + totalPrice +
+                ", createdTime=" + createdTime +
                 '}';
     }
 }
