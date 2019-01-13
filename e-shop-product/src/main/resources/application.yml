@@ -3,10 +3,10 @@ eureka:
     service-url:
       #defaultZone: http://eureka.springcloud.cn/eureka/
       defaultZone: http://www.doperj.top:8761/eureka
-  #instance:
-    #prefer-ip-address: true
+  instance:
+    prefer-ip-address: true
     #instance-id: http://localhost:8081
-    #instance-id: http://www.doperj.top:8082
+    instance-id: http://www.doperj.top:8082
 server:
   port: 8082
 
