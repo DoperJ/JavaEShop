@@ -20,7 +20,7 @@ public class AddressController {
         return addressService.findAddressesByUserName(username);
     }
 
-    @GetMapping(value = "", produces = "application/json")
+    @GetMapping(value = "")
     @ResponseBody
     public String getAddressContentById(@RequestParam("addressId") Integer addressId) {
         return addressService.fingAddressContentByAddressId(addressId);
