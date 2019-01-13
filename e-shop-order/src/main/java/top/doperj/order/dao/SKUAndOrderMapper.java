@@ -1,7 +1,10 @@
 package top.doperj.order.dao;
 
 import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Select;
 import top.doperj.order.domain.SKUAndOrder;
+
+import java.util.List;
 
 public interface SKUAndOrderMapper {
     String TABLE_NAME = " t_sku_and_order ";
@@ -17,6 +20,9 @@ public interface SKUAndOrderMapper {
     int insertSelective(SKUAndOrder record);
 
     SKUAndOrder selectByPrimaryKey(Integer skuAndOrderId);
+
+    @Select({"select", SELECT_FIELDS, "from", TABLE_NAME, "where order_id=#{orderId}"})
+    List<SKUAndOrder> selectByOrderId(Integer orderId);
 
     int updateByPrimaryKeySelective(SKUAndOrder record);
 

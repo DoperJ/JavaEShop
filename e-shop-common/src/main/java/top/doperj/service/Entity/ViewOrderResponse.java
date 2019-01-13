@@ -3,17 +3,17 @@ package top.doperj.service.Entity;
 import java.util.Map;
 
 public class ViewOrderResponse {
-    private Map<Integer, Integer> items;
+    private Map<SKUView, Integer> items;
     private int addressId;
     private String first_name;
     private String last_name;
-    private Integer totalPrice;
+    private Float totalPrice;
 
-    public Map<Integer, Integer> getItems() {
+    public Map<SKUView, Integer> getItems() {
         return items;
     }
 
-    public void setItems(Map<Integer, Integer> items) {
+    public void setItems(Map<SKUView, Integer> items) {
         this.items = items;
     }
 
@@ -41,11 +41,11 @@ public class ViewOrderResponse {
         this.last_name = last_name;
     }
 
-    public Integer getTotalPrice() {
+    public Float getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Integer totalPrice) {
+    public void setTotalPrice(Float totalPrice) {
         this.totalPrice = totalPrice;
     }
 

@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Select;
 import top.doperj.order.POJO.OrderUser;
 import top.doperj.order.domain.Order;
+import top.doperj.service.Entity.SKUView;
 
 import java.util.List;
 

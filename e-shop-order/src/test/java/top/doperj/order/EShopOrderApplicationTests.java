@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import top.doperj.order.POJO.OrderUser;
 import top.doperj.order.domain.Order;
 import top.doperj.order.service.OrderService;
+import top.doperj.order.service.SKUAndOrderService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -17,6 +18,9 @@ public class EShopOrderApplicationTests {
 
 	@Autowired
 	OrderService orderService;
+
+	@Autowired
+    SKUAndOrderService skuAndOrderService;
 
 	@Test
 	public void findOrderByUsername() {
@@ -43,5 +47,10 @@ public class EShopOrderApplicationTests {
     @Test
     public void findViewOrderByUserName() {
         System.out.println(orderService.findViewOrderResponseByUserName("doperj"));
+    }
+
+    @Test
+    public void findSKUAndOrderByOrderId() {
+        System.out.println(skuAndOrderService.findSKUAndOrderByOrderId(25));
     }
 }

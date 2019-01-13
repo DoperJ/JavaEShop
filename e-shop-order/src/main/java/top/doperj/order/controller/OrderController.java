@@ -14,6 +14,7 @@ import top.doperj.order.POJO.OrderUser;
 import top.doperj.order.POJO.ViewOrder;
 import top.doperj.order.domain.Order;
 import top.doperj.order.service.OrderService;
+import top.doperj.service.Entity.ViewOrderResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -93,11 +94,11 @@ public class OrderController {
 
     @GetMapping(value = "/{username}", produces = "application/json")
     @ResponseBody
-    public List<Order> getOrdersByUserName(@PathVariable("username") String userName) {
+    public List<ViewOrderResponse> getOrdersByUserName(@PathVariable("username") String userName) {
         System.out.println("find " + userName + " orders.");
-        List<Order> orderList = orderService.findOrdersByUserName(userName);
-        System.out.println(orderList);
-        return orderList;
+        List<ViewOrderResponse> viewOrderResponseList = orderService.findViewOrderResponseByUserName(userName);
+        System.out.println(viewOrderResponseList);
+        return viewOrderResponseList;
     }
 
     @DeleteMapping(value = "", produces = "application/json")
