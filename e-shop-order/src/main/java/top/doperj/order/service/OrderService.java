@@ -57,16 +57,19 @@ public class OrderService {
         // 解决LinkedHashMap不能转换成SKUView问题
         ParameterizedTypeReference<List<SKUView>> typeRef = new ParameterizedTypeReference<List<SKUView>>() {
         };
-        List<Integer> skuIdList = new LinkedList<Integer>();
-        List<Integer> skuNumList = new LinkedList<Integer>();
         List<Order> orderList = orderDAO.selectByUserName(userName);
         Iterator<Order> orderIterator = orderList.iterator();
         while (orderIterator.hasNext()) {
+            List<Integer> skuIdList = new LinkedList<Integer>();
+            List<Integer> skuNumList = new LinkedList<Integer>();
             ViewOrderResponse viewOrderResponse = new ViewOrderResponse();
             Map<SKUView, Integer> items = new HashMap<SKUView, Integer>();
             Order order = orderIterator.next();
             System.out.println(order);
+            // 找出订单相关产品的信息
             List<SKUAndOrder> skuAndOrderList = skuAndOrderService.findSKUAndOrderByOrderId(order.getOrderId());
+/*            logger.info("SKU And Order list: ");
+            System.out.println(skuAndOrderList);*/
             Iterator<SKUAndOrder> skuAndOrderIterator = skuAndOrderList.iterator();
             String url = "http://product-services/api/sku/List?";
             if (skuAndOrderIterator.hasNext()) {
@@ -81,22 +84,19 @@ public class OrderService {
                 skuNumList.add(skuAndOrder.getSkuAmount());
                 url = url + "&skuId=" + skuAndOrder.getSkuId();
             }
-/*            Wrapper<SKUView> response = restTemplate.exchange(url,
-                    HttpMethod.GET,
-                    null,
-                    new ParameterizedTypeReference<Wrapper<SKUView>>() {}).getBody();*/
+/*            logger.info("SKU Number List: ");
+            System.out.println(skuNumList);*/
             ResponseEntity<List<SKUView>> responseEntity = restTemplate.exchange(url, HttpMethod.GET, null, typeRef);
             List<SKUView> skuViewList = responseEntity.getBody();
 
             //List<SKUView> skuViewList =  restTemplate.getForObject(url, List.class);
-            logger.info("SKU View List: ");
-            System.out.println(skuViewList);
-            Iterator<SKUView> skuViewIterator = skuViewList.iterator();
-            Iterator<Integer> skuNumInterator = skuNumList.iterator();
+            //logger.info("SKU View List: ");
+            //System.out.println(skuViewList);
+            int len = skuViewList.size();
             float totalPrice = (float) 0.0;
-            while (skuViewIterator.hasNext() && skuNumInterator.hasNext()) {
-                SKUView skuView = skuViewIterator.next();
-                int skuNum = skuNumInterator.next();
+            for (int i = 0; i < len; i++) {
+                SKUView skuView = skuViewList.get(i);
+                int skuNum = skuNumList.get(i);
                 items.put(skuView, skuNum);
                 totalPrice += (skuView.getSalePrice() * skuNum);
             }

@@ -51,6 +51,6 @@ public class EShopOrderApplicationTests {
 
     @Test
     public void findSKUAndOrderByOrderId() {
-        System.out.println(skuAndOrderService.findSKUAndOrderByOrderId(25));
+        System.out.println(skuAndOrderService.findSKUAndOrderByOrderId(34));
     }
 }

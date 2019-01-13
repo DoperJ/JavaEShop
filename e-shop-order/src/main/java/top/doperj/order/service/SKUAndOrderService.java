@@ -1,5 +1,7 @@
 package top.doperj.order.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.doperj.order.POJO.ViewOrder;
@@ -13,6 +15,8 @@ import java.util.Map;
 
 @Service
 public class SKUAndOrderService {
+    Logger logger = LoggerFactory.getLogger(Object.class);
+
     @Autowired
     SKUAndOrderMapper skuAndOrderDAO;
 
@@ -29,16 +33,17 @@ public class SKUAndOrderService {
         while (iterator.hasNext()) {
             int skuId = iterator.next();
             System.out.println(order);
-            SKUAndOrder skuAndOrder = addSKUAndOrder(skuId, order.getOrderId());
+            SKUAndOrder skuAndOrder = addSKUAndOrder(skuId, order.getOrderId(), skuMap.get(skuId));
         }
         return order;
     }
 
 
-    public SKUAndOrder addSKUAndOrder(int skuId, int orderId) {
+    public SKUAndOrder addSKUAndOrder(int skuId, int orderId, int skuNum) {
         SKUAndOrder skuAndOrder = new SKUAndOrder();
         skuAndOrder.setSkuId(skuId);
         skuAndOrder.setOrderId(orderId);
+        skuAndOrder.setSkuAmount(skuNum);
         skuAndOrderDAO.insertSelective(skuAndOrder);
         System.out.println(skuAndOrder);
         return skuAndOrder;
