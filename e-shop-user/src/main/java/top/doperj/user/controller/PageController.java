@@ -64,7 +64,7 @@ public class PageController {
             map.put("username", username);
             return "orderInfo";
         } else {
-            httpSession.setAttribute("last-access", "checkout");
+            httpSession.setAttribute("last-access", "orderInfo");
             System.out.println("last-access is " + httpSession.getAttribute("last-access"));
             return "login";
         }
