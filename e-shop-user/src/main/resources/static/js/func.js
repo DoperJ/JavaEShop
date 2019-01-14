@@ -97,7 +97,7 @@ $.func = {
         return current_category_name;
     },
 
-    // 显示所有商品
+    // 分类显示所有商品
     getCategoriesItems: function (current_category_name) {
         console.log("current category name: " + current_category_name);
         $.get("http://www.doperj.top:8082/api/sku/" + current_category_name,
@@ -111,7 +111,7 @@ $.func = {
                     var productWrapper = $("<div class='single-product-wrapper'></div>");
                     var productImageWrapper = $("<div class='product-img'></div>");
                     var productImage = $("<img alt=''>").attr("src", data[i].photoUrl.replace(/^\/+/, ''));
-                    var hoverImage = $("<img class='hover-img' src='img/product-img/product-2.jpg' alt=''>");
+                    var hoverImage = $("<img class='hover-img' alt=''>").attr("src", data[i].photoUrl.replace(/^\/+/, ''));
                     var productBadge = $("<div class='product-badge offer-badge'>").append($("<span></span>").text("-" + data[i].discount + "%"));
                     var productFavorite = $("<div class='product-favourite'>\n" + "<a href='#' class='favme fa fa-heart'></a>\n" + "</div>");
                     productImageWrapper.append(productImage);
