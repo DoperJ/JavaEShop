@@ -298,7 +298,8 @@ $.func = {
                 dataType: "json",
                 success: function(data) {
                     console.log(data);
-                    alert("订单提交成功");
+                    alert("订单提交成功，即将跳转至订单信息页面...");
+                    window.location.pathname = "orderInfo";
                 }
             });
         });
