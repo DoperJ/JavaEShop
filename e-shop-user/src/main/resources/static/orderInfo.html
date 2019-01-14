@@ -79,21 +79,24 @@
                 //var url = "http://www.doperj.top:8083/api/order?orderId=" + 25;
                 //var url = "http://localhost:8083/api/order?orderId=" + 25;
                 var selector = "#order" + i;
-                var deleteButton = $("<a href='#' class='btn essence-btn'>删除订单</a>").click(function (event) {
-                    event.preventDefault();
-                    $.ajax({
-                        url: url,
-                        type: "DELETE",
-                        success: function (data) {
-                            console.log("success");
-                            console.log(data);
-                            $(selector).hide();
-                        }
+                var deleteButton = $("<a class='btn essence-btn'>删除订单</a>").attr("href", url).attr("selector", selector)
+                    .click(function (event) {
+                        event.preventDefault();
+                        var orderSelector = $(this).attr("selector");
+                        $.ajax({
+                            url: $(this).attr("href"),
+                            type: "DELETE",
+                            success: function (data) {
+                                console.log("success");
+                                console.log(data);
+                                console.log(orderSelector);
+                                $(orderSelector).hide();
+                            }
+                        });
                     });
-                });
                 //var confirmButton = $("<a href='#' class='btn essence-btn'>确认收货</a>");
                 orderDetails.append(orderDetails).append(orderDetailsForm).append(deleteButton);
-                    //.append(confirmButton);
+                //.append(confirmButton);
                 orderWrapper.append(orderDetails);
                 orderWrapper.attr("id", "order" + i);
                 $("#order-row").append(orderWrapper);
@@ -152,14 +155,10 @@
                         </li>
                         <li><a href="#">页面</a>
                             <ul class="dropdown">
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="shop.html">Shop</a></li>
-                                <li><a href="single-product-details.html">Product Details</a></li>
-                                <li><a href="checkout.html">Checkout</a></li>
-                                <li><a href="blog.html">Blog</a></li>
-                                <li><a href="single-blog.html">Single Blog</a></li>
-                                <li><a href="regular-page.html">Regular Page</a></li>
-                                <li><a href="contact.html">Contact</a></li>
+                                <li><a href="index.html">商城</a></li>
+                                <li><a href="/">首页</a></li>
+                                <li><a href="orderInfo">订单管理</a></li>
+                                <li><a href="checkout">结算</a></li>
                             </ul>
                         </li>
                         <!--                            <li><a href="blog.html">Blog</a></li>-->

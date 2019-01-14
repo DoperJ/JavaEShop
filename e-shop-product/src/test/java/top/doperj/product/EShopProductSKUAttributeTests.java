@@ -10,7 +10,8 @@ import top.doperj.product.service.SKUAttributeService;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class EShopProductSKUAttributeTests {
-    String[] skuAttributeBatch = {"颜色", "版本", "容量", "购买方式"};
+    //String[] skuAttributeBatch = {"颜色", "版本", "容量", "购买方式"};
+    String[] skuAttributeBatch = {"尺寸", "处理器"};
 
     @Autowired
     SKUAttributeService skuAttributeService;

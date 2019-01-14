@@ -247,7 +247,7 @@ $.func = {
                 }
             }
             for (var i = 0; i < data.length; i++) {
-                var add_val = data[i].province + ", " + data[i].city + ", " + data[i].district + ", " + data[i].address + ", " + data[i].zip + data[i].phoneNum;
+                var add_val = data[i].province + ", " + data[i].city + ", " + data[i].district + ", " + data[i].address + ", " + data[i].zip + "," + data[i].phoneNum;
                 var add_tag = $("<li></li>").text(add_val).attr("address-id", data[i].addressId)
                     .attr("class", "option selected focus").click(function (event) {
                         event.preventDefault();
@@ -299,6 +299,13 @@ $.func = {
                 success: function(data) {
                     console.log(data);
                     alert("订单提交成功，即将跳转至订单信息页面...");
+                    $.ajax({
+                        url: "http://www.doperj.top:8083/api/cart",
+                        type: "DELETE",
+                        success: function (data) {
+                            console.log("delete successfully");
+                        }
+                    });
                     window.location.pathname = "orderInfo";
                 }
             });
