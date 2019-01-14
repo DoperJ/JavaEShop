@@ -52,7 +52,7 @@ public class PageController {
     @GetMapping("/orderInfo")
     public String orderInfoPage(HttpSession httpSession, Map<String, Object> map) {
         String username = (String) httpSession.getAttribute("username");
-        System.out.println("get username: " + username);
+        System.out.println("get username in order info: " + username);
         String password = (String) httpSession.getAttribute("password");
         User user = userService.findUserByName(username);
         if (username != null && user != null && EShopUtil.MD5(password + user.getSalt()).equals(user.getPassword())) {
