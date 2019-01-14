@@ -25,11 +25,12 @@
                     password: $("input")[1].value
                 },
                 function(data,status){
-                    if (data === "登录成功") {
-                        $("#feedback").html("<span style='color: greenyellow'>" + data + "</span>");
-                        window.location.pathname = "/";
+                    console.log(data);
+                    if (data.succeed === true) {
+                        $("#feedback").html("<span style='color: greenyellow'>" + "登陆成功" + "</span>");
+                        window.location.pathname = data.message;
                     } else {
-                        $("#feedback").html("<span style='color: red'>" + data + "</span>");
+                        $("#feedback").html("<span style='color: red'>" + data.message + "</span>");
                     }
                 });
         });

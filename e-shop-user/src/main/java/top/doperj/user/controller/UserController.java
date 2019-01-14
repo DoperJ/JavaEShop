@@ -1,6 +1,8 @@
 package top.doperj.user.controller;
 
+import org.apache.http.HttpResponse;
 import top.doperj.user.domain.User;
+import top.doperj.user.pojo.LoginMessage;
 import top.doperj.user.service.UserService;
 import top.doperj.user.util.EShopUtil;
 import org.json.JSONObject;
@@ -14,7 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -91,16 +95,26 @@ public class UserController {
 
     @PostMapping("/api/login")
     @ResponseBody
-    public String loginPost(@RequestParam("email") String eMail, @RequestParam("password") String password, HttpSession session) {
+    public LoginMessage loginPost(@RequestParam("email") String eMail, @RequestParam("password") String password, HttpServletResponse httpServletResponse, HttpSession session) {
         System.out.println(eMail + ": " + password);
+        LoginMessage loginMessage = new LoginMessage();
         Map<String, String> map = userService.loginByEMail(eMail, password);
         if (map.containsKey("error")) {
-            return map.get("error");
+            loginMessage.setSucceed(false);
+            loginMessage.setMessage(map.get("error"));
+            return loginMessage;
         }
+        loginMessage.setSucceed(true);
         User user = userService.findUserByEMail(eMail);
         session.setAttribute("username", user.getUserName());
         session.setAttribute("password", password);
-        return "登录成功";
+        String lastAccess = (String) session.getAttribute("last-access");
+        if (lastAccess == null || lastAccess.equals("")) {
+            loginMessage.setMessage("");
+        } else {
+            loginMessage.setMessage(lastAccess);
+        }
+        return loginMessage;
     }
 
     @GetMapping("/api/logout")

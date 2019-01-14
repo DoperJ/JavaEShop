@@ -75,7 +75,10 @@
                     .append(paymentWay).append(orderStatus).append(createdDate).append(address);
                 amount.text("共" + skuAmout + "件商品");
 
-                var url = "http://www.doperj.top:8083/api/order?orderId=" + data[i].orderId;
+                //var url = "http://www.doperj.top:8083/api/order?orderId=" + data[i].orderId;
+                //var url = "http://www.doperj.top:8083/api/order?orderId=" + 25;
+                var url = "http://localhost:8083/api/order?orderId=" + 25;
+                var selector = "#order" + i;
                 var deleteButton = $("<a href='#' class='btn essence-btn'>删除订单</a>").click(function (event) {
                     event.preventDefault();
                     $.ajax({
@@ -84,6 +87,7 @@
                         success: function (data) {
                             console.log("success");
                             console.log(data);
+                            $(selector).hide();
                         }
                     });
                 });
@@ -91,6 +95,7 @@
                 orderDetails.append(orderDetails).append(orderDetailsForm).append(deleteButton);
                     //.append(confirmButton);
                 orderWrapper.append(orderDetails);
+                orderWrapper.attr("id", "order" + i);
                 $("#order-row").append(orderWrapper);
             }
         });
@@ -141,7 +146,7 @@
                 <!-- Nav Start -->
                 <div class="classynav">
                     <ul>
-                        <li><a href="#">品类</a>
+                        <li><a href="#">分类</a>
                             <div class="megamenu">
                             </div>
                         </li>
