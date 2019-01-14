@@ -63,4 +63,19 @@ public class SKUController {
         //System.out.println(skuViewList);
         return skuViewList;
     }
+
+    @GetMapping(value = "/search", produces = "application/json")
+    public List<SKUView> searchSKU(@RequestParam(value = "key")String key) {
+        logger.info(key);
+        List<SKU> skuList = skuService.findSKUByPartialName(key);
+        logger.info(skuList.size() + " results is found.");
+        List<SKUView> skuViewList = new LinkedList<>();
+        Iterator<SKU> skuIterator = skuList.iterator();
+        while (skuIterator.hasNext()) {
+            SKUView skuView = skuService.convertSKUToView(skuIterator.next());
+            skuViewList.add(skuView);
+        }
+        //System.out.println(skuViewList);
+        return skuViewList;
+    }
 }

@@ -28,6 +28,8 @@ public interface SKUMapper {
     @Select({"select", SELECT_FIELDS_WITH_PREFIX, "from", TABLE_NAME, "as a, t_product as b ", "where a.product_id=b.product_id and b.product_name=#{productName}"})
     List<SKU> selectSKUByProductName(String productName);
 
+    List<SKU> selectSKUByNameLike(String productPartialName);
+
     List<SKU> selectSKUBySKUAttributeAndChoiceMap(List<Integer> skuChoiceIdList);
 
     List<SKU> selectSKUByCategoryName(String categoryName);

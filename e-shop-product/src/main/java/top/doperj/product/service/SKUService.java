@@ -156,4 +156,8 @@ public class SKUService {
         skuView.setPhotoUrl(sku.getPhotoUrl());
         return skuView;
     }
+
+    public List<SKU> findSKUByPartialName(String partialName) {
+        return skuDAO.selectSKUByNameLike(partialName);
+    }
 }

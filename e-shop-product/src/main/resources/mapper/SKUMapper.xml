@@ -52,6 +52,12 @@
             #{item}
         </foreach>
     </select>
+    <select id="selectSKUByNameLike" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT <include refid="Base_Column_List_With_PREFIX" />
+        FROM t_sku AS a, t_product AS b
+        WHERE a.product_id = b.product_id
+        AND b.product_name like CONCAT('%', #{productPartialName}, '%')
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
         delete from t_sku
         where sku_id = #{skuAttributeId,jdbcType=INTEGER}

@@ -27,6 +27,12 @@ public class PageController {
         return "shop";
     }
 
+    @GetMapping("/search")
+    public String shoppingPage() {
+        //public String shoppingPage() {
+        return "search";
+    }
+
     @GetMapping("/checkout")
     public String checkoutPage(HttpSession httpSession, Map<String, Object> map) {
         //public String shoppingPage() {

@@ -25,43 +25,23 @@
     <!-- Bootstrap js -->
     <script src="js/bootstrap.min.js"></script>
 
+    <script src="js/func.js"></script>
 </head>
 
 <body>
-<!--<script>
-    $.ajaxSetup({
-        async : false
-    });
+<script>
     $(document).ready(function () {
-        $.get("http://www.doperj.top:8082/api/product/category/1",
-            {},
-            function (data, status) {
-                console.log(data);
-                categories = new Array(data.length);
-                for (var i = 0; i < data.length; i++) {
-                    var category = $("<ul class='single-mega cn-col-4'></ul>");
-                    var categoryName = data[i].categoryName;
-                    var category_title = $("<li class='title'>" + categoryName + "</li>");
-                    category.append(category_title);
-                    console.log(categoryName);
-                    $.get("http://www.doperj.top:8082/api/product/category/1/" + categoryName,
-                        {},
-                        function (data2, status) {
-                            console.log(data2);
-                            for (var j = 0; j < data2.length; j++) {
-                                var category2 = $("<li><a href='#'>" + data2[j].categoryName + "</a></li>");
-                                //console.log(category2)
-                                category.append(category2);
-                            }
-                            //console.log(category);
-                        }
-                    );
-                    $("div.megamenu").first().append(category);
-                }
-            }
-        );
-    });
-</script>-->
+        $.func.getCartInfo();
+        /*        var current_category_name = $.func.getLeftSideCategories();
+                $.func.getCategoriesItems("");*/
+        $("#searchForm").submit(function (event) {
+            event.preventDefault();
+            var key = $("#headerSearch").val();
+            console.log(key);
+            $.func.searchItems(key);
+        });
+    })
+</script>
 <!-- ##### Header Area Start ##### -->
     <header class="header_area">
     <div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
@@ -106,7 +86,7 @@
             <div class="header-meta d-flex clearfix justify-content-end">
                 <!-- Search Area -->
                 <div class="search-area">
-                    <form action="#" method="post">
+                    <form action="/search" method="get" id="searchForm">
                         <input type="search" name="search" id="headerSearch" placeholder="搜索">
                         <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                     </form>
@@ -180,10 +160,10 @@
     <!-- ##### Welcome Area End ##### -->
 
     <!-- ##### Top Catagory Area Start ##### -->
-    <div class="top_catagory_area section-padding-80 clearfix">
+<!--    <div class="top_catagory_area section-padding-80 clearfix">
         <div class="container">
             <div class="row justify-content-center">
-                <!-- Single Catagory -->
+                &lt;!&ndash; Single Catagory &ndash;&gt;
                 <div class="col-12 col-sm-6 col-md-4">
                     <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(img/bg-img/bg-2.jpg);">
                         <div class="catagory-content">
@@ -191,7 +171,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Single Catagory -->
+                &lt;!&ndash; Single Catagory &ndash;&gt;
                 <div class="col-12 col-sm-6 col-md-4">
                     <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(img/bg-img/bg-3.jpg);">
                         <div class="catagory-content">
@@ -199,7 +179,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Single Catagory -->
+                &lt;!&ndash; Single Catagory &ndash;&gt;
                 <div class="col-12 col-sm-6 col-md-4">
                     <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(img/bg-img/bg-4.jpg);">
                         <div class="catagory-content">
@@ -210,16 +190,16 @@
             </div>
         </div>
     </div>
-    <!-- ##### Top Catagory Area End ##### -->
+    &lt;!&ndash; ##### Top Catagory Area End ##### &ndash;&gt;
 
-    <!-- ##### CTA Area Start ##### -->
+    &lt;!&ndash; ##### CTA Area Start ##### &ndash;&gt;
     <div class="cta-area">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <div class="cta-content bg-img background-overlay" style="background-image: url(img/bg-img/bg-5.jpg);">
                         <div class="h-100 d-flex align-items-center justify-content-end">
-                            <div class="cta--text">
+                            <div class="cta&#45;&#45;text">
                                 <h6>-60%</h6>
                                 <h2>Global Sale</h2>
                                 <a href="#" class="btn essence-btn">Buy Now</a>
@@ -230,9 +210,9 @@
             </div>
         </div>
     </div>
-    <!-- ##### CTA Area End ##### -->
+    &lt;!&ndash; ##### CTA Area End ##### &ndash;&gt;
 
-    <!-- ##### New Arrivals Area Start ##### -->
+    &lt;!&ndash; ##### New Arrivals Area Start ##### &ndash;&gt;
     <section class="new_arrivals_area section-padding-80 clearfix">
         <div class="container">
             <div class="row">
@@ -249,19 +229,19 @@
                 <div class="col-12">
                     <div class="popular-products-slides owl-carousel">
 
-                        <!-- Single Product -->
+                        &lt;!&ndash; Single Product &ndash;&gt;
                         <div class="single-product-wrapper">
-                            <!-- Product Image -->
+                            &lt;!&ndash; Product Image &ndash;&gt;
                             <div class="product-img">
                                 <img src="img/product-img/product-1.jpg" alt="">
-                                <!-- Hover Thumb -->
+                                &lt;!&ndash; Hover Thumb &ndash;&gt;
                                 <img class="hover-img" src="img/product-img/product-2.jpg" alt="">
-                                <!-- Favourite -->
+                                &lt;!&ndash; Favourite &ndash;&gt;
                                 <div class="product-favourite">
                                     <a href="#" class="favme fa fa-heart"></a>
                                 </div>
                             </div>
-                            <!-- Product Description -->
+                            &lt;!&ndash; Product Description &ndash;&gt;
                             <div class="product-description">
                                 <span>topshop</span>
                                 <a href="single-product-details.html">
@@ -269,9 +249,9 @@
                                 </a>
                                 <p class="product-price">$80.00</p>
 
-                                <!-- Hover Content -->
+                                &lt;!&ndash; Hover Content &ndash;&gt;
                                 <div class="hover-content">
-                                    <!-- Add to Cart -->
+                                    &lt;!&ndash; Add to Cart &ndash;&gt;
                                     <div class="add-to-cart-btn">
                                         <a href="#" class="btn essence-btn">Add to Cart</a>
                                     </div>
@@ -279,19 +259,19 @@
                             </div>
                         </div>
 
-                        <!-- Single Product -->
+                        &lt;!&ndash; Single Product &ndash;&gt;
                         <div class="single-product-wrapper">
-                            <!-- Product Image -->
+                            &lt;!&ndash; Product Image &ndash;&gt;
                             <div class="product-img">
                                 <img src="img/product-img/product-2.jpg" alt="">
-                                <!-- Hover Thumb -->
+                                &lt;!&ndash; Hover Thumb &ndash;&gt;
                                 <img class="hover-img" src="img/product-img/product-3.jpg" alt="">
-                                <!-- Favourite -->
+                                &lt;!&ndash; Favourite &ndash;&gt;
                                 <div class="product-favourite">
                                     <a href="#" class="favme fa fa-heart"></a>
                                 </div>
                             </div>
-                            <!-- Product Description -->
+                            &lt;!&ndash; Product Description &ndash;&gt;
                             <div class="product-description">
                                 <span>topshop</span>
                                 <a href="single-product-details.html">
@@ -299,9 +279,9 @@
                                 </a>
                                 <p class="product-price">$80.00</p>
 
-                                <!-- Hover Content -->
+                                &lt;!&ndash; Hover Content &ndash;&gt;
                                 <div class="hover-content">
-                                    <!-- Add to Cart -->
+                                    &lt;!&ndash; Add to Cart &ndash;&gt;
                                     <div class="add-to-cart-btn">
                                         <a href="#" class="btn essence-btn">Add to Cart</a>
                                     </div>
@@ -309,25 +289,25 @@
                             </div>
                         </div>
 
-                        <!-- Single Product -->
+                        &lt;!&ndash; Single Product &ndash;&gt;
                         <div class="single-product-wrapper">
-                            <!-- Product Image -->
+                            &lt;!&ndash; Product Image &ndash;&gt;
                             <div class="product-img">
                                 <img src="img/product-img/product-3.jpg" alt="">
-                                <!-- Hover Thumb -->
+                                &lt;!&ndash; Hover Thumb &ndash;&gt;
                                 <img class="hover-img" src="img/product-img/product-4.jpg" alt="">
 
-                                <!-- Product Badge -->
+                                &lt;!&ndash; Product Badge &ndash;&gt;
                                 <div class="product-badge offer-badge">
                                     <span>-30%</span>
                                 </div>
 
-                                <!-- Favourite -->
+                                &lt;!&ndash; Favourite &ndash;&gt;
                                 <div class="product-favourite">
                                     <a href="#" class="favme fa fa-heart"></a>
                                 </div>
                             </div>
-                            <!-- Product Description -->
+                            &lt;!&ndash; Product Description &ndash;&gt;
                             <div class="product-description">
                                 <span>mango</span>
                                 <a href="single-product-details.html">
@@ -335,9 +315,9 @@
                                 </a>
                                 <p class="product-price"><span class="old-price">$75.00</span> $55.00</p>
 
-                                <!-- Hover Content -->
+                                &lt;!&ndash; Hover Content &ndash;&gt;
                                 <div class="hover-content">
-                                    <!-- Add to Cart -->
+                                    &lt;!&ndash; Add to Cart &ndash;&gt;
                                     <div class="add-to-cart-btn">
                                         <a href="#" class="btn essence-btn">Add to Cart</a>
                                     </div>
@@ -345,25 +325,25 @@
                             </div>
                         </div>
 
-                        <!-- Single Product -->
+                        &lt;!&ndash; Single Product &ndash;&gt;
                         <div class="single-product-wrapper">
-                            <!-- Product Image -->
+                            &lt;!&ndash; Product Image &ndash;&gt;
                             <div class="product-img">
                                 <img src="img/product-img/product-4.jpg" alt="">
-                                <!-- Hover Thumb -->
+                                &lt;!&ndash; Hover Thumb &ndash;&gt;
                                 <img class="hover-img" src="img/product-img/product-5.jpg" alt="">
 
-                                <!-- Product Badge -->
+                                &lt;!&ndash; Product Badge &ndash;&gt;
                                 <div class="product-badge new-badge">
                                     <span>New</span>
                                 </div>
 
-                                <!-- Favourite -->
+                                &lt;!&ndash; Favourite &ndash;&gt;
                                 <div class="product-favourite">
                                     <a href="#" class="favme fa fa-heart"></a>
                                 </div>
                             </div>
-                            <!-- Product Description -->
+                            &lt;!&ndash; Product Description &ndash;&gt;
                             <div class="product-description">
                                 <span>mango</span>
                                 <a href="single-product-details.html">
@@ -371,9 +351,9 @@
                                 </a>
                                 <p class="product-price">$80.00</p>
 
-                                <!-- Hover Content -->
+                                &lt;!&ndash; Hover Content &ndash;&gt;
                                 <div class="hover-content">
-                                    <!-- Add to Cart -->
+                                    &lt;!&ndash; Add to Cart &ndash;&gt;
                                     <div class="add-to-cart-btn">
                                         <a href="#" class="btn essence-btn">Add to Cart</a>
                                     </div>
@@ -385,36 +365,36 @@
             </div>
         </div>
     </section>
-    <!-- ##### New Arrivals Area End ##### -->
+    &lt;!&ndash; ##### New Arrivals Area End ##### &ndash;&gt;
 
-    <!-- ##### Brands Area Start ##### -->
+    &lt;!&ndash; ##### Brands Area Start ##### &ndash;&gt;
     <div class="brands-area d-flex align-items-center justify-content-between">
-        <!-- Brand Logo -->
+        &lt;!&ndash; Brand Logo &ndash;&gt;
         <div class="single-brands-logo">
             <img src="img/core-img/brand1.png" alt="">
         </div>
-        <!-- Brand Logo -->
+        &lt;!&ndash; Brand Logo &ndash;&gt;
         <div class="single-brands-logo">
             <img src="img/core-img/brand2.png" alt="">
         </div>
-        <!-- Brand Logo -->
+        &lt;!&ndash; Brand Logo &ndash;&gt;
         <div class="single-brands-logo">
             <img src="img/core-img/brand3.png" alt="">
         </div>
-        <!-- Brand Logo -->
+        &lt;!&ndash; Brand Logo &ndash;&gt;
         <div class="single-brands-logo">
             <img src="img/core-img/brand4.png" alt="">
         </div>
-        <!-- Brand Logo -->
+        &lt;!&ndash; Brand Logo &ndash;&gt;
         <div class="single-brands-logo">
             <img src="img/core-img/brand5.png" alt="">
         </div>
-        <!-- Brand Logo -->
+        &lt;!&ndash; Brand Logo &ndash;&gt;
         <div class="single-brands-logo">
             <img src="img/core-img/brand6.png" alt="">
         </div>
     </div>
-    <!-- ##### Brands Area End ##### -->
+    &lt;!&ndash; ##### Brands Area End ##### &ndash;&gt;-->
 
     <!-- ##### Footer Area Start ##### -->
     <footer class="footer_area clearfix">
