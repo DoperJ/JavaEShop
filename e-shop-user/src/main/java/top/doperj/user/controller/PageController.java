@@ -28,8 +28,9 @@ public class PageController {
     }
 
     @GetMapping("/search")
-    public String shoppingPage() {
+    public String searchPage(@RequestParam("key") String key, Map<String, Object> map) {
         //public String shoppingPage() {
+        map.put("key", key);
         return "search";
     }
 

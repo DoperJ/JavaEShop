@@ -35,6 +35,14 @@
     $(document).ready(function() {
         $.func.getCartInfo();
         var username = "doperj";
+        $.get("/api/login_user",
+            {},
+            function(data,status){
+                var obj = JSON.parse(data);
+                if (username !== "请登录") {
+                    username = obj.username;
+                }
+            });
         $.get("http://www.doperj.top:8083/api/order/" + username, {}, function (data, status) {
             console.log(data);
             for (var i = 0; i < data.length; i++) {
@@ -102,31 +110,7 @@
                 $("#order-row").append(orderWrapper);
             }
         });
-
-
-/*    <div class='col-12 col-md-6'>
-            <div class='order-details-confirmation'>
-            <div class='cart-page-heading'>
-            <h5>收件人：<span>江泽群</span></h5>
-        <p>共<span>5</span>件商品</p>
-        </div>
-
-        <ul class='order-details-form mb-4'>
-            <li><span>产品</span> <span>总计</span></li>
-        <li><span>Apple iPhone X(A1865) 银色 公开版 64GB 官方标配</span> <span>x2</span><span>￥2131</span></li>
-        <li><span>合计</span> <span></span></li>
-        <li><span>邮费</span> <span></span></li>
-        <li><span>总计</span> <span></span></li>
-        <li><span>付款方式</span> <span>货到付款</span></li>
-        <li><span>订单状态</span> <span>未收货</span></li>
-        <li><span>创建时间</span> <span></span></li>
-        <li><span>配送地址</span> <span></span></li>
-        </ul>
-
-        <a href='#' class='btn essence-btn'>删除订单</a>
-            <a href='#' class='btn essence-btn'>确认收货</a>
-            </div>
-            </div>*/
+        $.func.setUpSearchFunction();
     });
 </script>
 <!-- ##### Header Area Start ##### -->
@@ -173,7 +157,7 @@
         <div class="header-meta d-flex clearfix justify-content-end">
             <!-- Search Area -->
             <div class="search-area">
-                <form action="#" method="post">
+                <form action="/search" method="get" id="searchForm">
                     <input type="search" name="search" id="headerSearch" placeholder="搜索">
                     <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                 </form>

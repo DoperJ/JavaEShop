@@ -34,12 +34,7 @@
         $.func.getCartInfo();
         /*        var current_category_name = $.func.getLeftSideCategories();
                 $.func.getCategoriesItems("");*/
-        $("#searchForm").submit(function (event) {
-            event.preventDefault();
-            var key = $("#headerSearch").val();
-            console.log(key);
-            $.func.searchItems(key);
-        });
+        $.func.setUpSearchFunction();
     })
 </script>
 <!-- ##### Header Area Start ##### -->

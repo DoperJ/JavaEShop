@@ -169,11 +169,20 @@ $.func = {
         );
     },
 
+    // 设置检索功能
+    setUpSearchFunction: function () {
+        $("#searchForm").submit(function (event) {
+            event.preventDefault();
+            var key = $("#headerSearch").val();
+            console.log(key);
+            window.location.href = "search?key=" + key;
+        });
+    },
+
     // 检索商品
     searchItems: function (key) {
-        //$.get("http://www.doperj.top:8082/api/sku/search?key=" + key,
-        window.location.pathname = "/search";
-        $.get("http://localhost:8082/api/sku/search?key=" + key,
+        $.get("http://www.doperj.top:8082/api/sku/search?key=" + key,
+        //$.get("http://localhost:8082/api/sku/search?key=" + key,
             {},
             function (data, status) {
                 $.func.renderSKUData(data);

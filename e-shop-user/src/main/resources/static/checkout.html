@@ -40,6 +40,7 @@
         var items = $.func.getOrderInfoFromCart();
         console.log("items: " + items);
         $.func.getOrderSubmittable(items);
+        $.func.setUpSearchFunction();
     });
 </script>
     <!-- ##### Header Area Start ##### -->
@@ -86,7 +87,7 @@
             <div class="header-meta d-flex clearfix justify-content-end">
                 <!-- Search Area -->
                 <div class="search-area">
-                    <form action="#" method="post">
+                    <form action="/search" method="get" id="searchForm">
                         <input type="search" name="search" id="headerSearch" placeholder="搜索">
                         <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                     </form>

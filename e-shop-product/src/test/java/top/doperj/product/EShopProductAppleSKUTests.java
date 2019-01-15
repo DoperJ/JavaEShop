@@ -129,9 +129,9 @@ public class EShopProductAppleSKUTests {
         System.out.println(skuService.findAllSKUs());*/
 
         int[] skuIds = {42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
-        int len = appleMacBookPro2017SKUAttributeAndChoices.length;
+        int len = appleIPad2018SKUAttributeAndChoices.length;
         for (int i = 0; i < len; i++) {
-            skuService.addSKUChoiceBatch(appleIPhoneXSKUAttributeAndChoices[i], skuIds[i]);
+            skuService.addSKUChoiceBatch(appleIPad2018SKUAttributeAndChoices[i], skuIds[i]);
         }
     }
 
@@ -183,7 +183,7 @@ public class EShopProductAppleSKUTests {
         int[] skuIds = {38, 39, 40, 41};
         int len = appleMacBookPro2017SKUAttributeAndChoices.length;
         for (int i = 0; i < len; i++) {
-            skuService.addSKUChoiceBatch(appleIPhoneXSKUAttributeAndChoices[i], skuIds[i]);
+            skuService.addSKUChoiceBatch(appleMacBookPro2017SKUAttributeAndChoices[i], skuIds[i]);
         }
     }
 

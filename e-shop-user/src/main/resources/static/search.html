@@ -29,7 +29,7 @@
 </head>
 
 <body>
-<script>
+<script th:inline="javascript">
     /*    <div class='single-cart-item'>
             <a href='#' class='product-image'>
             <img src='img/product-img/product-1.jpg' class='cart-thumb' alt=''>
@@ -48,12 +48,10 @@
         $.func.getCartInfo();
 /*        var current_category_name = $.func.getLeftSideCategories();
         $.func.getCategoriesItems("");*/
-        $("#searchForm").submit(function (event) {
-            event.preventDefault();
-            var key = $("#headerSearch").val();
-            console.log(key);
-            $.func.searchItems(key);
-        });
+        var key = [[${key}]];
+        console.log("search for " + key);
+        $.func.searchItems(key);
+        $.func.setUpSearchFunction();
     })
 </script>
 <!-- ##### Header Area Start ##### -->
@@ -82,14 +80,10 @@
                         </li>
                         <li><a href="#">页面</a>
                             <ul class="dropdown">
-                                <li><a href="home.html">首页</a></li>
                                 <li><a href="index.html">商城</a></li>
-                                <li><a href="single-product-details.html">商品详细</a></li>
-                                <li><a href="/checkout">结算</a></li>
-                                <li><a href="blog.html">Blog</a></li>
-                                <li><a href="single-blog.html">Single Blog</a></li>
-                                <li><a href="regular-page.html">Regular Page</a></li>
-                                <li><a href="contact.html">Contact</a></li>
+                                <li><a href="/">首页</a></li>
+                                <li><a href="orderInfo">订单管理</a></li>
+                                <li><a href="checkout">结算</a></li>
                             </ul>
                         </li>
                         <li><a href="contact.html">联系我们</a></li>
