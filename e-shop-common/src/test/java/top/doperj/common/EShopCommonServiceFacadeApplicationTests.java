@@ -1,4 +1,4 @@
-package top.doperj.service;
+package top.doperj.common;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

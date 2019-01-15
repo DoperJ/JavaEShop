@@ -1,8 +1,7 @@
-package top.doperj.service.Entity;
+package top.doperj.common.Entity;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public class ViewOrderResponse {
     private int orderId;

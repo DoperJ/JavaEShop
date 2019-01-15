@@ -1,7 +1,6 @@
-package top.doperj.service.Entity;
+package top.doperj.common.Entity;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class SKUView implements Serializable {
     Integer skuId;

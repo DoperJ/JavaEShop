@@ -1,4 +1,4 @@
-package top.doperj.service.Entity;
+package top.doperj.common.Entity;
 
 public class Wrapper<T> {
 

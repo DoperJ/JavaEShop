@@ -1,4 +1,4 @@
-package top.doperj.service.service.User;
+package top.doperj.common.service.User;
 
 public interface UserService {
 }

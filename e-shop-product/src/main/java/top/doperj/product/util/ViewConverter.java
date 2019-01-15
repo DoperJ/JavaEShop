@@ -6,7 +6,7 @@ import top.doperj.product.domain.SKU;
 import top.doperj.product.domain.SKUChoice;
 import top.doperj.product.service.ProductService;
 import top.doperj.product.service.SKUChoiceService;
-import top.doperj.service.Entity.SKUView;
+import top.doperj.common.Entity.SKUView;
 
 import javax.annotation.PostConstruct;
 import java.util.Iterator;

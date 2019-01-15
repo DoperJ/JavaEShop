@@ -1,12 +1,9 @@
 package top.doperj.order.controller;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -14,10 +11,9 @@ import top.doperj.order.POJO.OrderUser;
 import top.doperj.order.POJO.ViewOrder;
 import top.doperj.order.domain.Order;
 import top.doperj.order.service.OrderService;
-import top.doperj.service.Entity.ViewOrderResponse;
+import top.doperj.common.Entity.ViewOrderResponse;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

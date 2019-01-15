@@ -1,11 +1,9 @@
 package top.doperj.order.service;
 
-import com.netflix.ribbon.proxy.annotation.Http;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,10 +13,9 @@ import top.doperj.order.POJO.ViewOrder;
 import top.doperj.order.dao.OrderMapper;
 import top.doperj.order.domain.Order;
 import top.doperj.order.domain.SKUAndOrder;
-import top.doperj.service.Entity.OrderSKUView;
-import top.doperj.service.Entity.SKUView;
-import top.doperj.service.Entity.ViewOrderResponse;
-import top.doperj.service.Entity.Wrapper;
+import top.doperj.common.Entity.OrderSKUView;
+import top.doperj.common.Entity.SKUView;
+import top.doperj.common.Entity.ViewOrderResponse;
 
 import java.util.*;
 
