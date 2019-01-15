@@ -336,5 +336,98 @@ $.func = {
                 }
             });
         });
+    },
+
+    // 设置地址管理页面的新建地址功能
+    setUpAddressCreation: function (username) {
+        //$("#create-address-column").hide();
+        $("#create-button").click(function (event) {
+            event.preventDefault();
+            $("#create-address-column").show();
+        });
+        $("#cancel-address-button").click(function (event) {
+            event.preventDefault();
+            $("#create-address-column").hide();
+        });
+        $.get("https://restapi.amap.com/v3/config/district?key=c5a0cb59218c2c03f2290e6065bcc43d", {}, function (data, status) {
+            var districts = data.districts[0].districts;
+            console.log(districts);
+            for (var i = 0; i < districts.length; i++) {
+                var add_val = districts[i].name;
+                var add_tag = $("<li></li>").text(add_val)
+                        .attr("class", "option selected focus")
+                    /*                    .click(function (event) {
+                                            event.preventDefault();
+                                            var provinceName = $("#province").next().children("span.current").text();
+                                            console.log("province name: " + provinceName);
+                                            $("#province").next().attr("tabindex", address_id);
+                                        })*/
+                ;
+                $("#province").next().children("ul").append(add_tag);
+            }
+        });
+        $("#submit-address-button").click(function (event) {
+            event.preventDefault();
+            var provinceName = $("#province").next().children("span.current").text();
+            console.log("province name: " + provinceName);
+            if (provinceName === "选择省份") {
+                alert("请选择省份");
+                return;
+            }
+            var city = $("#city").val();
+            if (city === "" || city === null) {
+                alert("请输入城市");
+                return;
+            }
+            var district = $("#district").val();
+            if (district === "" || district === null) {
+                alert("请输入区县");
+                return;
+            }
+            var address = $("#detailed-address").val();
+            if (address === "" || address === null) {
+                alert("请输入详细地址");
+                return;
+            }
+            var zip = $("#zip").val();
+            if (zip === "" || zip === null) {
+                alert("请输入邮政编码");
+                return;
+            }
+            var phoneNum = $("#phone-num").val();
+            if (phoneNum === "" || phoneNum === null) {
+                alert("请输入联系方式");
+                return;
+            }
+            var jsonObj = {
+                "userName": username,
+                "province": provinceName,
+                "city": city,
+                "district": district,
+                "address": address,
+                "zip": zip,
+                "phoneNum": phoneNum
+            };
+            var jsonReq = JSON.stringify(jsonObj);
+            console.log(jsonReq);
+            $.ajax({
+                type: 'post',
+                url: 'http://www.doperj.top:8081/api/address',
+                //url: 'http://localhost:8081/api/address',
+                contentType:"application/json;charset=utf-8",
+                data: jsonReq,
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+                    alert("创建地址成功！");
+                    $("#create-address-column").hide();
+                }
+            });
+        });
+    },
+
+    // 查询并展示地址
+    getAddressInfo: function (username) {
+
     }
 };

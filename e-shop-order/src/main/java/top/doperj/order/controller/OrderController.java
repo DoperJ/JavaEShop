@@ -105,10 +105,6 @@ public class OrderController {
     @DeleteMapping(value = "")
     @ResponseBody
     public String removeOrderById(@RequestParam("orderId") Integer orderId) {
-/*        String res = restTemplate.getForObject("http://user-services/api/address/doperj", String.class);
-        System.out.println(res);
-        String user = restTemplate.getForObject("http://user-services/api/login_user", String.class);
-        System.out.println(user);*/
         Order order = orderService.selectOrderByOrderId(orderId);
         System.out.println("request order: " + order);
         OrderUser orderUser = orderService.getUserNameByOrder(order);

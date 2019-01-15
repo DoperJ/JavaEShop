@@ -8,6 +8,7 @@ import top.doperj.user.dao.AddressMapper;
 import top.doperj.user.dao.UserMapper;
 import top.doperj.user.domain.Address;
 import top.doperj.user.domain.User;
+import top.doperj.user.pojo.AddressUser;
 
 import java.util.List;
 
@@ -48,7 +49,11 @@ public class AddressService {
         return addressDAO.selectByUserName(userName);
     }
 
-    public String fingAddressContentByAddressId(Integer addressId) {
+    public Address findAddressByAddressId(Integer addressId) {
+        return addressDAO.selectByPrimaryKey(addressId);
+    }
+
+    public String findAddressContentByAddressId(Integer addressId) {
         Address address = addressDAO.selectByPrimaryKey(addressId);
         String addressContent = "";
         addressContent += address.getProvince() + ", " + address.getCity() + ", "
@@ -56,12 +61,20 @@ public class AddressService {
         return addressContent;
     }
 
+    public AddressUser findUserNameByAddress(Address address) {
+        return addressDAO.selectUserNameByOrderId(address.getAddressId());
+    }
+
     public List<Address> findAllAddresses() {
         return addressDAO.selectAllAddresses();
     }
 
     // Delete
-    public void delteAddressesByUserName(String userName) {
+    public void deleteAddressesByUserName(String userName) {
         addressDAO.deleteByUserName(userName);
+    }
+
+    public void deleteAddressByAddressId(Integer addressId) {
+        addressDAO.deleteByPrimaryKey(addressId);
     }
 }

@@ -2,6 +2,7 @@ package top.doperj.user.dao;
 
 import org.apache.ibatis.annotations.Select;
 import top.doperj.user.domain.Address;
+import top.doperj.user.pojo.AddressUser;
 
 import java.util.List;
 
@@ -24,6 +25,8 @@ public interface AddressMapper {
     List<Address> selectByUserId(int userId);
 
     List<Address> selectByUserName(String userName);
+
+    AddressUser selectUserNameByOrderId(Integer addressId);
 
     // Update
     int updateByPrimaryKeySelective(Address record);

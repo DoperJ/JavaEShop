@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import top.doperj.user.domain.Address;
 import top.doperj.user.domain.User;
+import top.doperj.user.pojo.AddressUser;
 import top.doperj.user.service.AddressService;
 import top.doperj.user.service.UserService;
 
@@ -38,7 +39,7 @@ public class AddressController {
     @GetMapping(value = "")
     @ResponseBody
     public String getAddressContentById(@RequestParam("addressId") Integer addressId) {
-        return addressService.fingAddressContentByAddressId(addressId);
+        return addressService.findAddressContentByAddressId(addressId);
     }
 
     @PostMapping("")
@@ -79,6 +80,17 @@ public class AddressController {
             ioe.printStackTrace();
         }
         return null;
-        //return orderService.addOrderByViewOrder(viewOrder);
+    }
+
+    @DeleteMapping(value = "")
+    @ResponseBody
+    public String removeAddressById(@RequestParam("addressId") Integer addressId) {
+        Address address = addressService.findAddressByAddressId(addressId);
+        System.out.println("request address: " + address);
+        AddressUser addressUser = addressService.findUserNameByAddress(address);
+        //if (addressUser.getUserName().equals(user)) {
+        addressService.deleteAddressByAddressId(addressId);
+        //}
+        return addressUser.getUserName();
     }
 }

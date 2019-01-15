@@ -13,6 +13,10 @@
     <result column="modified_time" jdbcType="TIMESTAMP" property="modifiedTime" />
     <result column="phone_num" jdbcType="VARCHAR" property="phoneNum" />
   </resultMap>
+  <resultMap id="AddressUser" type="top.doperj.user.pojo.AddressUser">
+    <id column="address_id" jdbcType="INTEGER" property="addressId" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+  </resultMap>
   <sql id="Base_Column_List">
     address_id, user_id, zip, province, city, district, address, is_default, modified_time, 
     phone_num
@@ -32,6 +36,12 @@
     <include refid="Address_Column_List" />
     FROM t_address, t_user
     WHERE t_address.user_id = t_user.user_id AND  t_user.user_name = #{userName, jdbcType=VARCHAR}
+  </select>
+  <select id="selectUserNameByOrderId" resultMap="AddressUser" parameterType="java.lang.Integer">
+    SELECT a.address_id, b.user_name
+    FROM t_address AS a, t_user AS b
+    WHERE a.address_id = #{addressId}
+    AND a.user_id = b.user_id
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_address

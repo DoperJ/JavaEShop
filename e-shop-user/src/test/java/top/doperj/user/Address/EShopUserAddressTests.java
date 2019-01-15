@@ -35,4 +35,10 @@ public class EShopUserAddressTests {
     public void findAddressesByUserName() throws Exception {
         System.out.println(addressService.findAddressesByUserName("doperj"));
     }
+
+    @Test
+    public void findAddressUserByAddressId() throws Exception {
+        System.out.println(addressService.findAddressByAddressId(12));
+    }
+
 }

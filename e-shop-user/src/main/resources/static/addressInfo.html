@@ -44,159 +44,80 @@
                 }
             });
 
-        //$("#create-address-column").hide();
-        $("#create-button").click(function (event) {
-            event.preventDefault();
-            $("#create-address-column").show();
-        });
-        $("#cancel-address-button").click(function (event) {
-            event.preventDefault();
-            $("#create-address-column").hide();
-        });
-/*        $.get("http://www.doperj.top:8083/api/order/" + username, {}, function (data, status) {
+        $.func.setUpAddressCreation(username);
+/*    <div class="col-12 col-md-6">
+            <div class="order-details-confirmation">
+
+            <div class="cart-page-heading">
+            <!--                        <h5>您的订单</h5>
+            <p>详细信息</p>-->
+            <p>创建于2015</p>
+            </div>
+
+            <ul class="order-details-form mb-4" id="order-details">
+            <li><span>省份</span> <span>广东省</span></li>
+        <li><span>城市</span> <span></span></li>
+        <li><span>区县</span> <span></span></li>
+        <li><span>详细地址</span> <span></span></li>
+        <li><span>邮政编码</span> <span></span></li>
+        <li><span>联系方式</span> <span></span></li>
+        </ul>
+
+        <a href="#" class="btn essence-btn">删除地址</a>
+            </div>
+            </div>*/
+        $.get("http://www.doperj.top:8081/api/address/" + username, {}, function (data, status) {
             console.log(data);
             for (var i = 0; i < data.length; i++) {
-                var skuAmout = 0;
-                var orderWrapper = $("<div class='col-12 col-md-6'></div>");
-                var orderDetails = $("<div class='order-details-confirmation'></div>");
+                var addressWrapper = $("<div class='col-12 col-md-6'></div>");
+                var addressDetails = $("<div class='order-details-confirmation'></div>");
 
                 var cartPageHeading = $("<div class='cart-page-heading'></div>");
-                var receiver = $("<h5>收件人：</h5>").append($("<span></span>").text(data[i].last_name + data[i].first_name));
-                var amount = $("<p></p>");
-                cartPageHeading.append(receiver).append(amount);
-                orderDetails.append(cartPageHeading);
+/*                var receiver = $("<h5>收件人：</h5>").append($("<span></span>").text(data[i].last_name + data[i].first_name));*/
+                var addressInfo = $("<p></p>").text("地址信息");
+                cartPageHeading
+                    //.append(receiver)
+                    .append(addressInfo);
+                addressDetails.append(cartPageHeading);
 
-                var orderDetailsForm = $("<ul class='order-details-form mb-4'></ul>");
-                var title = $("<li><span>产品</span> <span>总计</span></li>");
-                orderDetailsForm.append(title);
-                for (var j = 0; j < data[i].items.length; j++) {
-                    var item = data[i].items[j];
-                    var skuNum = item.skuNum;
-                    skuAmout += skuNum;
-                    var listItem = $("<li></li>").append($("<span></span>").text(item.skuName + "  x" + skuNum)).append($("<span></span>").text("￥" + (item.salePrice * skuNum)));
-                    orderDetailsForm.append(listItem);
-                }
-                var summanyPrice = $("<li></li>").append($("<span>合计</span>")).append($("<span></span>").text(data[i].totalPrice));
-                var shippingPrice = $("<li></li>").append("<span>邮费</span>").append($("<span></span>").text(0));
-                var totalPrice = $("<li></li>").append("<span>总计</span>").append($("<span></span>").text(data[i].totalPrice));
-                var paymentWay = $("<li><span>付款方式</span> <span>货到付款</span></li>");
-                var orderStatus = $("<li><span>订单状态</span> <span>未收货</span></li>");
-                var createdDate = $("<li></li>").append("<span>创建时间</span>").append($("<span></span>").text(data[i].createdTime.slice(0,10)));
-                var address = $("<li></li>").append("<span>配送地址</span>");
-                var addressData = $("<span></span>");
-                $.get("http://www.doperj.top:8081/api/address?addressId=10", {}, function (data, status) {
-                    console.log(data);
-                    addressData.text(data);
-                });
-                address.append(addressData);
-                orderDetailsForm.append(summanyPrice).append(shippingPrice).append(totalPrice)
-                    .append(paymentWay).append(orderStatus).append(createdDate).append(address);
-                amount.text("共" + skuAmout + "件商品");
+                var addressDetailsForm = $("<ul class='order-details-form mb-4'></ul>");
+                var province = $("<li></li>").append($("<span>省份</span>")).append($("<span></span>").text(data[i].province));
+                var city = $("<li></li>").append("<span>城市</span>").append($("<span></span>").text(data[i].city));
+                var district = $("<li></li>").append("<span>区县</span>").append($("<span></span>").text(data[i].district));
+                var address = $("<li></li>").append("<span>详细地址</span>").append($("<span></span>").text(data[i].address));
+                var zip = $("<li></li>").append("<span>邮政编码</span>").append($("<span></span>").text(data[i].zip));
+                var phoneNum = $("<li></li>").append("<span>联系方式</span>").append($("<span></span>").text(data[i].phoneNum));
+                addressDetailsForm.append(province).append(city).append(district)
+                    .append(address).append(zip).append(phoneNum);
 
-                var url = "http://www.doperj.top:8083/api/order?orderId=" + data[i].orderId;
-                //var url = "http://www.doperj.top:8083/api/order?orderId=" + 25;
-                //var url = "http://localhost:8083/api/order?orderId=" + 25;
-                var selector = "#order" + i;
-                var deleteButton = $("<a class='btn essence-btn'>删除订单</a>").attr("href", url).attr("selector", selector)
+                var url = "http://www.doperj.top:8083/api/address?addressId=" + data[i].addressId;
+                //var url = "http://www.doperj.top:8083/api/address?addressId=" + 25;
+                //var url = "http://localhost:8083/api/address?addressId=" + 25;
+                var selector = "#address" + i;
+                var deleteButton = $("<a class='btn essence-btn'>删除地址</a>").attr("href", url).attr("selector", selector)
                     .click(function (event) {
                         event.preventDefault();
-                        var orderSelector = $(this).attr("selector");
+                        var addressSelector = $(this).attr("selector");
                         $.ajax({
                             url: $(this).attr("href"),
                             type: "DELETE",
                             success: function (data) {
                                 console.log("success");
                                 console.log(data);
-                                console.log(orderSelector);
-                                $(orderSelector).hide();
+                                console.log(addressSelector);
+                                $(addressSelector).hide();
                             }
                         });
                     });
                 //var confirmButton = $("<a href='#' class='btn essence-btn'>确认收货</a>");
-                orderDetails.append(orderDetails).append(orderDetailsForm).append(deleteButton);
+                addressDetails.append(addressDetails).append(addressDetailsForm).append(deleteButton);
                 //.append(confirmButton);
-                orderWrapper.append(orderDetails);
-                orderWrapper.attr("id", "order" + i);
-                $("#order-row").append(orderWrapper);
-            }
-        });*/
-        $.get("https://restapi.amap.com/v3/config/district?key=c5a0cb59218c2c03f2290e6065bcc43d", {}, function (data, status) {
-            var districts = data.districts[0].districts;
-            console.log(districts);
-            for (var i = 0; i < districts.length; i++) {
-                var add_val = districts[i].name;
-                var add_tag = $("<li></li>").text(add_val)
-                    .attr("class", "option selected focus")
-/*                    .click(function (event) {
-                        event.preventDefault();
-                        var provinceName = $("#province").next().children("span.current").text();
-                        console.log("province name: " + provinceName);
-                        $("#province").next().attr("tabindex", address_id);
-                    })*/
-                ;
-                $("#province").next().children("ul").append(add_tag);
+                addressWrapper.append(addressDetails);
+                addressWrapper.attr("id", "address" + i);
+                $("#address-row").append(addressWrapper);
             }
         });
-        
         // need username
-        $("#submit-address-button").click(function (event) {
-            event.preventDefault();
-            var provinceName = $("#province").next().children("span.current").text();
-            console.log("province name: " + provinceName);
-            if (provinceName === "选择省份") {
-                alert("请选择省份");
-                return;
-            }
-            var city = $("#city").val();
-            if (city === "" || city === null) {
-                alert("请输入城市");
-                return;
-            }
-            var district = $("#district").val();
-            if (district === "" || district === null) {
-                alert("请输入区县");
-                return;
-            }
-            var address = $("#detailed-address").val();
-            if (address === "" || address === null) {
-                alert("请输入详细地址");
-                return;
-            }
-            var zip = $("#zip").val();
-            if (zip === "" || zip === null) {
-                alert("请输入邮政编码");
-                return;
-            }
-            var phoneNum = $("#phone-num").val();
-            if (phoneNum === "" || phoneNum === null) {
-                alert("请输入联系方式");
-                return;
-            }
-            var jsonObj = {
-                "userName": username,
-                "province": provinceName,
-                "city": city,
-                "district": district,
-                "address": address,
-                "zip": zip,
-                "phoneNum": phoneNum
-            };
-            var jsonReq = JSON.stringify(jsonObj);
-            console.log(jsonReq);
-            $.ajax({
-                type: 'post',
-                url: 'http://www.doperj.top:8081/api/address',
-                //url: 'http://localhost:8081/api/address',
-                contentType:"application/json;charset=utf-8",
-                data: jsonReq,
-                dataType: "json",
-                success: function(data) {
-                    console.log(data);
-                    alert("创建地址成功！");
-                    $("#create-address-column").hide();
-                }
-            });
-        });
         $.func.setUpSearchFunction();
     });
 </script>
@@ -206,7 +127,7 @@
         <!-- Classy Menu -->
         <nav class="classy-navbar" id="essenceNav">
             <!-- Logo -->
-<!--            <a class="nav-brand" href="index.html"><img src="img/core-img/logo.png" alt=""></a>-->
+            <!--            <a class="nav-brand" href="index.html"><img src="img/core-img/logo.png" alt=""></a>-->
             <!-- Navbar Toggler -->
             <div class="classy-navbar-toggler">
                 <span class="navbarToggler"><span></span><span></span><span></span></span>
@@ -319,7 +240,7 @@
     <div class="container">
         <a href="#" class="btn essence-btn" id="create-button">创建新地址</a>
         <br/><br/>
-        <div class="row" id="order-row">
+        <div class="row" id="address-row">
             <div class="col-12 col-md-6" id="create-address-column" style="display: none">
                 <div class="checkout_details_area mt-50 clearfix">
 
@@ -367,104 +288,6 @@
                             </div>
                         </div>
                     </form>
-                </div>
-            </div>
-            <div class="col-12 col-md-6">
-                <div class="order-details-confirmation">
-
-                    <div class="cart-page-heading">
-<!--                        <h5>您的订单</h5>
-                        <p>详细信息</p>-->
-                        <p>创建于2015</p>
-                    </div>
-
-                    <ul class="order-details-form mb-4" id="order-details">
-                        <li><span>省份</span> <span>广东省</span></li>
-                        <li><span>城市</span> <span></span></li>
-                        <li><span>区县</span> <span></span></li>
-                        <li><span>详细地址</span> <span></span></li>
-                        <li><span>邮政编码</span> <span></span></li>
-                        <li><span>联系方式</span> <span></span></li>
-                    </ul>
-
-                    <div id="accordion" role="tablist" class="mb-4">
-                        <!--                            <div class="card">
-                                                        <div class="card-header" role="tab" id="headingOne">
-                                                            <h6 class="mb-0">
-                                                                <a data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne"><i class="fa fa-circle-o mr-3"></i>货到付款</a>
-                                                            </h6>
-                                                        </div>
-
-                                                        <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
-                                                            <div class="card-body">
-                                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pharetra tempor so dales. Phasellus sagittis auctor gravida. Integ er bibendum sodales arcu id te mpus. Ut consectetur lacus.</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>-->
-                        <!--                            <div class="card">
-                                                        <div class="card-header" role="tab" id="headingTwo">
-                                                            <h6 class="mb-0">
-                                                                <a class="collapsed" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"><i class="fa fa-circle-o mr-3"></i>cash on delievery</a>
-                                                            </h6>
-                                                        </div>
-                                                        <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
-                                                            <div class="card-body">
-                                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo quis in veritatis officia inventore, tempore provident dignissimos.</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card">
-                                                        <div class="card-header" role="tab" id="headingThree">
-                                                            <h6 class="mb-0">
-                                                                <a class="collapsed" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree"><i class="fa fa-circle-o mr-3"></i>credit card</a>
-                                                            </h6>
-                                                        </div>
-                                                        <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
-                                                            <div class="card-body">
-                                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse quo sint repudiandae suscipit ab soluta delectus voluptate, vero vitae</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card">
-                                                        <div class="card-header" role="tab" id="headingFour">
-                                                            <h6 class="mb-0">
-                                                                <a class="collapsed" data-toggle="collapse" href="#collapseFour" aria-expanded="true" aria-controls="collapseFour"><i class="fa fa-circle-o mr-3"></i>direct bank transfer</a>
-                                                            </h6>
-                                                        </div>
-                                                        <div id="collapseFour" class="collapse show" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
-                                                            <div class="card-body">
-                                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est cum autem eveniet saepe fugit, impedit magni.</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>-->
-                    </div>
-
-                    <a href="#" class="btn essence-btn">删除地址</a>
-                </div>
-            </div>
-            <div class="col-12 col-md-6">
-                <div class="order-details-confirmation">
-
-                    <div class="cart-page-heading">
-                        <!--                        <h5>您的订单</h5>
-                                                <p>详细信息</p>-->
-                        <p>创建于2015</p>
-                    </div>
-
-                    <ul class="order-details-form mb-4">
-                        <li><span>省份</span> <span>广东省</span></li>
-                        <li><span>城市</span> <span></span></li>
-                        <li><span>区县</span> <span></span></li>
-                        <li><span>详细地址</span> <span></span></li>
-                        <li><span>邮政编码</span> <span></span></li>
-                        <li><span>联系方式</span> <span></span></li>
-                    </ul>
-
-                    <!--                    <div class="custom-control custom-checkbox d-block mb-2">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck">
-                                            <label class="custom-control-label" for="customCheck">货到付款</label>
-                                        </div>-->
-                    <a href="#" class="btn essence-btn">删除地址</a>
                 </div>
             </div>
         </div>

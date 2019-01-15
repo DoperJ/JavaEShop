@@ -9,7 +9,7 @@
         <result column="first_name" property="firstName" jdbcType="VARCHAR" />
         <result column="last_name" property="lastName" jdbcType="VARCHAR" />
     </resultMap>
-    <resultMap id="User" type="top.doperj.order.POJO.OrderUser">
+    <resultMap id="OrderUser" type="top.doperj.order.POJO.OrderUser">
         <result column="user_name" property="userName" jdbcType="VARCHAR" />
     </resultMap>
     <sql id="Base_Column_List" >
@@ -31,7 +31,7 @@
         FROM t_order AS a, t_user AS b, t_address AS c
         WHERE c.address_id = a.address_id AND c.user_id = b.user_id AND b.user_name = #{userName}
     </select>
-    <select id="selectUserNameByOrderId" resultMap="User" parameterType="java.lang.Integer">
+    <select id="selectUserNameByOrderId" resultMap="OrderUser" parameterType="java.lang.Integer">
         SELECT c.user_name
         FROM t_order AS a, t_address AS b, t_user AS c
         WHERE a.order_id = #{orderId}
