@@ -1,6 +1,6 @@
 # 微服务电商系统
 
-基于Spring Cloud微服务架构搭建的电子商城
+基于Spring Cloud微服务架构搭建的电子商城 (Java)
 
 ---
 ### 技术栈：
@@ -9,7 +9,8 @@
 - 数据库：Mysql
 - 服务注册中心组件：Eureka
 - JS框架：JQuery
-- CSS框架：Bootstrap3
+- CSS框架：Bootstrap
+- 页面模板引擎：Thymeleaf
 - 应用部署：Docker
 - 数据库缓存：Redis
 - 安全框架：SpringSecurity
@@ -36,6 +37,7 @@
 
 公共对象
 
+---
 ### 上线功能
 
 - 登录、注册、注销
@@ -49,5 +51,7 @@
 ### To do list
 
 - 地址管理
+- 线上支付
+- 管理员
 - 商品详细页面
 - 搭建API网关
