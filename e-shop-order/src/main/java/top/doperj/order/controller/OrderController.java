@@ -66,6 +66,7 @@ public class OrderController {
             logger.info("Request Body:" + reqBody);
             JSONObject json = new JSONObject(reqBody);
             List<Integer> skuList = new LinkedList<Integer>();
+            // items 为订单中的产品信息
             JSONObject jsonObject = json.getJSONObject("items");
             Iterator<String> keyIterator = jsonObject.keys();
             Map<Integer, Integer> map = new HashMap<Integer, Integer>();

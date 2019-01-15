@@ -22,7 +22,7 @@ public class AddressService {
     UserMapper userDAO;
 
     // Create
-    public int addAddress(String userName, Integer zip, String province, String city, String district, String address, Boolean isDefault) {
+    public int addAddressByInfo(String userName, Integer zip, String province, String city, String district, String address, Boolean isDefault) {
         User user = userDAO.selectByName(userName);
         if (user == null) {
             logger.error("No user named: " + userName);
@@ -37,6 +37,10 @@ public class AddressService {
         address1.setAddress(address);
         address1.setIsDefault(isDefault);
         return addressDAO.insert(address1);
+    }
+
+    public int addAddress(Address address) {
+        return addressDAO.insert(address);
     }
 
     // Read

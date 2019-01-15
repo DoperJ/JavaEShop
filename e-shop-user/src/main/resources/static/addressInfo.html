@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title  -->
+    <title>EShop</title>
+
+    <!-- Favicon  -->
+    <link rel="icon" href="img/core-img/favicon.ico">
+
+    <!-- Core Style CSS -->
+    <link rel="stylesheet" href="css/core-style.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- jQuery (Necessary for All JavaScript Plugins) -->
+    <script src="js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="js/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Classy Nav js -->
+    <script src="js/classy-nav.min.js"></script>
+    <script src="js/func.js"></script>
+</head>
+
+<body>
+<script>
+    $(document).ready(function() {
+        $.func.getCartInfo();
+        var username = "doperj";
+        $.get("/api/login_user",
+            {},
+            function(data,status){
+                var obj = JSON.parse(data);
+                if (username !== "请登录") {
+                    username = obj.username;
+                }
+            });
+
+        //$("#create-address-column").hide();
+        $("#create-button").click(function (event) {
+            event.preventDefault();
+            $("#create-address-column").show();
+        });
+        $("#cancel-address-button").click(function (event) {
+            event.preventDefault();
+            $("#create-address-column").hide();
+        });
+/*        $.get("http://www.doperj.top:8083/api/order/" + username, {}, function (data, status) {
+            console.log(data);
+            for (var i = 0; i < data.length; i++) {
+                var skuAmout = 0;
+                var orderWrapper = $("<div class='col-12 col-md-6'></div>");
+                var orderDetails = $("<div class='order-details-confirmation'></div>");
+
+                var cartPageHeading = $("<div class='cart-page-heading'></div>");
+                var receiver = $("<h5>收件人：</h5>").append($("<span></span>").text(data[i].last_name + data[i].first_name));
+                var amount = $("<p></p>");
+                cartPageHeading.append(receiver).append(amount);
+                orderDetails.append(cartPageHeading);
+
+                var orderDetailsForm = $("<ul class='order-details-form mb-4'></ul>");
+                var title = $("<li><span>产品</span> <span>总计</span></li>");
+                orderDetailsForm.append(title);
+                for (var j = 0; j < data[i].items.length; j++) {
+                    var item = data[i].items[j];
+                    var skuNum = item.skuNum;
+                    skuAmout += skuNum;
+                    var listItem = $("<li></li>").append($("<span></span>").text(item.skuName + "  x" + skuNum)).append($("<span></span>").text("￥" + (item.salePrice * skuNum)));
+                    orderDetailsForm.append(listItem);
+                }
+                var summanyPrice = $("<li></li>").append($("<span>合计</span>")).append($("<span></span>").text(data[i].totalPrice));
+                var shippingPrice = $("<li></li>").append("<span>邮费</span>").append($("<span></span>").text(0));
+                var totalPrice = $("<li></li>").append("<span>总计</span>").append($("<span></span>").text(data[i].totalPrice));
+                var paymentWay = $("<li><span>付款方式</span> <span>货到付款</span></li>");
+                var orderStatus = $("<li><span>订单状态</span> <span>未收货</span></li>");
+                var createdDate = $("<li></li>").append("<span>创建时间</span>").append($("<span></span>").text(data[i].createdTime.slice(0,10)));
+                var address = $("<li></li>").append("<span>配送地址</span>");
+                var addressData = $("<span></span>");
+                $.get("http://www.doperj.top:8081/api/address?addressId=10", {}, function (data, status) {
+                    console.log(data);
+                    addressData.text(data);
+                });
+                address.append(addressData);
+                orderDetailsForm.append(summanyPrice).append(shippingPrice).append(totalPrice)
+                    .append(paymentWay).append(orderStatus).append(createdDate).append(address);
+                amount.text("共" + skuAmout + "件商品");
+
+                var url = "http://www.doperj.top:8083/api/order?orderId=" + data[i].orderId;
+                //var url = "http://www.doperj.top:8083/api/order?orderId=" + 25;
+                //var url = "http://localhost:8083/api/order?orderId=" + 25;
+                var selector = "#order" + i;
+                var deleteButton = $("<a class='btn essence-btn'>删除订单</a>").attr("href", url).attr("selector", selector)
+                    .click(function (event) {
+                        event.preventDefault();
+                        var orderSelector = $(this).attr("selector");
+                        $.ajax({
+                            url: $(this).attr("href"),
+                            type: "DELETE",
+                            success: function (data) {
+                                console.log("success");
+                                console.log(data);
+                                console.log(orderSelector);
+                                $(orderSelector).hide();
+                            }
+                        });
+                    });
+                //var confirmButton = $("<a href='#' class='btn essence-btn'>确认收货</a>");
+                orderDetails.append(orderDetails).append(orderDetailsForm).append(deleteButton);
+                //.append(confirmButton);
+                orderWrapper.append(orderDetails);
+                orderWrapper.attr("id", "order" + i);
+                $("#order-row").append(orderWrapper);
+            }
+        });*/
+        $.get("https://restapi.amap.com/v3/config/district?key=c5a0cb59218c2c03f2290e6065bcc43d", {}, function (data, status) {
+            var districts = data.districts[0].districts;
+            console.log(districts);
+            for (var i = 0; i < districts.length; i++) {
+                var add_val = districts[i].name;
+                var add_tag = $("<li></li>").text(add_val)
+                    .attr("class", "option selected focus")
+/*                    .click(function (event) {
+                        event.preventDefault();
+                        var provinceName = $("#province").next().children("span.current").text();
+                        console.log("province name: " + provinceName);
+                        $("#province").next().attr("tabindex", address_id);
+                    })*/
+                ;
+                $("#province").next().children("ul").append(add_tag);
+            }
+        });
+        
+        // need username
+        $("#submit-address-button").click(function (event) {
+            event.preventDefault();
+            var provinceName = $("#province").next().children("span.current").text();
+            console.log("province name: " + provinceName);
+            if (provinceName === "选择省份") {
+                alert("请选择省份");
+                return;
+            }
+            var city = $("#city").val();
+            if (city === "" || city === null) {
+                alert("请输入城市");
+                return;
+            }
+            var district = $("#district").val();
+            if (district === "" || district === null) {
+                alert("请输入区县");
+                return;
+            }
+            var address = $("#detailed-address").val();
+            if (address === "" || address === null) {
+                alert("请输入详细地址");
+                return;
+            }
+            var zip = $("#zip").val();
+            if (zip === "" || zip === null) {
+                alert("请输入邮政编码");
+                return;
+            }
+            var phoneNum = $("#phone-num").val();
+            if (phoneNum === "" || phoneNum === null) {
+                alert("请输入联系方式");
+                return;
+            }
+            var jsonObj = {
+                "userName": username,
+                "province": provinceName,
+                "city": city,
+                "district": district,
+                "address": address,
+                "zip": zip,
+                "phoneNum": phoneNum
+            };
+            var jsonReq = JSON.stringify(jsonObj);
+            console.log(jsonReq);
+            $.ajax({
+                type: 'post',
+                url: 'http://www.doperj.top:8081/api/address',
+                //url: 'http://localhost:8081/api/address',
+                contentType:"application/json;charset=utf-8",
+                data: jsonReq,
+                dataType: "json",
+                success: function(data) {
+                    console.log(data);
+                    alert("创建地址成功！");
+                    $("#create-address-column").hide();
+                }
+            });
+        });
+        $.func.setUpSearchFunction();
+    });
+</script>
+<!-- ##### Header Area Start ##### -->
+<header class="header_area">
+    <div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
+        <!-- Classy Menu -->
+        <nav class="classy-navbar" id="essenceNav">
+            <!-- Logo -->
+<!--            <a class="nav-brand" href="index.html"><img src="img/core-img/logo.png" alt=""></a>-->
+            <!-- Navbar Toggler -->
+            <div class="classy-navbar-toggler">
+                <span class="navbarToggler"><span></span><span></span><span></span></span>
+            </div>
+            <!-- Menu -->
+            <div class="classy-menu">
+                <!-- close btn -->
+                <div class="classycloseIcon">
+                    <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                </div>
+                <!-- Nav Start -->
+                <div class="classynav">
+                    <ul>
+                        <li><a href="index.html">商城</a></li>
+                        <li><a href="/">首页</a></li>
+                        <li><a href="orderInfo">订单管理</a></li>
+                        <li><a href="addressInfo">地址管理</a></li>
+                        <li><a href="checkout">结算</a></li>
+                        <li><a href="#">分类</a>
+                            <div class="megamenu">
+                            </div>
+                        </li>
+<!--                        <li><a href="#">页面</a>
+                            <ul class="dropdown">
+                            </ul>
+                        </li>-->
+                    </ul>
+                </div>
+                <!-- Nav End -->
+            </div>
+        </nav>
+
+        <!-- Header Meta Data -->
+        <div class="header-meta d-flex clearfix justify-content-end">
+            <!-- Search Area -->
+            <div class="search-area">
+                <form action="/search" method="get" id="searchForm">
+                    <input type="search" name="search" id="headerSearch" placeholder="搜索">
+                    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                </form>
+            </div>
+            <!-- Favourite Area -->
+            <div class="favourite-area">
+                <a href="#"><img src="img/core-img/heart.svg" alt=""></a>
+            </div>
+            <!-- User Login Info -->
+            <div class="user-login-info">
+                <a href="#"><img src="img/core-img/user.svg" alt=""></a>
+            </div>
+            <!-- Cart Area -->
+            <div class="cart-area">
+                <a href="#" id="essenceCartBtn"><img src="img/core-img/bag.svg" alt=""> <span id="cart-items-number1"></span></a>
+            </div>
+        </div>
+
+    </div>
+</header>
+<!-- ##### Header Area End ##### -->
+
+<!-- ##### Right Side Cart Area ##### -->
+<div class="cart-bg-overlay"></div>
+
+<div class="right-side-cart-area">
+
+    <!-- Cart Button -->
+    <div class="cart-button">
+        <a href="#" id="rightSideCart"><img src="img/core-img/bag.svg" alt=""> <span id="cart-num"></span></a>
+    </div>
+
+    <div class="cart-content d-flex">
+
+        <!-- Cart List Area -->
+        <div class="cart-list" id="cart-list1">
+        </div>
+
+        <!-- Cart Summary -->
+        <div class="cart-amount-summary">
+
+            <h2>结算</h2>
+            <ul class="summary-table">
+                <li><span>原价:</span> <span id="plain-price"></span></li>
+                <li><span>运费:</span> <span id="shipping-price"></span></li>
+                <!--                    <li><span>折扣:</span> <span>-15%</span></li>-->
+                <li><span>总计:</span> <span id="total-price"></span></li>
+            </ul>
+            <div class="checkout-btn mt-100">
+                <a href="/checkout" class="btn essence-btn">提交订单</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Right Side Cart End ##### -->
+
+<!-- ##### Breadcumb Area Start ##### -->
+<div class="breadcumb_area bg-img" style="background-image: url(img/bg-img/breadcumb.jpg);">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12">
+                <div class="page-title text-center">
+                    <h2>地址信息</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Breadcumb Area End ##### -->
+
+<!-- ##### Checkout Area Start ##### -->
+<div class="checkout_area section-padding-80">
+    <div class="container">
+        <a href="#" class="btn essence-btn" id="create-button">创建新地址</a>
+        <br/><br/>
+        <div class="row" id="order-row">
+            <div class="col-12 col-md-6" id="create-address-column" style="display: none">
+                <div class="checkout_details_area mt-50 clearfix">
+
+                    <div class="cart-page-heading mb-30">
+                        <h5>新建地址</h5>
+                    </div>
+
+                    <form action="#" method="post">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="province">省份<span>*</span></label>
+                                <select class="w-100" id="province">
+                                    <option value="usa">选择省份</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="city">城市<span>*</span></label>
+                                <input type="text" class="form-control" id="city" value="" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="district">县区<span>*</span></label>
+                                <input type="text" class="form-control" id="district" value="" required>
+                            </div>
+                            <!--                                <div class="col-12 mb-3">
+                                                                <label for="company">Company Name</label>
+                                                                <input type="text" class="form-control" id="company" value="">
+                                                            </div>-->
+                            <div class="col-12 mb-3">
+                                <label for="detailed-address">详细地址<span>*</span></label>
+                                <input type="text" class="form-control" id="detailed-address" value="" required>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label for="zip">邮政编码<span>*</span></label>
+                                <input type="number" class="form-control" id="zip" value="" required>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label for="phone-num">联系方式<span>*</span></label>
+                                <input type="text" class="form-control" id="phone-num" value="" required>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <a href="#" class="btn essence-btn" id="cancel-address-button">取消</a>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <a href="#" class="btn essence-btn" id="submit-address-button">完成</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="order-details-confirmation">
+
+                    <div class="cart-page-heading">
+<!--                        <h5>您的订单</h5>
+                        <p>详细信息</p>-->
+                        <p>创建于2015</p>
+                    </div>
+
+                    <ul class="order-details-form mb-4" id="order-details">
+                        <li><span>省份</span> <span>广东省</span></li>
+                        <li><span>城市</span> <span></span></li>
+                        <li><span>区县</span> <span></span></li>
+                        <li><span>详细地址</span> <span></span></li>
+                        <li><span>邮政编码</span> <span></span></li>
+                        <li><span>联系方式</span> <span></span></li>
+                    </ul>
+
+                    <div id="accordion" role="tablist" class="mb-4">
+                        <!--                            <div class="card">
+                                                        <div class="card-header" role="tab" id="headingOne">
+                                                            <h6 class="mb-0">
+                                                                <a data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne"><i class="fa fa-circle-o mr-3"></i>货到付款</a>
+                                                            </h6>
+                                                        </div>
+
+                                                        <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+                                                            <div class="card-body">
+                                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pharetra tempor so dales. Phasellus sagittis auctor gravida. Integ er bibendum sodales arcu id te mpus. Ut consectetur lacus.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>-->
+                        <!--                            <div class="card">
+                                                        <div class="card-header" role="tab" id="headingTwo">
+                                                            <h6 class="mb-0">
+                                                                <a class="collapsed" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"><i class="fa fa-circle-o mr-3"></i>cash on delievery</a>
+                                                            </h6>
+                                                        </div>
+                                                        <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
+                                                            <div class="card-body">
+                                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo quis in veritatis officia inventore, tempore provident dignissimos.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card">
+                                                        <div class="card-header" role="tab" id="headingThree">
+                                                            <h6 class="mb-0">
+                                                                <a class="collapsed" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree"><i class="fa fa-circle-o mr-3"></i>credit card</a>
+                                                            </h6>
+                                                        </div>
+                                                        <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
+                                                            <div class="card-body">
+                                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse quo sint repudiandae suscipit ab soluta delectus voluptate, vero vitae</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card">
+                                                        <div class="card-header" role="tab" id="headingFour">
+                                                            <h6 class="mb-0">
+                                                                <a class="collapsed" data-toggle="collapse" href="#collapseFour" aria-expanded="true" aria-controls="collapseFour"><i class="fa fa-circle-o mr-3"></i>direct bank transfer</a>
+                                                            </h6>
+                                                        </div>
+                                                        <div id="collapseFour" class="collapse show" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
+                                                            <div class="card-body">
+                                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est cum autem eveniet saepe fugit, impedit magni.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>-->
+                    </div>
+
+                    <a href="#" class="btn essence-btn">删除地址</a>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="order-details-confirmation">
+
+                    <div class="cart-page-heading">
+                        <!--                        <h5>您的订单</h5>
+                                                <p>详细信息</p>-->
+                        <p>创建于2015</p>
+                    </div>
+
+                    <ul class="order-details-form mb-4">
+                        <li><span>省份</span> <span>广东省</span></li>
+                        <li><span>城市</span> <span></span></li>
+                        <li><span>区县</span> <span></span></li>
+                        <li><span>详细地址</span> <span></span></li>
+                        <li><span>邮政编码</span> <span></span></li>
+                        <li><span>联系方式</span> <span></span></li>
+                    </ul>
+
+                    <!--                    <div class="custom-control custom-checkbox d-block mb-2">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck">
+                                            <label class="custom-control-label" for="customCheck">货到付款</label>
+                                        </div>-->
+                    <a href="#" class="btn essence-btn">删除地址</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Checkout Area End ##### -->
+
+<!-- ##### Footer Area Start ##### -->
+<footer class="footer_area clearfix">
+    <div class="container">
+        <div class="row">
+            <!-- Single Widget Area -->
+            <div class="col-12 col-md-6">
+                <div class="single_widget_area d-flex mb-30">
+                    <!-- Logo -->
+<!--                    <div class="footer-logo mr-50">
+                        <a href="#"><img src="img/core-img/logo2.png" alt=""></a>
+                    </div>-->
+                    <!-- Footer Menu -->
+                    <div class="footer_menu">
+                        <ul>
+                            <li><a href="index.html">商城</a></li>
+<!--                            <li><a href="blog.html">Blog</a></li>
+                            <li><a href="contact.html">Contact</a></li>-->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Single Widget Area -->
+            <div class="col-12 col-md-6">
+                <div class="single_widget_area mb-30">
+                    <ul class="footer_widget_menu">
+                        <li><a href="">首页</a></li>
+                        <li><a href="orderInfo">订单状态</a></li>
+<!--                        <li><a href="">Payment Options</a></li>-->
+<!--                        <li><a href="#">Shipping and Delivery</a></li>-->
+                        <li><a href="addressInfo">地址管理</a></li>
+                        <li><a href="checkout">结算</a></li>
+<!--                        <li><a href="#">Terms of Use</a></li>-->
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row align-items-end">
+            <!-- Single Widget Area -->
+            <div class="col-12 col-md-6">
+                <div class="single_widget_area">
+                    <div class="footer_heading mb-30">
+                        <h6>订阅</h6>
+                    </div>
+                    <div class="subscribtion_form">
+                        <form action="#" method="post">
+                            <input type="email" name="mail" class="mail" placeholder="您的邮箱地址">
+                            <button type="submit" class="submit"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Single Widget Area -->
+            <div class="col-12 col-md-6">
+                <div class="single_widget_area">
+                    <div class="footer_social_area">
+                        <a href="#" data-toggle="tooltip" data-placement="top" title="Facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                        <a href="#" data-toggle="tooltip" data-placement="top" title="Instagram"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                        <a href="#" data-toggle="tooltip" data-placement="top" title="Twitter"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                        <a href="#" data-toggle="tooltip" data-placement="top" title="Pinterest"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
+                        <a href="#" data-toggle="tooltip" data-placement="top" title="Youtube"><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-md-12 text-center">
+                <p>
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+
+</footer>
+<!-- ##### Footer Area End ##### -->
+
+</body>
+
+<!-- Plugins js -->
+<script src="js/plugins.js"></script>
+<!-- Active js -->
+<script src="js/active.js"></script>
+</html>

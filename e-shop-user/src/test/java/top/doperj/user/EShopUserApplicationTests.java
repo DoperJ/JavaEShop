@@ -1,6 +1,5 @@
 package top.doperj.user;
 
-import org.junit.Ignore;
 import top.doperj.user.domain.User;
 import top.doperj.user.service.AddressService;
 import top.doperj.user.service.UserService;
@@ -31,7 +30,7 @@ public class EShopUserApplicationTests {
 
     //@Test
     public void addAddress() throws Exception {
-        addressService.addAddress(
+        addressService.addAddressByInfo(
                 "doperj",
                 515300,
                 "广东省",
@@ -40,7 +39,7 @@ public class EShopUserApplicationTests {
                 "流沙东街道",
                 false
         );
-/*        addressService.addAddress(
+/*        addressService.addAddressByInfo(
                 "doperj",
                 510641,
                 "广东省",

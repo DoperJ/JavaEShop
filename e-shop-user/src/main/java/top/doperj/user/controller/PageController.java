@@ -76,4 +76,25 @@ public class PageController {
             return "login";
         }
     }
+
+    @GetMapping("/addressInfo")
+    public String addressInfoPage(HttpSession httpSession, Map<String, Object> map) {
+        String username = (String) httpSession.getAttribute("username");
+        System.out.println("get username in address info: " + username);
+        String password = (String) httpSession.getAttribute("password");
+        User user = userService.findUserByName(username);
+        if (username != null && user != null && EShopUtil.MD5(password + user.getSalt()).equals(user.getPassword())) {
+            System.out.println(username);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("username", username);
+            jsonObject.put("head_url", user.getHeadUrl());
+            System.out.println("user: " + jsonObject.toString());
+            map.put("username", username);
+            return "addressInfo";
+        } else {
+            httpSession.setAttribute("last-access", "addressInfo");
+            System.out.println("last-access is " + httpSession.getAttribute("last-access"));
+            return "login";
+        }
+    }
 }

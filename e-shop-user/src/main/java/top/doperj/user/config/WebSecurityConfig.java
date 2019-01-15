@@ -51,8 +51,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/**/*.woff", "/**/*.woff2", "/**/*.svg", "**/*.ttf", "/**/*.eot", "/fonts/**", "/css/**", "/js/**",
-                        "/favicon.ico", "/", "/**/*.html", "/login.html", "/**/*.css", "/**/*.js", "/img/**", "/**/eureka", "/api/**", "/register", "/shop/**",
-                        "/checkout", "/orderInfo", "/home", "/search**") //放开"/api/**"：为了给被监控端免登录注册
+                        "/**/favicon.ico", "/", "/**/*.html", "/login.html", "/**/*.css", "/**/*.js", "/img/**", "/**/eureka", "/api/**", "/register", "/shop/**",
+                        "/checkout", "/orderInfo", "/home", "/addressInfo", "/search**") //放开"/api/**"：为了给被监控端免登录注册
                 .permitAll()
                 .and()
                 .authorizeRequests().antMatchers("/**").authenticated();

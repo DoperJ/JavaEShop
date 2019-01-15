@@ -15,7 +15,7 @@ public class EShopUserAddressTests {
 
     @Test
     public void addAddress() throws Exception {
-        addressService.addAddress(
+        addressService.addAddressByInfo(
                 "doperj",
                 510641,
                 "广东省",
